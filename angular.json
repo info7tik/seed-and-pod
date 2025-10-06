@@ -2,11 +2,12 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
-    "seed-and-pod-mobile": {
+    "seed-and-pod": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -64,10 +65,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "seed-and-pod-mobile:build:production"
+              "buildTarget": "seed-and-pod:build:production"
             },
             "development": {
-              "buildTarget": "seed-and-pod-mobile:build:development"
+              "buildTarget": "seed-and-pod:build:development"
             }
           },
           "defaultConfiguration": "development"
