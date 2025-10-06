@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">seed-and-pod-mobile</string>
+    <string name="title_activity_main">seed-and-pod-mobile</string>
+    <string name="package_name">com.seedandpod.app</string>
+    <string name="custom_url_scheme">com.seedandpod.app</string>
+</resources>
