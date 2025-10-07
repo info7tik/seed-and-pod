@@ -1,13 +1,15 @@
 <main class="main">
   <div class="content">
-    <div class="right-side">
-      <div class="pill-group">
-        <a class="pill" routerLink="/basket"><span>Basket</span></a>
-        <a class="pill" routerLink="/cultivation"><span>Cultivation</span></a>
-        <a class="pill" routerLink="/garden"><span>Garden</span></a>
-        <a class="pill" routerLink="/stock"><span>Stock</span></a>
-      </div>
+    <div class="menu-grid">
+      @for (item of items; track item.title) {
+        <a class="menu-card" [routerLink]="item.route">
+          <img class="menu-image" [src]="item.image" [alt]="item.title" />
+          <div class="menu-text">
+            <h2 class="menu-title">{{ item.title }}</h2>
+            <p class="menu-subtitle">{{ item.subtitle }}</p>
+          </div>
+        </a>
+      }
     </div>
   </div>
 </main>
-
