@@ -1,0 +1,4 @@
+---
+description: Ensure that HTML code and CSS code are written in separate files. Do not mix CSS and HTML in the same file.
+alwaysApply: true
+---
