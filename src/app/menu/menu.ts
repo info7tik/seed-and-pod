@@ -10,9 +10,9 @@ import { RouterLink } from '@angular/router';
 })
 export class Menu {
   items = [
-    { title: 'Basket', subtitle: 'Manage your harvest basket', image: 'assets/menu/basket.png', route: '/basket' },
-    { title: 'Cultivation', subtitle: 'Plan and track cultivation', image: 'assets/menu/cultivation.png', route: '/cultivation' },
-    { title: 'Garden', subtitle: 'Organize your garden layout', image: 'assets/menu/garden.png', route: '/garden' },
-    { title: 'Stock', subtitle: 'View and update stock levels', image: 'assets/menu/stock.png', route: '/stock' }
+    { title: 'Stock', subtitle: 'View and update stock levels', image: '/menu/stock.png', route: '/stock' },
+    { title: 'Garden', subtitle: 'Organize your garden layout', image: '/menu/garden.png', route: '/garden' },
+    { title: 'Cultivation', subtitle: 'Plan and track cultivation', image: '/menu/cultivation.png', route: '/cultivation' },
+    { title: 'Basket', subtitle: 'Manage your harvest basket', image: '/menu/basket.png', route: '/basket' }
   ];
 }
