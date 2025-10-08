@@ -1,0 +1,20 @@
+{
+  "menu": {
+    "basket": {
+      "title": "Panier",
+      "subtitle": "Gérez votre panier de récolte"
+    },
+    "cultivation": {
+      "title": "Culture",
+      "subtitle": "Planifiez et suivez vos cultures"
+    },
+    "garden": {
+      "title": "Jardin",
+      "subtitle": "Organisez la disposition de votre jardin"
+    },
+    "stock": {
+      "title": "Stock",
+      "subtitle": "Consultez et mettez à jour les niveaux de stock"
+    }
+  }
+}

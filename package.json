@@ -30,6 +30,8 @@
     "@angular/router": "^20.3.0",
     "@capacitor/android": "^7.4.3",
     "@capacitor/core": "^7.4.3",
+    "@jsverse/transloco": "^8.0.2",
+    "@jsverse/transloco-locale": "^8.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

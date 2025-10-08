@@ -1,0 +1,20 @@
+{
+  "menu": {
+    "basket": {
+      "title": "Basket",
+      "subtitle": "Manage your harvest basket"
+    },
+    "cultivation": {
+      "title": "Cultivation",
+      "subtitle": "Plan and track cultivation"
+    },
+    "garden": {
+      "title": "Garden",
+      "subtitle": "Organize your garden layout"
+    },
+    "stock": {
+      "title": "Stock",
+      "subtitle": "View and update stock levels"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +10,34 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./menu.scss']
 })
 export class Menu {
-  items = [
-    { title: 'Stock', subtitle: 'View and update stock levels', image: '/menu/stock.png', route: '/stock' },
-    { title: 'Garden', subtitle: 'Organize your garden layout', image: '/menu/garden.png', route: '/garden' },
-    { title: 'Cultivation', subtitle: 'Plan and track cultivation', image: '/menu/cultivation.png', route: '/cultivation' },
-    { title: 'Basket', subtitle: 'Manage your harvest basket', image: '/menu/basket.png', route: '/basket' }
-  ];
+  constructor(private transloco: TranslocoService) { }
+
+  get items() {
+    return [
+      {
+        title: this.transloco.translate('menu.basket.title'),
+        subtitle: this.transloco.translate('menu.basket.subtitle'),
+        image: '/assets/menu/basket.png',
+        route: '/basket'
+      },
+      {
+        title: this.transloco.translate('menu.cultivation.title'),
+        subtitle: this.transloco.translate('menu.cultivation.subtitle'),
+        image: '/assets/menu/cultivation.png',
+        route: '/cultivation'
+      },
+      {
+        title: this.transloco.translate('menu.garden.title'),
+        subtitle: this.transloco.translate('menu.garden.subtitle'),
+        image: '/assets/menu/garden.png',
+        route: '/garden'
+      },
+      {
+        title: this.transloco.translate('menu.stock.title'),
+        subtitle: this.transloco.translate('menu.stock.subtitle'),
+        image: '/assets/menu/stock.png',
+        route: '/stock'
+      }
+    ];
+  }
 }
