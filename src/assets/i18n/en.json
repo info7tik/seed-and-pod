@@ -2,7 +2,7 @@
   "menu": {
     "basket": {
       "title": "Basket",
-      "subtitle": "Manage your harvest basket"
+      "subtitle": "Add a harvest"
     },
     "cultivation": {
       "title": "Cultivation",
@@ -14,7 +14,7 @@
     },
     "stock": {
       "title": "Stock",
-      "subtitle": "View and update stock levels"
+      "subtitle": "Manage your seed bank"
     }
   }
 }

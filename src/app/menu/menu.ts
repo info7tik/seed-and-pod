@@ -13,16 +13,10 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
 export class Menu {
   items = [
     {
-      title: 'menu.basket.title',
-      subtitle: 'menu.basket.subtitle',
-      image: '/assets/menu/basket.png',
-      route: '/basket'
-    },
-    {
-      title: 'menu.cultivation.title',
-      subtitle: 'menu.cultivation.subtitle',
-      image: '/assets/menu/cultivation.png',
-      route: '/cultivation'
+      title: 'menu.stock.title',
+      subtitle: 'menu.stock.subtitle',
+      image: '/assets/menu/stock.png',
+      route: '/stock'
     },
     {
       title: 'menu.garden.title',
@@ -31,10 +25,16 @@ export class Menu {
       route: '/garden'
     },
     {
-      title: 'menu.stock.title',
-      subtitle: 'menu.stock.subtitle',
-      image: '/assets/menu/stock.png',
-      route: '/stock'
+      title: 'menu.cultivation.title',
+      subtitle: 'menu.cultivation.subtitle',
+      image: '/assets/menu/cultivation.png',
+      route: '/cultivation'
+    },
+    {
+      title: 'menu.basket.title',
+      subtitle: 'menu.basket.subtitle',
+      image: '/assets/menu/basket.png',
+      route: '/basket'
     }
   ];
 
