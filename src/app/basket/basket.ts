@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { HeaderMenu } from "../header-menu/header-menu";
 
 @Component({
   selector: 'app-basket',
-  imports: [RouterLink, TranslocoDirective],
+  imports: [HeaderMenu],
   templateUrl: './basket.html',
   styleUrl: './basket.scss'
 })
