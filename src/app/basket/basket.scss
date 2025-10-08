@@ -1,0 +1,50 @@
+.page-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: #e9ecef;
+    }
+
+    &:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+}
+
+.back-arrow {
+    width: 24px;
+    height: 24px;
+    color: #495057;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212529;
+    flex: 1;
+}
+
+.main-content {
+    padding: 1rem;
+}
