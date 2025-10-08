@@ -1,43 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslocoDirective, LanguageSwitcher],
   templateUrl: './menu.html',
   styleUrls: ['./menu.scss']
 })
 export class Menu {
-  constructor(private transloco: TranslocoService) { }
+  items = [
+    {
+      title: 'menu.basket.title',
+      subtitle: 'menu.basket.subtitle',
+      image: '/assets/menu/basket.png',
+      route: '/basket'
+    },
+    {
+      title: 'menu.cultivation.title',
+      subtitle: 'menu.cultivation.subtitle',
+      image: '/assets/menu/cultivation.png',
+      route: '/cultivation'
+    },
+    {
+      title: 'menu.garden.title',
+      subtitle: 'menu.garden.subtitle',
+      image: '/assets/menu/garden.png',
+      route: '/garden'
+    },
+    {
+      title: 'menu.stock.title',
+      subtitle: 'menu.stock.subtitle',
+      image: '/assets/menu/stock.png',
+      route: '/stock'
+    }
+  ];
 
-  get items() {
-    return [
-      {
-        title: this.transloco.translate('menu.basket.title'),
-        subtitle: this.transloco.translate('menu.basket.subtitle'),
-        image: '/assets/menu/basket.png',
-        route: '/basket'
-      },
-      {
-        title: this.transloco.translate('menu.cultivation.title'),
-        subtitle: this.transloco.translate('menu.cultivation.subtitle'),
-        image: '/assets/menu/cultivation.png',
-        route: '/cultivation'
-      },
-      {
-        title: this.transloco.translate('menu.garden.title'),
-        subtitle: this.transloco.translate('menu.garden.subtitle'),
-        image: '/assets/menu/garden.png',
-        route: '/garden'
-      },
-      {
-        title: this.transloco.translate('menu.stock.title'),
-        subtitle: this.transloco.translate('menu.stock.subtitle'),
-        image: '/assets/menu/stock.png',
-        route: '/stock'
-      }
-    ];
-  }
+  constructor(private transloco: TranslocoService) { }
 }
