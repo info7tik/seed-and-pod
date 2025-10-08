@@ -2,6 +2,11 @@
   padding-top: 3rem;
 }
 
+.language-switcher {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr;

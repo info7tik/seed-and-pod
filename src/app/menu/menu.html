@@ -1,16 +1,16 @@
 <main class="main">
   <div class="language-switcher">
-  <app-language-switcher></app-language-switcher>
+    <app-language-switcher></app-language-switcher>
   </div>
   <div class="menu-grid">
-      @for (item of items; track item.title) {
-        <a class="menu-card" [routerLink]="item.route">
-          <img class="menu-image" [src]="item.image" [alt]="item.title" />
-          <div class="menu-text">
-            <h2 class="menu-title" [transloco]="item.title"></h2>
-            <p class="menu-subtitle" [transloco]="item.subtitle"></p>
-          </div>
-        </a>
-      }
-    </div>
+    @for (item of items; track item.title) {
+    <a class="menu-card" [routerLink]="item.route">
+      <img class="menu-image" [src]="item.image" [alt]="item.title" />
+      <div class="menu-text">
+        <h2 class="menu-title" [transloco]="item.title"></h2>
+        <p class="menu-subtitle" [transloco]="item.subtitle"></p>
+      </div>
+    </a>
+    }
+  </div>
 </main>
