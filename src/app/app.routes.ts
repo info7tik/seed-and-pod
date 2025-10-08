@@ -4,6 +4,7 @@ import { Cultivation } from './cultivation/cultivation';
 import { Garden } from './garden/garden';
 import { Stock } from './stock/stock';
 import { Menu } from './menu/menu';
+import { NewSeed } from './new-seed/new-seed';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'menu', pathMatch: 'full' },
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'basket', component: Basket },
   { path: 'cultivation', component: Cultivation },
   { path: 'garden', component: Garden },
-  { path: 'stock', component: Stock }
+  { path: 'stock', component: Stock },
+  { path: 'new-seed', component: NewSeed }
 ];

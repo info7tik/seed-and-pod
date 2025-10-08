@@ -1,3 +1,68 @@
 <app-header-menu titleKey="menu.stock.title"></app-header-menu>
 
-<p>stock works!</p>
+<main class="main-content">
+    <!-- Add Seed Section -->
+    <section class="add-seed-section">
+        <div class="section-header">
+            <h2>Add Seeds to Stock</h2>
+            <button class="add-seed-btn" routerLink="/new-seed">
+                <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+                Add Seed
+            </button>
+        </div>
+
+        <div class="add-existing-seed">
+            <select class="seed-select" [(ngModel)]="selectedSeedToAdd" (change)="addSeedToStock()">
+                <option value="">Select a seed to add to stock</option>
+                @for (seed of availableSeeds(); track seed.id) {
+                <option [value]="seed.id">{{seed.name}} - {{seed.variety}}</option>
+                }
+            </select>
+        </div>
+    </section>
+
+    <!-- Stock Management Section -->
+    <section class="stock-section">
+        <div class="section-header">
+            <h2>Current Stock</h2>
+            <div class="action-buttons">
+                <button class="action-btn remove-btn" (click)="removeSelectedSeeds()"
+                    [disabled]="selectedSeedsCount === 0">
+                    Remove Selected
+                </button>
+                <button class="action-btn exhausted-btn" (click)="markSelectedAsExhausted()"
+                    [disabled]="selectedSeedsCount === 0">
+                    Mark as Exhausted
+                </button>
+            </div>
+        </div>
+
+        <div class="stock-list">
+            @if (stockSeeds().length === 0) {
+            <p class="empty-message">No seeds in stock. Add some seeds to get started!</p>
+            } @else {
+            @for (seed of stockSeeds(); track seed.id) {
+            <div class="seed-item" [class.selected]="seed.selected" [class.exhausted]="seed.exhausted">
+                <label class="seed-checkbox">
+                    <input type="checkbox" [checked]="seed.selected" (change)="toggleSeedSelection(seed.id)">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div class="seed-info">
+                    <h3 class="seed-name">{{seed.name}}</h3>
+                    <p class="seed-variety">{{seed.variety}}</p>
+                    <div class="seed-details">
+                        <span class="quantity">Quantity: {{seed.quantity}}</span>
+                        @if (seed.exhausted) {
+                        <span class="exhausted-badge">Exhausted</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </section>
+</main>
