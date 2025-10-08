@@ -7,7 +7,6 @@ export interface Seed {
   id: string;
   name: string;
   variety: string;
-  quantity: number;
   exhausted: boolean;
   selected: boolean;
 }
@@ -21,23 +20,28 @@ export interface Seed {
 export class Stock {
   // Mock data for available seeds to add
   availableSeeds = signal<Seed[]>([
-    { id: '1', name: 'Tomato', variety: 'Cherry', quantity: 0, exhausted: false, selected: false },
-    { id: '2', name: 'Lettuce', variety: 'Romaine', quantity: 0, exhausted: false, selected: false },
-    { id: '3', name: 'Carrot', variety: 'Nantes', quantity: 0, exhausted: false, selected: false },
-    { id: '4', name: 'Pepper', variety: 'Bell', quantity: 0, exhausted: false, selected: false }
+    { id: '1', name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false },
+    { id: '2', name: 'Lettuce', variety: 'Romaine', exhausted: false, selected: false },
+    { id: '3', name: 'Carrot', variety: 'Nantes', exhausted: false, selected: false },
+    { id: '4', name: 'Pepper', variety: 'Bell', exhausted: false, selected: false }
   ]);
 
   // Mock data for seeds currently in stock
   stockSeeds = signal<Seed[]>([
-    { id: '1', name: 'Tomato', variety: 'Cherry', quantity: 50, exhausted: false, selected: false },
-    { id: '2', name: 'Lettuce', variety: 'Romaine', quantity: 30, exhausted: false, selected: false },
-    { id: '3', name: 'Carrot', variety: 'Nantes', quantity: 25, exhausted: false, selected: false }
+    { id: '1', name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false },
+    { id: '2', name: 'Lettuce', variety: 'Romaine', exhausted: false, selected: false },
+    { id: '3', name: 'Carrot', variety: 'Nantes', exhausted: false, selected: false }
   ]);
 
   selectedSeedToAdd = signal<string>('');
 
   get selectedSeedsCount() {
     return this.stockSeeds().filter(s => s.selected).length;
+  }
+
+  get availableSeedsNotInStock() {
+    const stockSeedIds = this.stockSeeds().map(s => s.id);
+    return this.availableSeeds().filter(seed => !stockSeedIds.includes(seed.id));
   }
 
   addSeedToStock() {
@@ -47,10 +51,9 @@ export class Stock {
     const availableSeed = this.availableSeeds().find(s => s.id === seedId);
     if (availableSeed) {
       const existingSeed = this.stockSeeds().find(s => s.id === seedId);
-      if (existingSeed) {
-        existingSeed.quantity += 1;
-      } else {
-        this.stockSeeds.update(seeds => [...seeds, { ...availableSeed, quantity: 1 }]);
+      // Only add if the seed doesn't already exist in stock
+      if (!existingSeed) {
+        this.stockSeeds.update(seeds => [...seeds, { ...availableSeed }]);
       }
     }
     this.selectedSeedToAdd.set('');
