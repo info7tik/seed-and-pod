@@ -24,7 +24,7 @@ export interface Seed {
 export class Stock implements OnInit {
   availableSeeds = signal<AvailableSeed[]>([]);
   stockSeeds = signal<StockSeed[]>([]);
-  selectedSeedToAdd = signal<SeedId>(0);
+  selectedSeedToAdd = signal<SeedId[]>([]);
 
   constructor(private seedService: SeedService) { }
 
@@ -33,50 +33,24 @@ export class Stock implements OnInit {
     this.stockSeeds.set(this.seedService.getStockSeeds());
   }
 
+  addSeedToStock() {
+  }
 
   get selectedSeedsCount() {
-    return this.stockSeeds().filter(s => s.selected).length;
+    return 0;
   }
 
-  get availableSeedsNotInStock() {
-    const stockSeedIds = this.stockSeeds().map(s => s.id);
-    return this.availableSeeds().filter(seed => !stockSeedIds.includes(seed.id));
+  get availableSeedsNotInStock(): AvailableSeed[] {
+    return [];
   }
 
-  addSeedToStock() {
-    const seedId = this.selectedSeedToAdd();
-    if (!seedId) return;
-
-    const availableSeed = this.availableSeeds().find(s => s.id === seedId);
-    if (availableSeed) {
-      const existingSeed = this.stockSeeds().find(s => s.id === seedId);
-      // Only add if the seed doesn't already exist in stock
-      if (!existingSeed) {
-        this.stockSeeds.update(seeds => [...seeds, { ...availableSeed }]);
-      }
-    }
-    this.selectedSeedToAdd.set('');
-  }
 
   toggleSeedSelection(seedId: string) {
-    this.stockSeeds.update(seeds =>
-      seeds.map(seed =>
-        seed.id === seedId ? { ...seed, selected: !seed.selected } : seed
-      )
-    );
   }
 
   removeSelectedSeeds() {
-    this.stockSeeds.update(seeds =>
-      seeds.filter(seed => !seed.selected)
-    );
   }
 
   markSelectedAsExhausted() {
-    this.stockSeeds.update(seeds =>
-      seeds.map(seed =>
-        seed.selected ? { ...seed, exhausted: !seed.exhausted, selected: false } : seed
-      )
-    );
   }
 }
