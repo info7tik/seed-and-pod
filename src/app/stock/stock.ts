@@ -3,8 +3,8 @@ import { HeaderMenu } from '../header-menu/header-menu';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SeedService } from '../seed-service';
-import { AvailableSeed } from '../type/available-seed.type';
-import { StockSeed } from '../type/stock-seed.type';
+import { AvailableSeedProperties, AvailableSeed } from '../type/available-seed.type';
+import { StockSeed, StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 
 export interface Seed {
@@ -23,8 +23,9 @@ export interface Seed {
 })
 export class Stock implements OnInit {
   availableSeeds = signal<AvailableSeed[]>([]);
-  stockSeeds = signal<StockSeed[]>([]);
-  selectedSeedToAdd = signal<SeedId[]>([]);
+  stockSeeds = signal<StockSeedWithDetails[]>([]);
+  selectedSeedToAdd = signal<SeedId | null>(null);
+  selectedSeeds = signal<Set<SeedId>>(new Set());
 
   constructor(private seedService: SeedService) { }
 
@@ -45,24 +46,77 @@ export class Stock implements OnInit {
     this.seedService.addAvailableSeed({ name: 'Cucumber', variety: 'English' });
   }
 
+  get availableSeedsNotInStock(): AvailableSeed[] {
+    const allAvailableSeeds = this.availableSeeds();
+    const stockSeedIds = this.stockSeeds().map(seed => seed.id);
+    return allAvailableSeeds.filter(seed => !stockSeedIds.includes(seed.id));
+  }
+
   addSeedToStock() {
+    const selectedSeedId = this.selectedSeedToAdd();
+    if (selectedSeedId) {
+      try {
+        this.seedService.addStockSeed(selectedSeedId);
+        this.stockSeeds.set(this.seedService.getStockSeeds());
+        this.selectedSeedToAdd.set(null);
+      } catch (error) {
+        console.error('Error adding seed to stock:', error);
+      }
+    }
   }
 
   get selectedSeedsCount() {
-    return 0;
+    return this.selectedSeeds().size;
   }
 
-  get availableSeedsNotInStock(): AvailableSeed[] {
-    return this.availableSeeds();
+  isSeedSelected(seedId: SeedId): boolean {
+    return this.selectedSeeds().has(seedId);
   }
 
+  toggleSeedSelection(seedId: SeedId) {
+    const currentSelected = this.selectedSeeds();
+    const newSelected = new Set(currentSelected);
 
-  toggleSeedSelection(seedId: string) {
+    if (newSelected.has(seedId)) {
+      newSelected.delete(seedId);
+    } else {
+      newSelected.add(seedId);
+    }
+
+    this.selectedSeeds.set(newSelected);
   }
 
   removeSelectedSeeds() {
+    const selectedIds = Array.from(this.selectedSeeds());
+    selectedIds.forEach(seedId => {
+      try {
+        // Note: The current SeedService doesn't have a removeStockSeed method
+        // This would need to be implemented in the service
+        console.log('Removing seed:', seedId);
+      } catch (error) {
+        console.error('Error removing seed:', error);
+      }
+    });
+
+    // Clear selection after removal
+    this.selectedSeeds.set(new Set());
+    // Refresh stock seeds
+    this.stockSeeds.set(this.seedService.getStockSeeds());
   }
 
   markSelectedAsExhausted() {
+    const selectedIds = Array.from(this.selectedSeeds());
+    selectedIds.forEach(seedId => {
+      try {
+        this.seedService.markAsExhausted(seedId);
+      } catch (error) {
+        console.error('Error marking seed as exhausted:', error);
+      }
+    });
+
+    // Clear selection after marking
+    this.selectedSeeds.set(new Set());
+    // Refresh stock seeds
+    this.stockSeeds.set(this.seedService.getStockSeeds());
   }
 }

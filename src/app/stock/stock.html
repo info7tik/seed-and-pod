@@ -19,8 +19,8 @@
             } @else {
             <select class="seed-select" [(ngModel)]="selectedSeedToAdd" (change)="addSeedToStock()">
                 <option value="">Select a seed to add to stock</option>
-                @for (seed of availableSeedsNotInStock; track seed.name) {
-                <option [value]="seed.name">{{seed.name}} - {{seed.variety}}</option>
+                @for (seed of availableSeedsNotInStock; track seed.id) {
+                <option [value]="seed.id">{{seed.name}} - {{seed.variety}}</option>
                 }
             </select>
             }
@@ -47,17 +47,17 @@
             @if (stockSeeds().length === 0) {
             <p class="empty-message">No seeds in stock. Add some seeds to get started!</p>
             } @else {
-            @for (seed of stockSeeds(); track seed.name) {
-            <div class="seed-item" [class.selected]="false" [class.exhausted]="seed.exhausted">
+            @for (seed of stockSeeds(); track seed.id) {
+            <div class="seed-item" [class.selected]="isSeedSelected(seed.id)" [class.exhausted]="seed.exhausted">
                 <label class="seed-checkbox">
-                    <input type="checkbox" [checked]="false" (change)="toggleSeedSelection(seed.name)">
+                    <input type="checkbox" [checked]="isSeedSelected(seed.id)" (change)="toggleSeedSelection(seed.id)">
                     <span class="checkmark"></span>
                 </label>
 
                 <div class="seed-info">
                     <h3 class="seed-name">{{seed.name}}</h3>
-                    <p class="seed-variety">{{seed.variety}}</p>
                     <div class="seed-details">
+                        <span class="seed-variety">{{seed.variety}}</span>
                         @if (seed.exhausted) {
                         <span class="exhausted-badge">Exhausted</span>
                         }
