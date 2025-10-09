@@ -1,7 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { HeaderMenu } from '../header-menu/header-menu';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SeedService } from '../seed-service';
+import { AvailableSeed } from '../type/available-seed.type';
+import { StockSeed } from '../type/stock-seed.type';
+import { SeedId } from '../type/seed-id.type';
 
 export interface Seed {
   id: string;
@@ -17,23 +21,18 @@ export interface Seed {
   templateUrl: './stock.html',
   styleUrl: './stock.scss'
 })
-export class Stock {
-  // Mock data for available seeds to add
-  availableSeeds = signal<Seed[]>([
-    { id: '1', name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false },
-    { id: '2', name: 'Lettuce', variety: 'Romaine', exhausted: false, selected: false },
-    { id: '3', name: 'Carrot', variety: 'Nantes', exhausted: false, selected: false },
-    { id: '4', name: 'Pepper', variety: 'Bell', exhausted: false, selected: false }
-  ]);
+export class Stock implements OnInit {
+  availableSeeds = signal<AvailableSeed[]>([]);
+  stockSeeds = signal<StockSeed[]>([]);
+  selectedSeedToAdd = signal<SeedId>(0);
 
-  // Mock data for seeds currently in stock
-  stockSeeds = signal<Seed[]>([
-    { id: '1', name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false },
-    { id: '2', name: 'Lettuce', variety: 'Romaine', exhausted: false, selected: false },
-    { id: '3', name: 'Carrot', variety: 'Nantes', exhausted: false, selected: false }
-  ]);
+  constructor(private seedService: SeedService) { }
 
-  selectedSeedToAdd = signal<string>('');
+  ngOnInit(): void {
+    this.availableSeeds.set(this.seedService.getAvailableSeeds());
+    this.stockSeeds.set(this.seedService.getStockSeeds());
+  }
+
 
   get selectedSeedsCount() {
     return this.stockSeeds().filter(s => s.selected).length;

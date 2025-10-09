@@ -63,16 +63,47 @@ export class SeedService {
   /**
   * Add a stock seed
   * @param seedId - The id of the seed to add
-  * @param exhausted - Whether the seed is exhausted
   * @throws Error if seed does not exist
   */
-  addStockSeed(seedId: SeedId, exhausted: boolean): void {
+  addStockSeed(seedId: SeedId): void {
     const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
     const stockSeeds: StockSeedStruct = this.getRawStockSeeds();
+    if (stockSeeds[seedId]) {
+      return;
+    }
     if (!availableSeeds[seedId]) {
       throw new Error(`seed with id ${seedId} does not exist`);
     }
-    stockSeeds[seedId] = { exhausted };
+    stockSeeds[seedId] = { exhausted: false };
+    this.saveStockSeeds(stockSeeds);
+  }
+
+  /**
+   * Mark a seed as exhausted
+   * @param seedId - The id of the seed to mark as exhausted
+   * @throws Error if seed does not exist
+   */
+  markAsExhausted(seedId: SeedId): void {
+    let stockSeeds: StockSeedStruct = this.getRawStockSeeds();
+    this.markAs(stockSeeds, seedId, true);
+    this.saveStockSeeds(stockSeeds);
+  }
+
+  markAsResupplied(seedId: SeedId): void {
+    let stockSeeds: StockSeedStruct = this.getRawStockSeeds();
+    this.markAs(stockSeeds, seedId, false);
+    this.saveStockSeeds(stockSeeds);
+  }
+
+  private markAs(stockSeeds: StockSeedStruct, seedId: number, exhausted: boolean) {
+    if (!stockSeeds[seedId]) {
+      throw new Error(`seed with id ${seedId} does not exist`);
+    }
+    stockSeeds[seedId] = { exhausted: exhausted };
+    return stockSeeds;
+  }
+
+  private saveStockSeeds(stockSeeds: StockSeedStruct) {
     this.storageService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
   }
 
