@@ -84,24 +84,19 @@ export class Stock implements OnInit {
     this.stockSeeds = this.seedService.getStockSeeds();
   }
 
-  markSelectedAsExhausted() {
-    this.selectedSeeds.forEach(seedId => {
-      try {
-        this.seedService.markAsExhausted(seedId);
-      } catch (error) {
-        console.error('Error marking seed as exhausted:', error);
-      }
-    });
-    this.selectedSeeds.clear();
-    this.stockSeeds = this.seedService.getStockSeeds();
-  }
-
-  markSelectedAsResupplied(seedId: SeedId) {
+  toggleSeedExhaustedState(seedId: SeedId) {
     try {
-      this.seedService.markAsResupplied(seedId);
-      this.stockSeeds = this.seedService.getStockSeeds();
+      const seed = this.stockSeeds.find(s => s.id === seedId);
+      if (seed) {
+        if (seed.exhausted) {
+          this.seedService.markAsResupplied(seedId);
+        } else {
+          this.seedService.markAsExhausted(seedId);
+        }
+        this.stockSeeds = this.seedService.getStockSeeds();
+      }
     } catch (error) {
-      console.error('Error marking seed as resupplied:', error);
+      console.error('Error toggling seed exhausted state:', error);
     }
   }
 }

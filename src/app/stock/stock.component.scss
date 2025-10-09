@@ -123,6 +123,12 @@
     }
 }
 
+.seed-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 .remove-btn {
     background: #dc3545;
     color: white;

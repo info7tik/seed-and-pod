@@ -35,10 +35,6 @@
                     [disabled]="selectedSeedsCount === 0">
                     {{'stock.removeSelected' | transloco}}
                 </button>
-                <button class="action-btn exhausted-btn" (click)="markSelectedAsExhausted()"
-                    [disabled]="selectedSeedsCount === 0">
-                    {{'stock.markAsExhausted' | transloco}}
-                </button>
             </div>
         </div>
 
@@ -64,10 +60,14 @@
                 </div>
 
                 <div class="seed-actions">
-                    @if (seed.exhausted) {
-                    <button class="action-btn resupply-btn"
-                        (click)="markSelectedAsResupplied(seed.id)">{{'stock.resupply' | transloco}}</button>
-                    }
+                    <button class="action-btn" [class.resupply-btn]="seed.exhausted"
+                        [class.exhausted-btn]="!seed.exhausted" (click)="toggleSeedExhaustedState(seed.id)">
+                        @if (seed.exhausted) {
+                        {{'stock.resupply' | transloco}}
+                        } @else {
+                        {{'stock.markAsExhausted' | transloco}}
+                        }
+                    </button>
                 </div>
             </div>
             }
