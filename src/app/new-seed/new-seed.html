@@ -1,1 +1,38 @@
-<p>new-seed works!</p>
+<app-header-menu titleKey="menu.stock.title"></app-header-menu>
+
+<main class="main-content">
+    <section class="add-seed-section">
+        <div class="section-header">
+            <h2>Add a new available seed</h2>
+            <a class="add-seed-btn" routerLink="/stock">
+                <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to stock
+            </a>
+        </div>
+
+        @if (errorMessage) {
+        <div class="error">{{ errorMessage }}</div>
+        }
+        @if (successMessage) {
+        <div class="success">{{ successMessage }}</div>
+        }
+
+        <form (ngSubmit)="addSeed()" #seedForm="ngForm" class="seed-form">
+            <div class="form-field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required [(ngModel)]="name" />
+            </div>
+
+            <div class="form-field">
+                <label for="variety">Variety</label>
+                <input id="variety" name="variety" type="text" required [(ngModel)]="variety" />
+            </div>
+
+            <button class="action-btn" type="submit" [disabled]="!name || !variety">
+                Add seed
+            </button>
+        </form>
+    </section>
+</main>
