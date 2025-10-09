@@ -18,7 +18,7 @@ test('getAvailableSeedById()', () => {
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoAndPotatoSeeds());
-  test.expect(service.getAvailableSeedById(2).name).toBe('Potato');
+  test.expect(service.getAvailableSeedById('2').name).toBe('Potato');
 });
 
 test('addAvailableSeed()', () => {
@@ -51,7 +51,7 @@ test('addStockSeed()', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   test.expect(service.getStockSeeds().length).toBe(0);
-  service.addStockSeed(1);
+  service.addStockSeed('1');
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].name).toBe('Tomato');
@@ -64,7 +64,7 @@ test('addStockSeed() - seed does not exist', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   test.expect(service.getStockSeeds().length).toBe(0);
-  test.expect(() => service.addStockSeed(2)).toThrow();
+  test.expect(() => service.addStockSeed('2')).toThrow();
   test.expect(service.getStockSeeds().length).toBe(0);
 });
 
@@ -74,7 +74,7 @@ test('addStockSeed() - seed already exists', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   mockStorageService.setItem(service.STOCK_SEEDS_KEY, fillStockTomatoSeeds());
-  service.addStockSeed(1);
+  service.addStockSeed('1');
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].exhausted).toBe(true);
@@ -86,7 +86,7 @@ test('markAsExhausted()', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   mockStorageService.setItem(service.STOCK_SEEDS_KEY, fillStockTomatoSeeds());
-  service.markAsExhausted(1);
+  service.markAsExhausted('1');
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].exhausted).toBe(true);
@@ -98,7 +98,7 @@ test('markAsResupplied()', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   mockStorageService.setItem(service.STOCK_SEEDS_KEY, fillStockTomatoSeeds());
-  service.markAsResupplied(1);
+  service.markAsResupplied('1');
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].exhausted).toBe(false);
@@ -110,19 +110,19 @@ test('markAsResupplied() - seed does not exist', () => {
   const service = new SeedService(mockStorageService);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, fillWithTomatoSeeds());
   mockStorageService.setItem(service.STOCK_SEEDS_KEY, fillStockTomatoSeeds());
-  test.expect(() => service.markAsExhausted(2)).toThrow();
+  test.expect(() => service.markAsExhausted('2')).toThrow();
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].exhausted).toBe(true);
 });
 
 function fillWithTomatoSeeds(): AvailableSeed[] {
-  return [{ id: 1, name: 'Tomato', variety: 'Cherry' }];
+  return [{ id: '1', name: 'Tomato', variety: 'Cherry' }];
 }
 function fillWithTomatoAndPotatoSeeds(): AvailableSeed[] {
-  return [{ id: 1, name: 'Tomato', variety: 'Cherry' }, { id: 2, name: 'Potato', variety: 'Russet' }];
+  return [{ id: '1', name: 'Tomato', variety: 'Cherry' }, { id: '2', name: 'Potato', variety: 'Russet' }];
 }
 
 function fillStockTomatoSeeds(): StockSeed[] {
-  return [{ id: 1, exhausted: true }];
+  return [{ id: '1', exhausted: true }];
 }
