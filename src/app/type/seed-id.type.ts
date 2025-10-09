@@ -1,1 +1,1 @@
-export type SeedId = number;
+export type SeedId = string;

@@ -49,8 +49,8 @@ export class SeedService {
       return Object.values(seeds).some(s => s.name === name);
     }
 
-    function getNextSeedId(seeds: AvailableSeed[]): number {
-      return seeds.length + 1;
+    function getNextSeedId(seeds: AvailableSeed[]): SeedId {
+      return (seeds.length + 1).toString();
     }
   }
 
@@ -118,7 +118,7 @@ export class SeedService {
     this.saveStockSeeds(stockSeeds);
   }
 
-  private markAs(stockSeeds: StockSeed[], seedId: number, exhausted: boolean): void {
+  private markAs(stockSeeds: StockSeed[], seedId: SeedId, exhausted: boolean): void {
     let stockSeed = this.getSeedById(stockSeeds, seedId);
     if (!stockSeed) {
       throw new Error(`seed with id ${seedId} does not exist`);
@@ -126,7 +126,7 @@ export class SeedService {
     stockSeed.exhausted = exhausted;
   }
 
-  private getSeedById<SeedType extends AvailableSeed | StockSeed>(availableSeeds: SeedType[], id: number) {
+  private getSeedById<SeedType extends AvailableSeed | StockSeed>(availableSeeds: SeedType[], id: SeedId) {
     const seed = availableSeeds.find(s => s.id === id);
     if (!seed) {
       throw new Error(`seed with id ${id} does not exist`);
@@ -134,7 +134,7 @@ export class SeedService {
     return seed;
   }
 
-  private seedIdExists<SeedType extends AvailableSeed | StockSeed>(seeds: SeedType[], id: number): boolean {
+  private seedIdExists<SeedType extends AvailableSeed | StockSeed>(seeds: SeedType[], id: SeedId): boolean {
     return seeds.some(s => s.id === id);
   }
 

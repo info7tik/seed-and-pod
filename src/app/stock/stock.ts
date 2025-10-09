@@ -3,8 +3,8 @@ import { HeaderMenu } from '../header-menu/header-menu';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SeedService } from '../seed-service';
-import { AvailableSeedProperties, AvailableSeed } from '../type/available-seed.type';
-import { StockSeed, StockSeedWithDetails } from '../type/stock-seed.type';
+import { AvailableSeed } from '../type/available-seed.type';
+import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 
 export interface Seed {
@@ -22,46 +22,37 @@ export interface Seed {
   styleUrl: './stock.scss'
 })
 export class Stock implements OnInit {
+  readonly DEFAULT_SEED_ID = '';
   availableSeeds = signal<AvailableSeed[]>([]);
-  stockSeeds = signal<StockSeedWithDetails[]>([]);
+  stockSeeds: StockSeedWithDetails[] = [];
   selectedSeedToAdd = signal<SeedId | null>(null);
+  seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
   selectedSeeds = signal<Set<SeedId>>(new Set());
+
+  //TODO create a component to handle errors
 
   constructor(private seedService: SeedService) { }
 
   ngOnInit(): void {
-    localStorage.clear();
-    this.fakeDataForTesting();
     this.availableSeeds.set(this.seedService.getAvailableSeeds());
-    this.stockSeeds.set(this.seedService.getStockSeeds());
-  }
-
-  private fakeDataForTesting() {
-    this.seedService.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' });
-    this.seedService.addAvailableSeed({ name: 'Potato', variety: 'Russet' });
-    this.seedService.addAvailableSeed({ name: 'Carrot', variety: 'Imperator' });
-    this.seedService.addAvailableSeed({ name: 'Lettuce', variety: 'Romaine' });
-    this.seedService.addAvailableSeed({ name: 'Onion', variety: 'Red' });
-    this.seedService.addAvailableSeed({ name: 'Garlic', variety: 'White' });
-    this.seedService.addAvailableSeed({ name: 'Cucumber', variety: 'English' });
+    this.stockSeeds = this.seedService.getStockSeeds();
   }
 
   get availableSeedsNotInStock(): AvailableSeed[] {
     const allAvailableSeeds = this.availableSeeds();
-    const stockSeedIds = this.stockSeeds().map(seed => seed.id);
+    const stockSeedIds = this.stockSeeds.map(seed => seed.id);
     return allAvailableSeeds.filter(seed => !stockSeedIds.includes(seed.id));
   }
 
   addSeedToStock() {
-    const selectedSeedId = this.selectedSeedToAdd();
-    if (selectedSeedId) {
-      try {
-        this.seedService.addStockSeed(selectedSeedId);
-        this.stockSeeds.set(this.seedService.getStockSeeds());
-        this.selectedSeedToAdd.set(null);
-      } catch (error) {
-        console.error('Error adding seed to stock:', error);
+    try {
+      if (this.seedIdToAddInStock !== this.DEFAULT_SEED_ID) {
+        this.seedService.addStockSeed(this.seedIdToAddInStock);
+        this.stockSeeds = this.seedService.getStockSeeds();
+        this.seedIdToAddInStock = this.DEFAULT_SEED_ID;
       }
+    } catch (error) {
+      console.error('Error adding seed to stock:', error);
     }
   }
 
@@ -101,7 +92,7 @@ export class Stock implements OnInit {
     // Clear selection after removal
     this.selectedSeeds.set(new Set());
     // Refresh stock seeds
-    this.stockSeeds.set(this.seedService.getStockSeeds());
+    this.stockSeeds = this.seedService.getStockSeeds();
   }
 
   markSelectedAsExhausted() {
@@ -117,6 +108,6 @@ export class Stock implements OnInit {
     // Clear selection after marking
     this.selectedSeeds.set(new Set());
     // Refresh stock seeds
-    this.stockSeeds.set(this.seedService.getStockSeeds());
+    this.stockSeeds = this.seedService.getStockSeeds();
   }
 }

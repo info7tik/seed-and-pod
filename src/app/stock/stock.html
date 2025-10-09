@@ -4,12 +4,12 @@
     <!-- Add Seed Section -->
     <section class="add-seed-section">
         <div class="section-header">
-            <h2>Add Seeds to Stock</h2>
+            <h2>Select the seeds to add to the stock</h2>
             <button class="add-seed-btn" routerLink="/new-seed">
                 <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 5v14M5 12h14" />
                 </svg>
-                Add Seed
+                Add New Seed
             </button>
         </div>
 
@@ -17,8 +17,7 @@
             @if (availableSeedsNotInStock.length === 0) {
             <p class="no-seeds-message">All available seeds are already in stock.</p>
             } @else {
-            <select class="seed-select" [(ngModel)]="selectedSeedToAdd" (change)="addSeedToStock()">
-                <option value="">Select a seed to add to stock</option>
+            <select class="seed-select" [(ngModel)]="seedIdToAddInStock" (change)="addSeedToStock()">
                 @for (seed of availableSeedsNotInStock; track seed.id) {
                 <option [value]="seed.id">{{seed.name}} - {{seed.variety}}</option>
                 }
@@ -44,10 +43,10 @@
         </div>
 
         <div class="stock-list">
-            @if (stockSeeds().length === 0) {
+            @if (stockSeeds.length === 0) {
             <p class="empty-message">No seeds in stock. Add some seeds to get started!</p>
             } @else {
-            @for (seed of stockSeeds(); track seed.id) {
+            @for (seed of stockSeeds; track seed.id) {
             <div class="seed-item" [class.selected]="isSeedSelected(seed.id)" [class.exhausted]="seed.exhausted">
                 <label class="seed-checkbox">
                     <input type="checkbox" [checked]="isSeedSelected(seed.id)" (change)="toggleSeedSelection(seed.id)">
