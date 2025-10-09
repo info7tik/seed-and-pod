@@ -4,18 +4,18 @@
     <!-- Add Seed Section -->
     <section class="add-seed-section">
         <div class="section-header">
-            <h2>Select the seeds to add to the stock</h2>
+            <h2>{{'stock.selectSeedsToAdd' | transloco}}</h2>
             <button class="add-seed-btn" routerLink="/new-seed">
                 <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 5v14M5 12h14" />
                 </svg>
-                Add New Seed
+                {{'stock.addNewSeed' | transloco}}
             </button>
         </div>
 
         <div class="add-existing-seed">
             @if (availableSeedsNotInStock.length === 0) {
-            <p class="no-seeds-message">All available seeds are already in stock.</p>
+            <p class="no-seeds-message">{{'stock.allSeedsInStock' | transloco}}</p>
             } @else {
             <select class="seed-select" [(ngModel)]="seedIdToAddInStock" (change)="addSeedToStock()">
                 @for (seed of availableSeedsNotInStock; track seed.id) {
@@ -29,22 +29,22 @@
     <!-- Stock Management Section -->
     <section class="stock-section">
         <div class="section-header">
-            <h2>Current Stock</h2>
+            <h2>{{'stock.currentStock' | transloco}}</h2>
             <div class="action-buttons">
                 <button class="action-btn remove-btn" (click)="removeSelectedSeeds()"
                     [disabled]="selectedSeedsCount === 0">
-                    Remove Selected
+                    {{'stock.removeSelected' | transloco}}
                 </button>
                 <button class="action-btn exhausted-btn" (click)="markSelectedAsExhausted()"
                     [disabled]="selectedSeedsCount === 0">
-                    Mark as Exhausted
+                    {{'stock.markAsExhausted' | transloco}}
                 </button>
             </div>
         </div>
 
         <div class="stock-list">
             @if (stockSeeds.length === 0) {
-            <p class="empty-message">No seeds in stock. Add some seeds to get started!</p>
+            <p class="empty-message">{{'stock.noSeedsInStock' | transloco}}</p>
             } @else {
             @for (seed of stockSeeds; track seed.id) {
             <div class="seed-item" [class.selected]="isSeedSelected(seed.id)" [class.exhausted]="seed.exhausted">
@@ -58,7 +58,7 @@
                     <div class="seed-details">
                         <span class="seed-variety">{{seed.variety}}</span>
                         @if (seed.exhausted) {
-                        <span class="exhausted-badge">Exhausted</span>
+                        <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="seed-actions">
                     @if (seed.exhausted) {
                     <button class="action-btn resupply-btn"
-                        (click)="markSelectedAsResupplied(seed.id)">Resupply</button>
+                        (click)="markSelectedAsResupplied(seed.id)">{{'stock.resupply' | transloco}}</button>
                     }
                 </div>
             </div>

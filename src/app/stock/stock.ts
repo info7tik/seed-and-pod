@@ -6,6 +6,7 @@ import { SeedService } from '../seed-service';
 import { InventorySeed } from '../type/inventory-seed.type';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 export interface Seed {
   id: string;
@@ -17,7 +18,7 @@ export interface Seed {
 
 @Component({
   selector: 'app-stock',
-  imports: [HeaderMenu, RouterLink, FormsModule],
+  imports: [HeaderMenu, RouterLink, FormsModule, TranslocoPipe],
   templateUrl: './stock.html',
   styleUrl: './stock.scss'
 })

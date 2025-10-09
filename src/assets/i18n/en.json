@@ -16,5 +16,16 @@
       "title": "Stock",
       "subtitle": "Manage your seed bank"
     }
+  },
+  "stock": {
+    "selectSeedsToAdd": "Select the seeds to add to the stock",
+    "addNewSeed": "Add New Seed",
+    "resupply": "Resupply",
+    "exhausted": "Exhausted",
+    "currentStock": "Current Stock",
+    "markAsExhausted": "Mark as Exhausted",
+    "removeSelected": "Remove",
+    "noSeedsInStock": "No seeds in stock. Add some seeds to get started!",
+    "allSeedsInStock": "All available seeds are already in stock."
   }
 }

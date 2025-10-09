@@ -16,5 +16,16 @@
       "title": "Stock",
       "subtitle": "Gérer votre stock de graines"
     }
+  },
+  "stock": {
+    "selectSeedsToAdd": "Sélectionner les graines à ajouter au stock",
+    "addNewSeed": "Ajouter une nouvelle graine",
+    "resupply": "Réapprovisionner",
+    "exhausted": "Épuisé",
+    "currentStock": "Stock actuel",
+    "markAsExhausted": "Marquer comme épuisé",
+    "removeSelected": "Supprimer",
+    "noSeedsInStock": "Aucune graine dans le stock. Ajouter des graines pour commencer !",
+    "allSeedsInStock": "Toutes les graines disponibles sont déjà dans le stock."
   }
 }
