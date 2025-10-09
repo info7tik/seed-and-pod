@@ -29,8 +29,6 @@ export class Stock implements OnInit {
   seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
   selectedSeeds: Set<SeedId> = new Set();
 
-  //TODO create a component to handle errors
-
   constructor(private seedService: SeedService) { }
 
   ngOnInit(): void {
