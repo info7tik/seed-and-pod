@@ -1,4 +1,4 @@
-import { AvailableSeed } from "./available-seed.type";
+import { InventorySeed } from "./inventory-seed.type";
 import { SeedId } from "./seed-id.type";
 
 export type StockSeedProperties = {
@@ -6,4 +6,4 @@ export type StockSeedProperties = {
 };
 
 export type StockSeed = StockSeedProperties & { id: SeedId };
-export type StockSeedWithDetails = StockSeedProperties & AvailableSeed;
+export type StockSeedWithDetails = StockSeedProperties & InventorySeed;

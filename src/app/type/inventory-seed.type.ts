@@ -1,10 +1,10 @@
 import { SeedId } from "./seed-id.type";
 
-export type AvailableSeedProperties = {
+export type InventorySeedProperties = {
     name: string;
     variety: string;
 };
 
-export type AvailableSeed = AvailableSeedProperties & {
+export type InventorySeed = InventorySeedProperties & {
     id: SeedId;
 };

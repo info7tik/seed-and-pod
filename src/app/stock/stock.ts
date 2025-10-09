@@ -3,7 +3,7 @@ import { HeaderMenu } from '../header-menu/header-menu';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SeedService } from '../seed-service';
-import { AvailableSeed } from '../type/available-seed.type';
+import { InventorySeed } from '../type/inventory-seed.type';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 
@@ -23,7 +23,7 @@ export interface Seed {
 })
 export class Stock implements OnInit {
   readonly DEFAULT_SEED_ID = '';
-  availableSeeds: AvailableSeed[] = [];
+  availableSeeds: InventorySeed[] = [];
   stockSeeds: StockSeedWithDetails[] = [];
   seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
   selectedSeeds: Set<SeedId> = new Set();
@@ -37,7 +37,7 @@ export class Stock implements OnInit {
     this.stockSeeds = this.seedService.getStockSeeds();
   }
 
-  get availableSeedsNotInStock(): AvailableSeed[] {
+  get availableSeedsNotInStock(): InventorySeed[] {
     const stockSeedIds = this.stockSeeds.map(seed => seed.id);
     return this.availableSeeds.filter(seed => !stockSeedIds.includes(seed.id));
   }

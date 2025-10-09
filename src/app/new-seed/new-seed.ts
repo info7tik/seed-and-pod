@@ -30,7 +30,7 @@ export class NewSeed {
     }
 
     try {
-      this.seedService.addAvailableSeed({ name: trimmedName, variety: trimmedVariety });
+      this.seedService.addInventorySeed({ name: trimmedName, variety: trimmedVariety });
       this.successMessage = 'Seed added successfully';
       this.name = '';
       this.variety = '';

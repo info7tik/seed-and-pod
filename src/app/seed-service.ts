@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
-import { AvailableSeed, AvailableSeedProperties } from './type/available-seed.type';
+import { InventorySeed, InventorySeedProperties } from './type/inventory-seed.type';
 import { StockSeed, StockSeedWithDetails } from './type/stock-seed.type';
 import { SeedId } from './type/seed-id.type';
 
@@ -23,12 +23,18 @@ export class SeedService {
  * Get all available seeds as an array
  * @returns Seed[] - All available seeds
  */
-  getAvailableSeeds(): AvailableSeed[] {
-    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
+  getAvailableSeeds(): InventorySeed[] {
+    const availableSeeds: InventorySeed[] = this.getRawAvailableSeeds();
     return Object.values(availableSeeds);
   }
 
-  getAvailableSeedById(id: SeedId): AvailableSeed {
+  /**
+   * Get an available seed by id
+   * @param id - The id of the seed to get
+   * @returns AvailableSeed - The available seed
+   * @throws Error if seed does not exist
+   */
+  getAvailableSeedById(id: SeedId): InventorySeed {
     return this.getSeedById(this.getRawAvailableSeeds(), id);
   }
 
@@ -37,19 +43,19 @@ export class SeedService {
    * @param seed - The seed to add
    * @throws Error if seed with same name already exists
    */
-  addAvailableSeed(seed: AvailableSeedProperties): void {
-    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
+  addInventorySeed(seed: InventorySeedProperties): void {
+    const availableSeeds: InventorySeed[] = this.getRawAvailableSeeds();
     if (seedNameExists(availableSeeds, seed.name)) {
       throw new Error(`seed with name ${seed.name} already exists`);
     }
     availableSeeds.push({ ...seed, id: getNextSeedId(availableSeeds) });
     this.storageService.setItem(this.AVAILABLE_SEEDS_KEY, availableSeeds);
 
-    function seedNameExists(seeds: AvailableSeed[], name: string): boolean {
+    function seedNameExists(seeds: InventorySeed[], name: string): boolean {
       return Object.values(seeds).some(s => s.name === name);
     }
 
-    function getNextSeedId(seeds: AvailableSeed[]): SeedId {
+    function getNextSeedId(seeds: InventorySeed[]): SeedId {
       return (seeds.length + 1).toString();
     }
   }
@@ -59,7 +65,7 @@ export class SeedService {
    * @returns StockSeed[] - All stock seeds with available seeds properties
    */
   getStockSeeds(): StockSeedWithDetails[] {
-    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
+    const availableSeeds: InventorySeed[] = this.getRawAvailableSeeds();
     const stockSeeds: StockSeed[] = this.getRawStockSeeds();
     return stockSeeds.map((seed) => ({ ...seed, ...this.getSeedById(availableSeeds, seed.id) }));
   }
@@ -139,7 +145,7 @@ export class SeedService {
     stockSeed.exhausted = exhausted;
   }
 
-  private getSeedById<SeedType extends AvailableSeed | StockSeed>(availableSeeds: SeedType[], id: SeedId) {
+  private getSeedById<SeedType extends InventorySeed | StockSeed>(availableSeeds: SeedType[], id: SeedId) {
     const seed = availableSeeds.find(s => s.id === id);
     if (!seed) {
       throw new Error(`seed with id ${id} does not exist`);
@@ -147,7 +153,7 @@ export class SeedService {
     return seed;
   }
 
-  private seedIdExists<SeedType extends AvailableSeed | StockSeed>(seeds: SeedType[], id: SeedId): boolean {
+  private seedIdExists<SeedType extends InventorySeed | StockSeed>(seeds: SeedType[], id: SeedId): boolean {
     return seeds.some(s => s.id === id);
   }
 
@@ -155,7 +161,7 @@ export class SeedService {
     this.storageService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
   }
 
-  private getRawAvailableSeeds(): AvailableSeed[] {
+  private getRawAvailableSeeds(): InventorySeed[] {
     return this.storageService.getItem(this.AVAILABLE_SEEDS_KEY, []);
   }
 

@@ -1,7 +1,7 @@
 import { SeedService } from '../src/app/seed-service';
 import { MockStorageService } from '../src/app/mock/mock-storage-service';
 import test from '@playwright/test';
-import { AvailableSeed } from '../src/app/type/available-seed.type';
+import { InventorySeed } from '../src/app/type/inventory-seed.type';
 import { StockSeed } from '../src/app/type/stock-seed.type';
 
 test('getAvailableSeeds()', () => {
@@ -25,9 +25,9 @@ test('addAvailableSeed()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
-  service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' });
+  service.addInventorySeed({ name: 'Tomato', variety: 'Cherry' });
   test.expect(service.getAvailableSeeds().length).toBe(1);
-  test.expect(() => service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' })).toThrow();
+  test.expect(() => service.addInventorySeed({ name: 'Tomato', variety: 'Cherry' })).toThrow();
   test.expect(service.getAvailableSeeds().length).toBe(1);
 });
 
@@ -116,10 +116,10 @@ test('markAsResupplied() - seed does not exist', () => {
   test.expect(seeds[0].exhausted).toBe(true);
 });
 
-function fillWithTomatoSeeds(): AvailableSeed[] {
+function fillWithTomatoSeeds(): InventorySeed[] {
   return [{ id: '1', name: 'Tomato', variety: 'Cherry' }];
 }
-function fillWithTomatoAndPotatoSeeds(): AvailableSeed[] {
+function fillWithTomatoAndPotatoSeeds(): InventorySeed[] {
   return [{ id: '1', name: 'Tomato', variety: 'Cherry' }, { id: '2', name: 'Potato', variety: 'Russet' }];
 }
 
