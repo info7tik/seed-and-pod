@@ -1,0 +1,7 @@
+---
+description: How to create interfaces and types
+alwaysApply: true
+---
+* interfaces must be created in their own files
+* types must be created in their own files
+* prefer types instead of interfaces
