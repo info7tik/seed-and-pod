@@ -73,4 +73,51 @@ export class Garden implements OnInit {
   getSeedById(seedId: string): StockSeedWithDetails | undefined {
     return this.stockSeeds.find(seed => seed.id === seedId);
   }
+
+  assignSeedToBed(seedId: string, event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const bedId = target.value;
+
+    if (bedId) {
+      // Remove seed from all beds first
+      this.beds.forEach(bed => {
+        bed.seeds = bed.seeds.filter(id => id !== seedId);
+      });
+
+      // Add seed to selected bed
+      const selectedBed = this.beds.find(bed => bed.id === bedId);
+      if (selectedBed) {
+        selectedBed.seeds.push(seedId);
+      }
+
+      // Reset the select
+      target.value = '';
+    }
+  }
+
+  moveSeedToBed(seedId: string, event: Event, currentBedId: string): void {
+    const target = event.target as HTMLSelectElement;
+    const destination = target.value;
+
+    if (destination) {
+      // Remove seed from current bed
+      const currentBed = this.beds.find(bed => bed.id === currentBedId);
+      if (currentBed) {
+        currentBed.seeds = currentBed.seeds.filter(id => id !== seedId);
+      }
+
+      if (destination === 'unassigned') {
+        // Seed becomes unassigned - no action needed
+      } else {
+        // Add seed to destination bed
+        const destinationBed = this.beds.find(bed => bed.id === destination);
+        if (destinationBed) {
+          destinationBed.seeds.push(seedId);
+        }
+      }
+
+      // Reset the select
+      target.value = '';
+    }
+  }
 }

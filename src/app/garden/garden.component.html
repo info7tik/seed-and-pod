@@ -37,6 +37,15 @@
                         }
                     </div>
                 </div>
+
+                <div class="seed-actions">
+                    <select class="bed-select" (change)="assignSeedToBed(seed.id, $event)">
+                        <option value="">Assign to bed...</option>
+                        @for (bed of beds; track bed.id) {
+                        <option [value]="bed.id">Bed {{ bed.id }}</option>
+                        }
+                    </select>
+                </div>
             </div>
             }
             }
@@ -72,6 +81,18 @@
                                 <span class="exhausted-badge">Exhausted</span>
                                 }
                             </div>
+                        </div>
+
+                        <div class="seed-actions">
+                            <select class="bed-select" (change)="moveSeedToBed(seedId, $event, bed.id)">
+                                <option value="">Move to...</option>
+                                <option value="unassigned">Unassigned</option>
+                                @for (otherBed of beds; track otherBed.id) {
+                                @if (otherBed.id !== bed.id) {
+                                <option [value]="otherBed.id">Bed {{ otherBed.id }}</option>
+                                }
+                                }
+                            </select>
                         </div>
                     </div>
                     }
