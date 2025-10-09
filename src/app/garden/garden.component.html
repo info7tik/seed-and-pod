@@ -84,7 +84,7 @@
                         </div>
 
                         <div class="seed-actions">
-                            <select class="bed-select" (change)="moveSeedToBed(seedId, $event, bed.id)">
+                            <select class="bed-select" (change)="assignSeedToBed(seedId, $event)">
                                 <option value="">Move to...</option>
                                 <option value="unassigned">Unassigned</option>
                                 @for (otherBed of beds; track otherBed.id) {

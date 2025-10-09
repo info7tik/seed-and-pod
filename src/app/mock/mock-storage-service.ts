@@ -4,7 +4,7 @@ export class MockStorageService extends StorageService {
     private items: { [key: string]: any } = {};
 
     override getItem(key: string, defaultValue: any) {
-        return this.items[key] || defaultValue;
+        return structuredClone(this.items[key]) || defaultValue;
     }
 
     override setItem(key: string, value: any) {

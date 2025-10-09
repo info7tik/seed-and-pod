@@ -7,6 +7,7 @@ test('getBeds()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
+    test.expect(service.getBeds().length, "should create one bed if there are no beds").toBe(1);
     mockStorageService.setItem(service.BEDS_KEY, fill2EmptyBeds());
     test.expect(service.getBeds().length).toBe(2);
 });
@@ -43,7 +44,7 @@ test('assignSeedToBed()', () => {
     test.expect(service.getBedFromId('0').seeds.length).toBe(0);
 });
 
-test('removeSeedFromBed()', () => {
+test('removeSeedFromBeds()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
@@ -51,24 +52,13 @@ test('removeSeedFromBed()', () => {
     const seedId = '30';
     test.expect(service.getBedFromId('0').seeds.length).toBe(1);
     test.expect(service.getBedFromId('1').seeds.length).toBe(2);
-    service.removeSeedFromBed('1', seedId);
+    service.removeSeedFromBeds(seedId);
     test.expect(service.getBedFromId('0').seeds.length).toBe(1);
     test.expect(service.getBedFromId('1').seeds.length).toBe(1);
     const notExistingSeedId = '40';
-    test.expect(() => service.removeSeedFromBed('1', notExistingSeedId)).toThrow();
+    service.removeSeedFromBeds(notExistingSeedId);
     test.expect(service.getBedFromId('0').seeds.length).toBe(1);
     test.expect(service.getBedFromId('1').seeds.length).toBe(1);
-});
-
-test('getNotAssignedSeeds()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, fill2BedsWithSeeds());
-    test.expect(service.getNotAssignedSeeds(['10', '20', '30']).length).toBe(0);
-    const notAssigned = service.getNotAssignedSeeds(['10', '20', '90']);
-    test.expect(notAssigned.length).toBe(1);
-    test.expect(notAssigned[0]).toBe('90');
 });
 
 function fill2EmptyBeds(): Bed[] {

@@ -20,7 +20,12 @@ export class BedService {
   }
 
   getBeds(): Bed[] {
-    return this.storageService.getItem(this.BEDS_KEY, []);
+    const beds = this.storageService.getItem(this.BEDS_KEY, []);
+    if (beds.length === 0) {
+      this.createBeds(1);
+      return this.getBeds();
+    }
+    return beds;
   }
 
   getBedFromId(bedId: BedId): Bed {
@@ -33,26 +38,28 @@ export class BedService {
   }
 
   assignSeedToBed(bedId: BedId, seedId: SeedId): void {
-    const bed = this.getBedFromId(bedId);
+    let beds = this.getBeds();
+    const bed = getBedFromId(beds, bedId);
     if (bed) {
       bed.seeds.push(seedId);
-      this.saveBeds(this.getBeds());
+      this.saveBeds(beds);
+    }
+
+    function getBedFromId(beds: Bed[], bedId: BedId): Bed {
+      const bed = beds.find(b => b.id === bedId);
+      if (!bed) {
+        throw new Error(`bed with id ${bedId} does not exist`);
+      }
+      return bed;
     }
   }
 
-  removeSeedFromBed(bedId: BedId, seedId: SeedId): void {
-    const bed = this.getBedFromId(bedId);
-    if (bed.seeds.includes(seedId)) {
+  removeSeedFromBeds(seedId: SeedId): void {
+    let beds = this.getBeds();
+    beds.forEach(bed => {
       bed.seeds = bed.seeds.filter(s => s !== seedId);
-      this.saveBeds(this.getBeds());
-    } else {
-      throw new Error(`seed with id ${seedId} does not exist in bed with id ${bedId}`);
-    }
-  }
-
-  getNotAssignedSeeds(existingSeeds: SeedId[]): SeedId[] {
-    const assignedSeeds = this.getBeds().flatMap(b => b.seeds);
-    return existingSeeds.filter(s => !assignedSeeds.includes(s));
+    });
+    this.saveBeds(beds);
   }
 
   saveBeds(beds: Bed[]): void {
