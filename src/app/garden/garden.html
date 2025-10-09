@@ -1,3 +1,29 @@
 <app-header-menu titleKey="menu.garden.title"></app-header-menu>
 
-<p>garden works!</p>
+<main class="main-content">
+    <section class="garden-config-section">
+        <div class="section-header">
+            <h2>Garden Configuration</h2>
+        </div>
+
+        <div class="config-form">
+            <div class="form-field">
+                <label for="numberOfBeds">Number of Garden Beds</label>
+                <input id="numberOfBeds" name="numberOfBeds" type="number" min="1" [(ngModel)]="numberOfBeds"
+                    (ngModelChange)="updateNumberOfBeds()" class="number-input" />
+                <p class="help-text">Configure how many beds you have in your garden</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="garden-overview">
+        <div class="section-header">
+            <h2>Garden Overview</h2>
+        </div>
+
+        <div class="beds-display">
+            <p>You have configured <strong>{{ numberOfBeds }}</strong> garden bed{{ numberOfBeds === 1 ? '' : 's' }}.
+            </p>
+        </div>
+    </section>
+</main>
