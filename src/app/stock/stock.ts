@@ -94,4 +94,13 @@ export class Stock implements OnInit {
     this.selectedSeeds.clear();
     this.stockSeeds = this.seedService.getStockSeeds();
   }
+
+  markSelectedAsResupplied(seedId: SeedId) {
+    try {
+      this.seedService.markAsResupplied(seedId);
+      this.stockSeeds = this.seedService.getStockSeeds();
+    } catch (error) {
+      console.error('Error marking seed as resupplied:', error);
+    }
+  }
 }

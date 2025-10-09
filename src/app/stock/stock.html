@@ -62,6 +62,13 @@
                         }
                     </div>
                 </div>
+
+                <div class="seed-actions">
+                    @if (seed.exhausted) {
+                    <button class="action-btn resupply-btn"
+                        (click)="markSelectedAsResupplied(seed.id)">Resupply</button>
+                    }
+                </div>
             </div>
             }
             }

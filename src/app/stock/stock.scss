@@ -114,6 +114,15 @@
     }
 }
 
+.action-btn.resupply-btn {
+    background: #28a745;
+    color: white;
+
+    &:hover:not(:disabled) {
+        background: #218838;
+    }
+}
+
 .remove-btn {
     background: #dc3545;
     color: white;
