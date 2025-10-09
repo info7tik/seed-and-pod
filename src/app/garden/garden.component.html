@@ -16,14 +16,70 @@
         </div>
     </section>
 
-    <section class="garden-overview">
+    <!-- Unassigned Seeds Section -->
+    <section class="unassigned-seeds-section">
         <div class="section-header">
-            <h2>Garden Overview</h2>
+            <h2>Unassigned Seeds</h2>
         </div>
 
-        <div class="beds-display">
-            <p>You have configured <strong>{{ numberOfBeds }}</strong> garden bed{{ numberOfBeds === 1 ? '' : 's' }}.
-            </p>
+        <div class="seeds-list">
+            @if (unassignedSeeds.length === 0) {
+            <p class="empty-message">All seeds are assigned to beds</p>
+            } @else {
+            @for (seed of unassignedSeeds; track seed.id) {
+            <div class="seed-item" [class.exhausted]="seed.exhausted">
+                <div class="seed-info">
+                    <h3 class="seed-name">{{ seed.name }}</h3>
+                    <div class="seed-details">
+                        <span class="seed-variety">{{ seed.variety }}</span>
+                        @if (seed.exhausted) {
+                        <span class="exhausted-badge">Exhausted</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </section>
+
+    <!-- Garden Beds Section -->
+    <section class="garden-beds-section">
+        <div class="section-header">
+            <h2>Garden Beds</h2>
+        </div>
+
+        <div class="beds-grid">
+            @for (bed of beds; track bed.id) {
+            <div class="bed-card">
+                <div class="bed-header">
+                    <h3>Bed {{ bed.id }}</h3>
+                    <span class="seed-count">{{ bed.seeds.length }} seed{{ bed.seeds.length === 1 ? '' : 's' }}</span>
+                </div>
+
+                <div class="bed-seeds">
+                    @if (bed.seeds.length === 0) {
+                    <p class="empty-bed">No seeds assigned</p>
+                    } @else {
+                    @for (seedId of bed.seeds; track seedId) {
+                    @if (getSeedById(seedId); as seed) {
+                    <div class="seed-item" [class.exhausted]="seed.exhausted">
+                        <div class="seed-info">
+                            <h4 class="seed-name">{{ seed.name }}</h4>
+                            <div class="seed-details">
+                                <span class="seed-variety">{{ seed.variety }}</span>
+                                @if (seed.exhausted) {
+                                <span class="exhausted-badge">Exhausted</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    }
+                    }
+                </div>
+            </div>
+            }
         </div>
     </section>
 </main>
