@@ -8,14 +8,6 @@ import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 import { TranslocoPipe } from '@jsverse/transloco';
 
-export interface Seed {
-  id: string;
-  name: string;
-  variety: string;
-  exhausted: boolean;
-  selected: boolean;
-}
-
 @Component({
   selector: 'app-stock',
   imports: [HeaderMenu, RouterLink, FormsModule, TranslocoPipe],
