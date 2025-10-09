@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HeaderMenu } from '../header-menu/header-menu';
+import { HeaderMenu } from '../header-menu/header-menu.component';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SeedService } from '../service/seed.service';
@@ -19,8 +19,8 @@ export interface Seed {
 @Component({
   selector: 'app-stock',
   imports: [HeaderMenu, RouterLink, FormsModule, TranslocoPipe],
-  templateUrl: './stock.html',
-  styleUrl: './stock.scss'
+  templateUrl: './stock.component.html',
+  styleUrl: './stock.component.scss'
 })
 export class Stock implements OnInit {
   readonly DEFAULT_SEED_ID = '';

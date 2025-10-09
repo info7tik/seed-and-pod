@@ -5,8 +5,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 @Component({
   selector: 'app-header-menu',
   imports: [RouterLink, TranslocoDirective],
-  templateUrl: './header-menu.html',
-  styleUrl: './header-menu.scss'
+  templateUrl: './header-menu.component.html',
+  styleUrl: './header-menu.component.scss'
 })
 export class HeaderMenu {
   @Input({ required: true }) titleKey: string = "";

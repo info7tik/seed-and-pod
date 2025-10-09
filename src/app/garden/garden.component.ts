@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HeaderMenu } from '../header-menu/header-menu';
+import { HeaderMenu } from '../header-menu/header-menu.component';
 
 @Component({
   selector: 'app-garden',
   imports: [HeaderMenu, FormsModule],
-  templateUrl: './garden.html',
-  styleUrl: './garden.scss'
+  templateUrl: './garden.component.html',
+  styleUrl: './garden.component.scss'
 })
 export class Garden implements OnInit {
   numberOfBeds: number = 1;

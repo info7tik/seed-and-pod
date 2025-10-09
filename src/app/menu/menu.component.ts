@@ -7,8 +7,8 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
   selector: 'app-menu',
   standalone: true,
   imports: [RouterLink, TranslocoDirective, LanguageSwitcher],
-  templateUrl: './menu.html',
-  styleUrls: ['./menu.scss']
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
 })
 export class Menu {
   items = [

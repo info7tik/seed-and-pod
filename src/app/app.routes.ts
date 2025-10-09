@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { Basket } from './basket/basket';
-import { Cultivation } from './cultivation/cultivation';
-import { Garden } from './garden/garden';
-import { Stock } from './stock/stock';
-import { Menu } from './menu/menu';
-import { NewSeed } from './new-seed/new-seed';
+import { Basket } from './basket/basket.component';
+import { Cultivation } from './cultivation/cultivation.component';
+import { Garden } from './garden/garden.component';
+import { Stock } from './stock/stock.component';
+import { Menu } from './menu/menu.component';
+import { NewSeed } from './new-seed/new-seed.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'menu', pathMatch: 'full' },

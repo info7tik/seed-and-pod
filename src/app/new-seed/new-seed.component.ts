@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { HeaderMenu } from '../header-menu/header-menu';
+import { HeaderMenu } from '../header-menu/header-menu.component';
 import { SeedService } from '../service/seed.service';
 
 @Component({
   selector: 'app-new-seed',
   imports: [FormsModule, RouterLink, HeaderMenu],
-  templateUrl: './new-seed.html',
-  styleUrl: './new-seed.scss'
+  templateUrl: './new-seed.component.html',
+  styleUrl: './new-seed.component.scss'
 })
 export class NewSeed {
   name = '';
