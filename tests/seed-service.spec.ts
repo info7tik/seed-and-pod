@@ -1,17 +1,18 @@
 import { Seed, SeedService } from '../src/app/seed-service';
 import { MockStorageService } from '../src/app/mock/mock-storage-service';
 import test from '@playwright/test';
-import { availableSeeds } from '../src/app/type/available-seeds.type';
+import { AvailableSeed, AvailableSeedStruct } from '../src/app/type/available-seed.type';
+import { StockSeed, StockSeedStruct } from '../src/app/type/stock-seed.type';
 
 test('getAvailableSeeds()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
-  const mockAvailableSeeds: availableSeeds = { 1: { name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false } }
-  const emptySeeds: Seed[] = service.getAvailableSeeds();
+  const mockAvailableSeeds: AvailableSeedStruct = { 1: { name: 'Tomato', variety: 'Cherry' } }
+  const emptySeeds: AvailableSeed[] = service.getAvailableSeeds();
   test.expect(emptySeeds.length).toBe(0);
   mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, mockAvailableSeeds);
-  const seeds: Seed[] = service.getAvailableSeeds();
+  const seeds: AvailableSeed[] = service.getAvailableSeeds();
   test.expect(seeds.length).toBe(1);
 });
 
@@ -19,10 +20,10 @@ test('addAvailableSeed()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
-  service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false });
-  const seeds: Seed[] = service.getAvailableSeeds();
+  service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' });
+  const seeds: AvailableSeed[] = service.getAvailableSeeds();
   test.expect(seeds.length).toBe(1);
-  test.expect(() => service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false })).toThrow();
+  test.expect(() => service.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' })).toThrow();
   test.expect(seeds.length).toBe(1);
 });
 
@@ -30,10 +31,38 @@ test('getStockSeeds()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
-  const mockStockSeeds: availableSeeds = { 1: { name: 'Tomato', variety: 'Cherry', exhausted: false, selected: false } }
-  const emptySeeds: Seed[] = service.getStockSeeds();
+  const emptySeeds: StockSeed[] = service.getStockSeeds();
   test.expect(emptySeeds.length).toBe(0);
+  const mockAvailableSeeds: AvailableSeedStruct = { 1: { name: 'Tomato', variety: 'Cherry' } }
+  const mockStockSeeds: StockSeedStruct = { 1: { exhausted: false } }
+  mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, mockAvailableSeeds);
   mockStorageService.setItem(service.STOCK_SEEDS_KEY, mockStockSeeds);
-  const seeds: Seed[] = service.getStockSeeds();
+  const seeds: StockSeed[] = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
+  test.expect(seeds[0].name).toBe('Tomato');
+  test.expect(seeds[0].variety).toBe('Cherry');
+  test.expect(seeds[0].exhausted).toBe(false);
+});
+
+test('addStockSeed()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new SeedService(mockStorageService);
+  const mockAvailableSeeds: AvailableSeedStruct = { 1: { name: 'Tomato', variety: 'Cherry' } }
+  mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, mockAvailableSeeds);
+  test.expect(service.getStockSeeds().length).toBe(0);
+  service.addStockSeed(1, true);
+  const seeds: StockSeed[] = service.getStockSeeds();
+  test.expect(seeds.length).toBe(1);
+  test.expect(seeds[0].exhausted).toBe(true);
+});
+
+test('addStockSeed() - seed does not exist', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new SeedService(mockStorageService);
+  const mockAvailableSeeds: AvailableSeedStruct = { 1: { name: 'Tomato', variety: 'Cherry' } }
+  mockStorageService.setItem(service.AVAILABLE_SEEDS_KEY, mockAvailableSeeds);
+  test.expect(service.getStockSeeds().length).toBe(0);
+  test.expect(() => service.addStockSeed(2, true)).toThrow();
 });
