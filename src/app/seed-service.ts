@@ -97,6 +97,19 @@ export class SeedService {
   }
 
   /**
+   * Remove a stock seed
+   * @param seedId - The id of the seed to remove
+   * @throws Error if seed does not exist
+   */
+  removeStockSeed(seedId: SeedId): void {
+    const stockSeeds: StockSeed[] = this.getRawStockSeeds();
+    if (!this.seedIdExists(stockSeeds, seedId)) {
+      throw new Error(`seed with id ${seedId} does not exist`);
+    }
+    this.saveStockSeeds(stockSeeds.filter(seed => seed.id !== seedId));
+  }
+
+  /**
    * Mark a seed as exhausted
    * @param seedId - The id of the seed to mark as exhausted
    * @throws Error if seed does not exist
