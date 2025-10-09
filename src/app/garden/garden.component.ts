@@ -5,10 +5,11 @@ import { SeedService } from '../service/seed.service';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { Bed } from '../type/bed.type';
 import { BedService } from '../service/bed.service';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-garden',
-  imports: [HeaderMenu, FormsModule],
+  imports: [HeaderMenu, FormsModule, TranslocoPipe],
   templateUrl: './garden.component.html',
   styleUrl: './garden.component.scss'
 })

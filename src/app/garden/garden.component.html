@@ -3,15 +3,15 @@
 <main class="main-content">
     <section class="garden-config-section">
         <div class="section-header">
-            <h2>Garden Configuration</h2>
+            <h2>{{'garden.configuration' | transloco}}</h2>
         </div>
 
         <div class="config-form">
             <div class="form-field">
-                <label for="numberOfBeds">Number of Garden Beds</label>
+                <label for="numberOfBeds">{{'garden.numberOfBeds' | transloco}}</label>
                 <input id="numberOfBeds" name="numberOfBeds" type="number" min="1" [(ngModel)]="numberOfBeds"
                     (ngModelChange)="updateNumberOfBeds()" class="number-input" />
-                <p class="help-text">Configure how many beds you have in your garden</p>
+                <p class="help-text">{{'garden.numberOfBedsHelpText' | transloco}}</p>
             </div>
         </div>
     </section>
@@ -19,12 +19,12 @@
     <!-- Unassigned Seeds Section -->
     <section class="unassigned-seeds-section">
         <div class="section-header">
-            <h2>Unassigned Seeds</h2>
+            <h2>{{'garden.unassignedSeeds' | transloco}}</h2>
         </div>
 
         <div class="seeds-list">
             @if (unassignedSeeds.length === 0) {
-            <p class="empty-message">All seeds are assigned to beds</p>
+            <p class="empty-message">{{'garden.allSeedsAssignedToBeds' | transloco}}</p>
             } @else {
             @for (seed of unassignedSeeds; track seed.id) {
             <div class="seed-item" [class.exhausted]="seed.exhausted">
@@ -33,16 +33,16 @@
                     <div class="seed-details">
                         <span class="seed-variety">{{ seed.variety }}</span>
                         @if (seed.exhausted) {
-                        <span class="exhausted-badge">Exhausted</span>
+                        <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }
                     </div>
                 </div>
 
                 <div class="seed-actions">
                     <select class="bed-select" (change)="assignSeedToBed(seed.id, $event)">
-                        <option value="">Assign to bed...</option>
+                        <option value="">{{'garden.assignToBed' | transloco}}</option>
                         @for (bed of beds; track bed.id) {
-                        <option [value]="bed.id">Bed {{ bed.id }}</option>
+                        <option [value]="bed.id">{{'garden.bed' | transloco}} {{ bed.id }}</option>
                         }
                     </select>
                 </div>
@@ -55,20 +55,22 @@
     <!-- Garden Beds Section -->
     <section class="garden-beds-section">
         <div class="section-header">
-            <h2>Garden Beds</h2>
+            <h2>{{'garden.gardenBeds' | transloco}}</h2>
         </div>
 
         <div class="beds-grid">
             @for (bed of beds; track bed.id) {
             <div class="bed-card">
                 <div class="bed-header">
-                    <h3>Bed {{ bed.id }}</h3>
-                    <span class="seed-count">{{ bed.seeds.length }} seed{{ bed.seeds.length === 1 ? '' : 's' }}</span>
+                    <h3>{{'garden.bed' | transloco}} {{ bed.id }}</h3>
+                    <span class="seed-count">
+                        {{ bed.seeds.length }} {{'seed' | transloco}}{{ bed.seeds.length === 1 ? '': 's' }}
+                    </span>
                 </div>
 
                 <div class="bed-seeds">
                     @if (bed.seeds.length === 0) {
-                    <p class="empty-bed">No seeds assigned</p>
+                    <p class="empty-bed">{{'garden.noSeedsAssigned' | transloco}}</p>
                     } @else {
                     @for (seedId of bed.seeds; track seedId) {
                     @if (getSeedById(seedId); as seed) {
@@ -78,18 +80,18 @@
                             <div class="seed-details">
                                 <span class="seed-variety">{{ seed.variety }}</span>
                                 @if (seed.exhausted) {
-                                <span class="exhausted-badge">Exhausted</span>
+                                <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                                 }
                             </div>
                         </div>
 
                         <div class="seed-actions">
                             <select class="bed-select" (change)="assignSeedToBed(seedId, $event)">
-                                <option value="">Move to...</option>
-                                <option value="unassigned">Unassigned</option>
+                                <option value="">{{'garden.moveTo' | transloco}}</option>
+                                <option value="unassigned">{{'garden.unassigned' | transloco}}</option>
                                 @for (otherBed of beds; track otherBed.id) {
                                 @if (otherBed.id !== bed.id) {
-                                <option [value]="otherBed.id">Bed {{ otherBed.id }}</option>
+                                <option [value]="otherBed.id">{{'garden.bed' | transloco}} {{ otherBed.id }}</option>
                                 }
                                 }
                             </select>

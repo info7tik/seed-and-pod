@@ -17,6 +17,7 @@
       "subtitle": "Manage your seed bank"
     }
   },
+  "seed": "seed",
   "stock": {
     "selectSeedsToAdd": "Select the seeds to add to the stock",
     "addNewSeed": "Add New Seed",
@@ -27,5 +28,20 @@
     "removeSelected": "Remove",
     "noSeedsInStock": "No seeds in stock. Add some seeds to get started!",
     "allSeedsInStock": "All available seeds are already in stock."
+  },
+  "garden": {
+    "configuration": "Garden Configuration",
+    "unassignedSeeds": "Unassigned Seeds",
+    "assignedSeeds": "Assigned Seeds",
+    "bed": "Bed",
+    "beds": "Beds",
+    "gardenBeds": "Garden Beds",
+    "noSeedsAssigned": "No seeds assigned",
+    "numberOfBeds": "Number of Garden Beds",
+    "numberOfBedsHelpText": "Configure how many beds you have in your garden",
+    "allSeedsAssignedToBeds": "All seeds are assigned to beds",
+    "assignToBed": "Assign to bed...",
+    "moveTo": "Move to...",
+    "unassigned": "Unassigned"
   }
 }

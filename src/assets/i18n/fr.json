@@ -17,6 +17,7 @@
       "subtitle": "Gérer votre stock de graines"
     }
   },
+  "seed": "graine",
   "stock": {
     "selectSeedsToAdd": "Sélectionner les graines à ajouter au stock",
     "addNewSeed": "Ajouter une nouvelle graine",
@@ -27,5 +28,20 @@
     "removeSelected": "Supprimer",
     "noSeedsInStock": "Aucune graine dans le stock. Ajouter des graines pour commencer !",
     "allSeedsInStock": "Toutes les graines disponibles sont déjà dans le stock."
+  },
+  "garden": {
+    "configuration": "Configuration du jardin",
+    "unassignedSeeds": "Graines non assignées",
+    "assignedSeeds": "Graines assignées",
+    "bed": "Planche",
+    "beds": "Planches",
+    "gardenBeds": "Planches du jardin",
+    "noSeedsAssigned": "Aucune graine assignée",
+    "numberOfBeds": "Nombre de planches du jardin",
+    "numberOfBedsHelpText": "Configurer le nombre de planches du jardin",
+    "allSeedsAssignedToBeds": "Toutes les graines sont assignées à des planches",
+    "assignToBed": "Assigner à une planche...",
+    "moveTo": "Déplacer vers...",
+    "unassigned": "Non assigné"
   }
 }
