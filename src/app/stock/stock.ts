@@ -29,8 +29,20 @@ export class Stock implements OnInit {
   constructor(private seedService: SeedService) { }
 
   ngOnInit(): void {
+    localStorage.clear();
+    this.fakeDataForTesting();
     this.availableSeeds.set(this.seedService.getAvailableSeeds());
     this.stockSeeds.set(this.seedService.getStockSeeds());
+  }
+
+  private fakeDataForTesting() {
+    this.seedService.addAvailableSeed({ name: 'Tomato', variety: 'Cherry' });
+    this.seedService.addAvailableSeed({ name: 'Potato', variety: 'Russet' });
+    this.seedService.addAvailableSeed({ name: 'Carrot', variety: 'Imperator' });
+    this.seedService.addAvailableSeed({ name: 'Lettuce', variety: 'Romaine' });
+    this.seedService.addAvailableSeed({ name: 'Onion', variety: 'Red' });
+    this.seedService.addAvailableSeed({ name: 'Garlic', variety: 'White' });
+    this.seedService.addAvailableSeed({ name: 'Cucumber', variety: 'English' });
   }
 
   addSeedToStock() {
@@ -41,7 +53,7 @@ export class Stock implements OnInit {
   }
 
   get availableSeedsNotInStock(): AvailableSeed[] {
-    return [];
+    return this.availableSeeds();
   }
 
 

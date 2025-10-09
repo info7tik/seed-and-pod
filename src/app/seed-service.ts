@@ -34,7 +34,7 @@ export class SeedService {
    * @throws Error if seed already exists
    */
   addAvailableSeed(seed: AvailableSeed): void {
-    const availableSeeds: AvailableSeedStruct = this.getAvailableSeeds();
+    const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
     if (seedExists(availableSeeds, seed.name)) {
       throw new Error(`seed with name ${seed.name} already exists`);
     }

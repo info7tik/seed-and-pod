@@ -1,7 +1,7 @@
 import { SeedService } from '../src/app/seed-service';
 import { MockStorageService } from '../src/app/mock/mock-storage-service';
 import test from '@playwright/test';
-import { AvailableSeed, AvailableSeedStruct } from '../src/app/type/available-seed.type';
+import { AvailableSeedStruct } from '../src/app/type/available-seed.type';
 import { StockSeed, StockSeedStruct } from '../src/app/type/stock-seed.type';
 
 test('getAvailableSeeds()', () => {
