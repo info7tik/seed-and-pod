@@ -1,15 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
-import { InventorySeed, InventorySeedProperties } from './type/inventory-seed.type';
-import { StockSeed, StockSeedWithDetails } from './type/stock-seed.type';
-import { SeedId } from './type/seed-id.type';
-
-export interface Seed {
-  name: string;
-  variety: string;
-  exhausted: boolean;
-  selected: boolean;
-}
+import { InventorySeed, InventorySeedProperties } from '../type/inventory-seed.type';
+import { StockSeed, StockSeedWithDetails } from '../type/stock-seed.type';
+import { SeedId } from '../type/seed-id.type';
 
 @Injectable({
   providedIn: 'root'

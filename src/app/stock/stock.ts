@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { HeaderMenu } from '../header-menu/header-menu';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SeedService } from '../seed-service';
+import { SeedService } from '../service/seed.service';
 import { InventorySeed } from '../type/inventory-seed.type';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';

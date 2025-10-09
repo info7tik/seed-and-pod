@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HeaderMenu } from '../header-menu/header-menu';
-import { SeedService } from '../seed-service';
+import { SeedService } from '../service/seed.service';
 
 @Component({
   selector: 'app-new-seed',

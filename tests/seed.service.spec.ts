@@ -1,4 +1,4 @@
-import { SeedService } from '../src/app/seed-service';
+import { SeedService } from '../src/app/service/seed.service';
 import { MockStorageService } from '../src/app/mock/mock-storage-service';
 import test from '@playwright/test';
 import { InventorySeed } from '../src/app/type/inventory-seed.type';

@@ -1,4 +1,4 @@
-import { StorageService } from "../../app/storage.service";
+import { StorageService } from "../service/storage.service";
 
 export class MockStorageService extends StorageService {
     private items: { [key: string]: any } = {};
