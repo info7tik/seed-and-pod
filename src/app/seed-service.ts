@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
-import { AvailableSeed, AvailableSeedStruct } from './type/available-seed.type';
-import { StockSeed, StockSeedProperties, StockSeedStruct } from './type/stock-seed.type';
+import { AvailableSeed, AvailableSeedProperties } from './type/available-seed.type';
+import { StockSeed, StockSeedWithDetails } from './type/stock-seed.type';
 import { SeedId } from './type/seed-id.type';
 
 export interface Seed {
@@ -24,29 +24,33 @@ export class SeedService {
  * @returns Seed[] - All available seeds
  */
   getAvailableSeeds(): AvailableSeed[] {
-    const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
+    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
     return Object.values(availableSeeds);
+  }
+
+  getAvailableSeedById(id: SeedId): AvailableSeed {
+    return this.getSeedById(this.getRawAvailableSeeds(), id);
   }
 
   /**
    * Add a seed to available seeds
    * @param seed - The seed to add
-   * @throws Error if seed already exists
+   * @throws Error if seed with same name already exists
    */
-  addAvailableSeed(seed: AvailableSeed): void {
-    const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
-    if (seedExists(availableSeeds, seed.name)) {
+  addAvailableSeed(seed: AvailableSeedProperties): void {
+    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
+    if (seedNameExists(availableSeeds, seed.name)) {
       throw new Error(`seed with name ${seed.name} already exists`);
     }
-    availableSeeds[getNextSeedId(availableSeeds)] = seed;
+    availableSeeds.push({ ...seed, id: getNextSeedId(availableSeeds) });
     this.storageService.setItem(this.AVAILABLE_SEEDS_KEY, availableSeeds);
 
-    function seedExists(seeds: AvailableSeedStruct, name: string): boolean {
+    function seedNameExists(seeds: AvailableSeed[], name: string): boolean {
       return Object.values(seeds).some(s => s.name === name);
     }
 
-    function getNextSeedId(seeds: AvailableSeedStruct): number {
-      return Object.keys(seeds).length + 1;
+    function getNextSeedId(seeds: AvailableSeed[]): number {
+      return seeds.length + 1;
     }
   }
 
@@ -54,10 +58,21 @@ export class SeedService {
    * Get all stock seeds as an array
    * @returns StockSeed[] - All stock seeds with available seeds properties
    */
-  getStockSeeds(): StockSeed[] {
-    const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
-    const stockSeeds: StockSeedStruct = this.getRawStockSeeds();
-    return Object.entries(stockSeeds).map(([id, properties]) => ({ ...properties, ...availableSeeds[parseInt(id)] }));
+  getStockSeeds(): StockSeedWithDetails[] {
+    const availableSeeds: AvailableSeed[] = this.getRawAvailableSeeds();
+    const stockSeeds: StockSeed[] = this.getRawStockSeeds();
+    return stockSeeds.map((seed) => ({ ...seed, ...this.getSeedById(availableSeeds, seed.id) }));
+  }
+
+  /**
+   * Get a stock seed by id
+   * @param id - The id of the stock seed to get
+   * @returns StockSeed - The stock seed
+   * @throws Error if stock seed does not exist
+   */
+  getStockSeedById(id: SeedId): StockSeed {
+    const stockSeeds: StockSeed[] = this.getRawStockSeeds();
+    return this.getSeedById(stockSeeds, id);
   }
 
   /**
@@ -66,16 +81,19 @@ export class SeedService {
   * @throws Error if seed does not exist
   */
   addStockSeed(seedId: SeedId): void {
-    const availableSeeds: AvailableSeedStruct = this.getRawAvailableSeeds();
-    const stockSeeds: StockSeedStruct = this.getRawStockSeeds();
-    if (stockSeeds[seedId]) {
+    let stockSeeds: StockSeed[] = this.getRawStockSeeds();
+    if (this.seedIdExists(stockSeeds, seedId)) {
       return;
     }
-    if (!availableSeeds[seedId]) {
-      throw new Error(`seed with id ${seedId} does not exist`);
+    if (!this.seedIdExists(this.getRawAvailableSeeds(), seedId)) {
+      throw new Error(`seed with id ${seedId} does not exist as available seed`);
     }
-    stockSeeds[seedId] = { exhausted: false };
+    stockSeeds.push(this.buildStockSeedWithDefaultProperties(seedId));
     this.saveStockSeeds(stockSeeds);
+  }
+
+  private buildStockSeedWithDefaultProperties(seedId: SeedId): StockSeed {
+    return { id: seedId, exhausted: false };
   }
 
   /**
@@ -84,34 +102,52 @@ export class SeedService {
    * @throws Error if seed does not exist
    */
   markAsExhausted(seedId: SeedId): void {
-    let stockSeeds: StockSeedStruct = this.getRawStockSeeds();
+    let stockSeeds: StockSeed[] = this.getRawStockSeeds();
     this.markAs(stockSeeds, seedId, true);
     this.saveStockSeeds(stockSeeds);
   }
 
+  /**
+   * Mark a seed as resupplied
+   * @param seedId - The id of the seed to mark as resupplied
+   * @throws Error if seed does not exist
+   */
   markAsResupplied(seedId: SeedId): void {
-    let stockSeeds: StockSeedStruct = this.getRawStockSeeds();
+    let stockSeeds: StockSeed[] = this.getRawStockSeeds();
     this.markAs(stockSeeds, seedId, false);
     this.saveStockSeeds(stockSeeds);
   }
 
-  private markAs(stockSeeds: StockSeedStruct, seedId: number, exhausted: boolean) {
-    if (!stockSeeds[seedId]) {
+  private markAs(stockSeeds: StockSeed[], seedId: number, exhausted: boolean): void {
+    let stockSeed = this.getSeedById(stockSeeds, seedId);
+    if (!stockSeed) {
       throw new Error(`seed with id ${seedId} does not exist`);
     }
-    stockSeeds[seedId] = { exhausted: exhausted };
-    return stockSeeds;
+    stockSeed.exhausted = exhausted;
   }
 
-  private saveStockSeeds(stockSeeds: StockSeedStruct) {
+  private getSeedById<SeedType extends AvailableSeed | StockSeed>(availableSeeds: SeedType[], id: number) {
+    const seed = availableSeeds.find(s => s.id === id);
+    if (!seed) {
+      throw new Error(`seed with id ${id} does not exist`);
+    }
+    return seed;
+  }
+
+  private seedIdExists<SeedType extends AvailableSeed | StockSeed>(seeds: SeedType[], id: number): boolean {
+    return seeds.some(s => s.id === id);
+  }
+
+  private saveStockSeeds(stockSeeds: StockSeed[]) {
     this.storageService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
   }
 
-  private getRawAvailableSeeds(): AvailableSeedStruct {
-    return this.storageService.getItem(this.AVAILABLE_SEEDS_KEY, {});
+  private getRawAvailableSeeds(): AvailableSeed[] {
+    return this.storageService.getItem(this.AVAILABLE_SEEDS_KEY, []);
   }
 
-  private getRawStockSeeds(): StockSeedStruct {
-    return this.storageService.getItem(this.STOCK_SEEDS_KEY, {});
+  private getRawStockSeeds(): StockSeed[] {
+    return this.storageService.getItem(this.STOCK_SEEDS_KEY, []);
   }
 }
+

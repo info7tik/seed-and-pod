@@ -5,6 +5,5 @@ export type StockSeedProperties = {
     exhausted: boolean;
 };
 
-export type StockSeedStruct = { [seedId: SeedId]: StockSeedProperties };
-
-export type StockSeed = StockSeedProperties & AvailableSeed;
+export type StockSeed = StockSeedProperties & { id: SeedId };
+export type StockSeedWithDetails = StockSeedProperties & AvailableSeed;
