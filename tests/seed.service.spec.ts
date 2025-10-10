@@ -29,12 +29,12 @@ test('addInventorySeed()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new SeedService(mockStorageService);
-  const seedDescription = { name: 'Tomato', family: 'Cherry', sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest };
+  const seedDescription = { name: 'Tomato', family: { id: 1, key: 'Cherry' }, sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest };
   service.addInventorySeed(seedDescription);
   test.expect(service.getInventorySeeds().length).toBe(1);
   const seed = service.getInventorySeedById('1');
   test.expect(seed.name).toBe('Tomato');
-  test.expect(seed.family).toBe('Cherry');
+  test.expect(seed.family.key).toBe('Cherry');
   test.expect(seed.sowing).toEqual(tomatoSowingDate);
   test.expect(seed.transplanting).toEqual(tomatoTransplantingDate);
   test.expect(seed.daysBeforeHarvest).toBe(tomatoDaysBeforeHarvest);
@@ -52,7 +52,7 @@ test('getStockSeeds()', () => {
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].name).toBe('Tomato');
-  test.expect(seeds[0].family).toBe('Cherry');
+  test.expect(seeds[0].family.key).toBe('Cherry');
   test.expect(seeds[0].sowing).toEqual(tomatoSowingDate);
   test.expect(seeds[0].transplanting).toEqual(tomatoTransplantingDate);
   test.expect(seeds[0].daysBeforeHarvest).toBe(tomatoDaysBeforeHarvest);
@@ -131,12 +131,12 @@ test('markAsResupplied() - seed does not exist', () => {
 });
 
 function fillWithTomatoSeeds(): InventorySeed[] {
-  return [{ id: '1', name: 'Tomato', family: 'Cherry', sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest }];
+  return [{ id: '1', name: 'Tomato', family: { id: 1, key: 'Cherry' }, sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest }];
 }
 function fillWithTomatoAndPotatoSeeds(): InventorySeed[] {
   return [
-    { id: '1', name: 'Tomato', family: 'Cherry', sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest },
-    { id: '2', name: 'Potato', family: 'Russet', sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest }
+    { id: '1', name: 'Tomato', family: { id: 1, key: 'Cherry' }, sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest },
+    { id: '2', name: 'Potato', family: { id: 2, key: 'Russet' }, sowing: tomatoSowingDate, transplanting: tomatoTransplantingDate, daysBeforeHarvest: tomatoDaysBeforeHarvest }
   ];
 }
 
