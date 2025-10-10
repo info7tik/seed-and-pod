@@ -26,11 +26,43 @@
             </div>
 
             <div class="form-field">
-                <label for="variety">Variety</label>
-                <input id="variety" name="variety" type="text" required [(ngModel)]="variety" />
+                <label for="family">Family</label>
+                <select id="family" name="family" required [(ngModel)]="family">
+                    <option value="">Select a family...</option>
+                    @for (family of vegetableFamilies; track family) {
+                    <option [value]="family">{{ family }}</option>
+                    }
+                </select>
             </div>
 
-            <button class="action-btn" type="submit" [disabled]="!name || !variety">
+            <div class="form-field">
+                <label for="sowingDate">Sowing Date</label>
+                <input id="sowingDate" name="sowingDate" type="date" required [(ngModel)]="sowingDate" />
+            </div>
+
+            <div class="form-field">
+                <label class="checkbox-label">
+                    <input type="checkbox" [(ngModel)]="enableTransplanting" name="enableTransplanting" />
+                    Enable transplanting
+                </label>
+            </div>
+
+            @if (enableTransplanting) {
+            <div class="form-field">
+                <label for="transplantingDate">Transplanting Date</label>
+                <input id="transplantingDate" name="transplantingDate" type="date" required
+                    [(ngModel)]="transplantingDate" />
+            </div>
+            }
+
+            <div class="form-field">
+                <label for="daysBeforeHarvest">Days Before Harvest</label>
+                <input id="daysBeforeHarvest" name="daysBeforeHarvest" type="number" min="1" required
+                    [(ngModel)]="daysBeforeHarvest" />
+            </div>
+
+            <button class="action-btn" type="submit"
+                [disabled]="!name || !family || !sowingDate || !daysBeforeHarvest || (enableTransplanting && !transplantingDate)">
                 Add seed
             </button>
         </form>

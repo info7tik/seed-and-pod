@@ -11,10 +11,29 @@ import { SeedService } from '../service/seed.service';
   styleUrl: './new-seed.component.scss'
 })
 export class NewSeed {
-  name = '';
-  variety = '';
+  private readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
+  name: string = '';
+  family: string = '';
+  sowingDate: string = '';
+  transplantingDate: string = '';
+  daysBeforeHarvest: number = this.DEFAULT_DAYS_BEFORE_HARVEST;
+  enableTransplanting = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+
+  readonly vegetableFamilies = [
+    'Solanaceae (Tomato, Pepper, Eggplant)',
+    'Brassicaceae (Cabbage, Broccoli, Cauliflower)',
+    'Cucurbitaceae (Cucumber, Squash, Melon)',
+    'Fabaceae (Beans, Peas)',
+    'Asteraceae (Lettuce, Sunflower)',
+    'Apiaceae (Carrot, Parsley, Celery)',
+    'Alliaceae (Onion, Garlic, Leek)',
+    'Chenopodiaceae (Spinach, Beet, Chard)',
+    'Poaceae (Corn, Rice)',
+    'Rosaceae (Strawberry)',
+    'Other'
+  ];
 
   constructor(private seedService: SeedService) { }
 
@@ -23,19 +42,39 @@ export class NewSeed {
     this.successMessage = null;
 
     const trimmedName = this.name.trim();
-    const trimmedVariety = this.variety.trim();
-    if (!trimmedName || !trimmedVariety) {
-      this.errorMessage = 'Name and variety are required';
+    const trimmedFamily = this.family.trim();
+    const trimmedSowingDate = this.sowingDate.trim();
+    const trimmedTransplantingDate = this.enableTransplanting ? this.transplantingDate.trim() : '';
+    const trimmedDaysBeforeHarvest = this.daysBeforeHarvest.toString();
+
+    if (!trimmedName || !trimmedFamily || !trimmedSowingDate || !trimmedDaysBeforeHarvest) {
+      this.errorMessage = 'Name, family, sowing date, and days before harvest are required';
+      return;
+    }
+
+    if (this.enableTransplanting && !trimmedTransplantingDate) {
+      this.errorMessage = 'Transplanting date is required when transplanting is enabled';
       return;
     }
 
     try {
-      this.seedService.addInventorySeed({ name: trimmedName, variety: trimmedVariety });
+      this.seedService.addInventorySeed({
+        name: trimmedName,
+        variety: trimmedFamily
+      });
       this.successMessage = 'Seed added successfully';
-      this.name = '';
-      this.variety = '';
+      this.resetForm();
     } catch (e: any) {
       this.errorMessage = e?.message ?? 'Failed to add seed';
     }
+  }
+
+  private resetForm() {
+    this.name = '';
+    this.family = '';
+    this.sowingDate = '';
+    this.transplantingDate = '';
+    this.daysBeforeHarvest = this.DEFAULT_DAYS_BEFORE_HARVEST;
+    this.enableTransplanting = false;
   }
 }

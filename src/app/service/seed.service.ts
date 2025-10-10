@@ -44,6 +44,7 @@ export class SeedService {
     availableSeeds.push({ ...seed, id: getNextSeedId(availableSeeds) });
     this.storageService.setItem(this.AVAILABLE_SEEDS_KEY, availableSeeds);
 
+
     function seedNameExists(seeds: InventorySeed[], name: string): boolean {
       return Object.values(seeds).some(s => s.name === name);
     }
