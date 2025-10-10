@@ -42,6 +42,7 @@
     "allSeedsAssignedToBeds": "Toutes les graines sont assignées à des planches",
     "assignToBed": "Assigner à une planche...",
     "moveTo": "Déplacer vers...",
-    "unassigned": "Non assigné"
+    "unassigned": "Non assigné",
+    "cannotChangeBedsWithAssignments": "Vous ne pouvez pas modifier le nombre de planches lorsque des graines sont assignées."
   }
 }

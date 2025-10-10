@@ -30,6 +30,10 @@ export class Garden implements OnInit {
     if (this.numberOfBeds < 1) {
       throw new Error('Number of beds must be at least 1');
     }
+    if (this.hasAssignedSeeds) {
+      console.error('Cannot modify the number of beds while seeds are assigned to beds.');
+      return;
+    }
     this.bedService.createBeds(this.numberOfBeds);
     this.beds = this.bedService.getBeds();
   }
@@ -44,6 +48,10 @@ export class Garden implements OnInit {
 
   getSeedById(seedId: string): StockSeedWithDetails | undefined {
     return this.stockSeeds.find(seed => seed.id === seedId);
+  }
+
+  get hasAssignedSeeds(): boolean {
+    return this.beds.some(bed => bed.seeds.length > 0);
   }
 
   assignSeedToBed(seedId: string, event: Event): void {

@@ -10,7 +10,10 @@
             <div class="form-field">
                 <label for="numberOfBeds">{{'garden.numberOfBeds' | transloco}}</label>
                 <input id="numberOfBeds" name="numberOfBeds" type="number" min="1" [(ngModel)]="numberOfBeds"
-                    (ngModelChange)="updateNumberOfBeds()" class="number-input" />
+                    (ngModelChange)="updateNumberOfBeds()" class="number-input" [disabled]="hasAssignedSeeds" />
+                @if (hasAssignedSeeds) {
+                <p class="locked-note">{{'garden.cannotChangeBedsWithAssignments' | transloco}}</p>
+                }
                 <p class="help-text">{{'garden.numberOfBedsHelpText' | transloco}}</p>
             </div>
         </div>

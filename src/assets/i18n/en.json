@@ -42,6 +42,7 @@
     "allSeedsAssignedToBeds": "All seeds are assigned to beds",
     "assignToBed": "Assign to bed...",
     "moveTo": "Move to...",
-    "unassigned": "Unassigned"
+    "unassigned": "Unassigned",
+    "cannotChangeBedsWithAssignments": "You cannot change the number of beds while seeds are assigned."
   }
 }
