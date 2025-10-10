@@ -61,7 +61,18 @@ export class NewSeed {
     try {
       this.seedService.addInventorySeed({
         name: trimmedName,
-        variety: trimmedFamily
+        family: trimmedFamily,
+        sowing: {
+          enabled: true,
+          day: this.sowingDay,
+          month: this.sowingMonth
+        },
+        transplanting: {
+          enabled: this.enableTransplanting,
+          day: this.transplantingDay,
+          month: this.transplantingMonth
+        },
+        daysBeforeHarvest: this.daysBeforeHarvest
       });
       this.successMessage = 'Seed added successfully';
       this.resetForm();

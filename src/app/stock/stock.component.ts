@@ -24,7 +24,7 @@ export class Stock implements OnInit {
   constructor(private seedService: SeedService) { }
 
   ngOnInit(): void {
-    this.availableSeeds = this.seedService.getAvailableSeeds();
+    this.availableSeeds = this.seedService.getInventorySeeds();
     this.stockSeeds = this.seedService.getStockSeeds();
   }
 
