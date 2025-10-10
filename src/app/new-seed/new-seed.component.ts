@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HeaderMenu } from '../header-menu/header-menu.component';
 import { SeedService } from '../service/seed.service';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-new-seed',
-  imports: [FormsModule, RouterLink, HeaderMenu],
+  imports: [FormsModule, RouterLink, HeaderMenu, TranslocoPipe],
   templateUrl: './new-seed.component.html',
   styleUrl: './new-seed.component.scss'
 })

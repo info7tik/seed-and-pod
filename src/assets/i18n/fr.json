@@ -44,5 +44,17 @@
     "moveTo": "Déplacer vers...",
     "unassigned": "Non assigné",
     "cannotChangeBedsWithAssignments": "Vous ne pouvez pas modifier le nombre de planches lorsque des graines sont assignées."
+  },
+  "newSeed": {
+    "addSeed": "Ajouter une graine",
+    "addSeedHelpText": "Ajouter une nouvelle graine dans la réserve",
+    "name": "Nom",
+    "family": "Famille",
+    "selectFamily": "Sélectionner une famille...",
+    "sowingDate": "Date de semis",
+    "daysBeforeHarvest": "Jours avant la récolte",
+    "enableTransplanting": "Activer le transplantage",
+    "transplantingDate": "Date de transplantage",
+    "backToStock": "Retour au stock"
   }
 }

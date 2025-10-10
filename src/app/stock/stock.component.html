@@ -19,7 +19,7 @@
             } @else {
             <select class="seed-select" [(ngModel)]="seedIdToAddInStock" (change)="addSeedToStock()">
                 @for (seed of availableSeedsNotInStock; track seed.id) {
-                <option [value]="seed.id">{{seed.name}} - {{seed.variety}}</option>
+                <option [value]="seed.id">{{seed.name}} - {{seed.family}}</option>
                 }
             </select>
             }
@@ -52,7 +52,7 @@
                 <div class="seed-info">
                     <h3 class="seed-name">{{seed.name}}</h3>
                     <div class="seed-details">
-                        <span class="seed-variety">{{seed.variety}}</span>
+                        <span class="seed-variety">{{seed.family}}</span>
                         @if (seed.exhausted) {
                         <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }

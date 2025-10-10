@@ -3,12 +3,12 @@
 <main class="main-content">
     <section class="add-seed-section">
         <div class="section-header">
-            <h2>Add a new available seed</h2>
+            <h2>{{'newSeed.addSeed' | transloco}}</h2>
             <a class="add-seed-btn" routerLink="/stock">
                 <svg class="add-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M15 19l-7-7 7-7" />
                 </svg>
-                Back to stock
+                {{'newSeed.backToStock' | transloco}}
             </a>
         </div>
 
@@ -21,14 +21,14 @@
 
         <form (ngSubmit)="addSeed()" #seedForm="ngForm" class="seed-form">
             <div class="form-field">
-                <label for="name">Name</label>
+                <label for="name">{{'newSeed.name' | transloco}}</label>
                 <input id="name" name="name" type="text" required [(ngModel)]="name" />
             </div>
 
             <div class="form-field">
-                <label for="family">Family</label>
+                <label for="family">{{'newSeed.family' | transloco}}</label>
                 <select id="family" name="family" required [(ngModel)]="family">
-                    <option value="">Select a family...</option>
+                    <option value="">{{'newSeed.selectFamily' | transloco}}</option>
                     @for (family of vegetableFamilies; track family) {
                     <option [value]="family">{{ family }}</option>
                     }
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-field">
-                <label>Sowing Date</label>
+                <label>{{'newSeed.sowingDate' | transloco}}</label>
                 <div class="date-inputs">
                     <select id="sowingDay" name="sowingDay" [(ngModel)]="sowingDay">
                         @for (day of daysInMonth; track day) {
@@ -54,13 +54,13 @@
             <div class="form-field">
                 <label class="checkbox-label">
                     <input type="checkbox" [(ngModel)]="enableTransplanting" name="enableTransplanting" />
-                    Enable transplanting
+                    {{'newSeed.enableTransplanting' | transloco}}
                 </label>
             </div>
 
             @if (enableTransplanting) {
             <div class="form-field">
-                <label>Transplanting Date</label>
+                <label>{{'newSeed.transplantingDate' | transloco}}</label>
                 <div class="date-inputs">
                     <select id="transplantingDay" name="transplantingDay" [(ngModel)]="transplantingDay">
                         @for (day of daysInMonth; track day) {
@@ -77,13 +77,13 @@
             }
 
             <div class="form-field">
-                <label for="daysBeforeHarvest">Days Before Harvest</label>
+                <label for="daysBeforeHarvest">{{'newSeed.daysBeforeHarvest' | transloco}}</label>
                 <input id="daysBeforeHarvest" name="daysBeforeHarvest" type="number" min="1" required
                     [(ngModel)]="daysBeforeHarvest" />
             </div>
 
             <button class="action-btn" type="submit" [disabled]="!name || !family">
-                Add seed
+                {{'newSeed.addSeed' | transloco}}
             </button>
         </form>
     </section>

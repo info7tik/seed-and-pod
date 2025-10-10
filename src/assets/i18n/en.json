@@ -44,5 +44,17 @@
     "moveTo": "Move to...",
     "unassigned": "Unassigned",
     "cannotChangeBedsWithAssignments": "You cannot change the number of beds while seeds are assigned."
+  },
+  "newSeed": {
+    "addSeed": "Add Seed",
+    "addSeedHelpText": "Add a new inventory seed",
+    "name": "Name",
+    "family": "Family",
+    "selectFamily": "Select a family...",
+    "sowingDate": "Sowing Date",
+    "daysBeforeHarvest": "Days Before Harvest",
+    "enableTransplanting": "Enable Transplanting",
+    "transplantingDate": "Transplanting Date",
+    "backToStock": "Back to Stock"
   }
 }
