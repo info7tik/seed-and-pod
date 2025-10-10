@@ -6,6 +6,7 @@ import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { Bed } from '../type/bed.type';
 import { BedService } from '../service/bed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-garden',
@@ -18,7 +19,7 @@ export class Garden implements OnInit {
   stockSeeds: StockSeedWithDetails[] = [];
   beds: Bed[] = [];
 
-  constructor(private seedService: SeedService, private bedService: BedService) { }
+  constructor(private seedService: SeedService, private bedService: BedService, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.beds = this.bedService.getBeds();
@@ -45,10 +46,6 @@ export class Garden implements OnInit {
     return this.beds.some(bed => bed.seeds.includes(seedId));
   }
 
-  getSeedById(seedId: string): StockSeedWithDetails | undefined {
-    return this.stockSeeds.find(seed => seed.id === seedId);
-  }
-
   get hasAssignedSeeds(): boolean {
     return this.beds.some(bed => bed.seeds.length > 0);
   }
@@ -59,10 +56,22 @@ export class Garden implements OnInit {
 
     if (bedId) {
       this.bedService.removeSeedFromBeds(seedId);
-      if (bedId !== 'unassigned') {
+      if (bedId === 'unassigned') {
+        this.taskService.removeTasks(seedId);
+      } else {
         this.bedService.assignSeedToBed(bedId, seedId);
+        const seedTasks = this.taskService.computeTasks(this.getSeedById(seedId));
+        seedTasks.forEach(task => this.taskService.addTask(task));
       }
       this.beds = this.bedService.getBeds();
     }
+  }
+
+  private getSeedById(seedId: string): StockSeedWithDetails {
+    const seed = this.stockSeeds.find(seed => seed.id === seedId);
+    if (!seed) {
+      throw new Error(`seed with id ${seedId} does not exist`);
+    }
+    return seed;
   }
 }

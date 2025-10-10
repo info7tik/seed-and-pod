@@ -1,14 +1,16 @@
 import test from "@playwright/test";
-import { MockStorageService } from "../src/app/mock/mock-storage-service";
+import { MockStorageService } from "../src/app/mock/mock-storage.service";
 import { BedService } from "../src/app/service/bed.service";
-import { Bed } from "../src/app/type/bed.type";
+import { DataBuilderService } from "../src/app/mock/data-builder.service";
+
+const dataBuilderService = new DataBuilderService();
 
 test('getBeds()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
     test.expect(service.getBeds().length, "should create one bed if there are no beds").toBe(1);
-    mockStorageService.setItem(service.BEDS_KEY, fill2EmptyBeds());
+    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
     test.expect(service.getBeds().length).toBe(2);
 });
 
@@ -27,7 +29,7 @@ test('getBedFromId()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, fill2EmptyBeds());
+    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
     test.expect(service.getBedFromId('1').id).toBe('1');
     const notExistingBedId = '20';
     test.expect(() => service.getBedFromId(notExistingBedId)).toThrow();
@@ -37,7 +39,7 @@ test('assignSeedToBed()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, fill2EmptyBeds());
+    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
     const seedId = '10';
     service.assignSeedToBed('1', seedId);
     test.expect(service.getBedFromId('1').seeds[0]).toBe(seedId);
@@ -48,7 +50,7 @@ test('removeSeedFromBeds()', () => {
     const mockStorageService: MockStorageService = new MockStorageService();
     mockStorageService.clear();
     const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, fill2BedsWithSeeds());
+    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoBedsWithSeeds());
     const seedId = '30';
     test.expect(service.getBedFromId('0').seeds.length).toBe(1);
     test.expect(service.getBedFromId('1').seeds.length).toBe(2);
@@ -61,10 +63,3 @@ test('removeSeedFromBeds()', () => {
     test.expect(service.getBedFromId('1').seeds.length).toBe(1);
 });
 
-function fill2EmptyBeds(): Bed[] {
-    return [{ id: '0', seeds: [] }, { id: '1', seeds: [] }];
-}
-
-function fill2BedsWithSeeds(): Bed[] {
-    return [{ id: '0', seeds: ['10'] }, { id: '1', seeds: ['20', '30'] }];
-}
