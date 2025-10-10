@@ -27,10 +27,10 @@
 
             <div class="form-field">
                 <label for="family">{{'newSeed.family' | transloco}}</label>
-                <select id="family" name="family" required [(ngModel)]="family">
-                    <option value="">{{'newSeed.selectFamily' | transloco}}</option>
-                    @for (family of vegetableFamilies; track family) {
-                    <option [value]="family">{{ family }}</option>
+                <select id="family" name="family" required [(ngModel)]="familyIndex">
+                    <option [value]="DEFAULT_FAMILY_INDEX">{{'newSeed.selectFamily' | transloco}}</option>
+                    @for (family of vegetableFamilies; track family.id) {
+                    <option [value]="family.id">{{ family.key | transloco }}</option>
                     }
                 </select>
             </div>
@@ -44,8 +44,8 @@
                         }
                     </select>
                     <select id="sowingMonth" name="sowingMonth" [(ngModel)]="sowingMonth">
-                        @for (month of months; track month; let i = $index) {
-                        <option [value]="i + 1">{{ month }}</option>
+                        @for (month of months; track month.id) {
+                        <option [value]="month.id">{{ month.key| transloco }}</option>
                         }
                     </select>
                 </div>
@@ -68,8 +68,8 @@
                         }
                     </select>
                     <select id="transplantingMonth" name="transplantingMonth" [(ngModel)]="transplantingMonth">
-                        @for (month of months; track month; let i = $index) {
-                        <option [value]="i + 1">{{ month }}</option>
+                        @for (month of months; track month.id) {
+                        <option [value]="month.id">{{ month.key| transloco }}</option>
                         }
                     </select>
                 </div>
@@ -82,7 +82,7 @@
                     [(ngModel)]="daysBeforeHarvest" />
             </div>
 
-            <button class="action-btn" type="submit" [disabled]="!name || !family">
+            <button class="action-btn" type="submit" [disabled]="!name || familyIndex === DEFAULT_FAMILY_INDEX">
                 {{'newSeed.addSeed' | transloco}}
             </button>
         </form>

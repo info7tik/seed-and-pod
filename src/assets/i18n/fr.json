@@ -19,6 +19,7 @@
   },
   "seed": "graine",
   "stock": {
+    "selectSeed": "Sélectionner une graine...",
     "selectSeedsToAdd": "Sélectionner les graines à ajouter au stock",
     "addNewSeed": "Ajouter une nouvelle graine",
     "resupply": "Réapprovisionner",
@@ -56,5 +57,32 @@
     "enableTransplanting": "Activer le transplantage",
     "transplantingDate": "Date de transplantage",
     "backToStock": "Retour au stock"
+  },
+  "vegetableFamilies": {
+    "Solanaceae": "Solanacées (Tomate, Poivron, Aubergine)",
+    "Brassicaceae": "Brassicacées (Chou, Brocoli, Chou-fleur)",
+    "Cucurbitaceae": "Cucurbitacées (Concombre, Courge, Melon)",
+    "Fabaceae": "Fabacées (Haricots, Pois)",
+    "Asteraceae": "Astéracées (Laitue, Tournesol)",
+    "Apiaceae": "Apiacées (Carotte, Persil, Céleri)",
+    "Alliaceae": "Alliacées (Oignon, Ail, Poireau)",
+    "Chenopodiaceae": "Chénopodiacées (Épinard, Betterave, Blette)",
+    "Poaceae": "Poacées (Maïs, Riz)",
+    "Rosaceae": "Rosacées (Fraise)",
+    "Other": "Autre"
+  },
+  "months": {
+    "January": "Janvier",
+    "February": "Février",
+    "March": "Mars",
+    "April": "Avril",
+    "May": "Mai",
+    "June": "Juin",
+    "July": "Juillet",
+    "August": "Août",
+    "September": "Septembre",
+    "October": "Octobre",
+    "November": "Novembre",
+    "December": "Décembre"
   }
 }

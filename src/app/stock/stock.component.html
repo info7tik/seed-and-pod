@@ -17,9 +17,11 @@
             @if (availableSeedsNotInStock.length === 0) {
             <p class="no-seeds-message">{{'stock.allSeedsInStock' | transloco}}</p>
             } @else {
-            <select class="seed-select" [(ngModel)]="seedIdToAddInStock" (change)="addSeedToStock()">
+            <select id="family" name="family" class="seed-select" [(ngModel)]="seedIdToAddInStock"
+                (change)="addSeedToStock()">
+                <option [value]="DEFAULT_SEED_ID">{{'stock.selectSeed' | transloco}}</option>
                 @for (seed of availableSeedsNotInStock; track seed.id) {
-                <option [value]="seed.id">{{seed.name}} - {{seed.family}}</option>
+                <option [value]="seed.id">{{seed.name}} - {{seed.family.key| transloco}}</option>
                 }
             </select>
             }
@@ -52,7 +54,7 @@
                 <div class="seed-info">
                     <h3 class="seed-name">{{seed.name}}</h3>
                     <div class="seed-details">
-                        <span class="seed-variety">{{seed.family}}</span>
+                        <span class="seed-variety">{{seed.family.key| transloco}}</span>
                         @if (seed.exhausted) {
                         <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }

@@ -15,7 +15,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   styleUrl: './stock.component.scss'
 })
 export class Stock implements OnInit {
-  readonly DEFAULT_SEED_ID = '';
+  readonly DEFAULT_SEED_ID = '-1';
   availableSeeds: InventorySeed[] = [];
   stockSeeds: StockSeedWithDetails[] = [];
   seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
@@ -39,6 +39,7 @@ export class Stock implements OnInit {
         this.seedService.addStockSeed(this.seedIdToAddInStock);
         this.stockSeeds = this.seedService.getStockSeeds();
         this.seedIdToAddInStock = this.DEFAULT_SEED_ID;
+        console.log('Seed added to stock:', this.seedIdToAddInStock);
       }
     } catch (error) {
       console.error('Error adding seed to stock:', error);

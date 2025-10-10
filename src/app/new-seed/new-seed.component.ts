@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import { HeaderMenu } from '../header-menu/header-menu.component';
 import { SeedService } from '../service/seed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { VegetableFamily } from '../type/vegetable-family';
+import { GlobalServiceService } from '../service/global-service.service';
 
 @Component({
   selector: 'app-new-seed',
@@ -12,9 +14,11 @@ import { TranslocoPipe } from '@jsverse/transloco';
   styleUrl: './new-seed.component.scss'
 })
 export class NewSeed {
-  private readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
+  readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
+  readonly DEFAULT_FAMILY_INDEX = -1;
+  readonly daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
   name: string = '';
-  family: string = '';
+  familyIndex: number = this.DEFAULT_FAMILY_INDEX;
   sowingDay: number = 1;
   sowingMonth: number = 1;
   transplantingDay: number = 1;
@@ -24,45 +28,31 @@ export class NewSeed {
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
-  readonly vegetableFamilies = [
-    'Solanaceae (Tomato, Pepper, Eggplant)',
-    'Brassicaceae (Cabbage, Broccoli, Cauliflower)',
-    'Cucurbitaceae (Cucumber, Squash, Melon)',
-    'Fabaceae (Beans, Peas)',
-    'Asteraceae (Lettuce, Sunflower)',
-    'Apiaceae (Carrot, Parsley, Celery)',
-    'Alliaceae (Onion, Garlic, Leek)',
-    'Chenopodiaceae (Spinach, Beet, Chard)',
-    'Poaceae (Corn, Rice)',
-    'Rosaceae (Strawberry)',
-    'Other'
-  ];
 
-  readonly months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  constructor(private seedService: SeedService, private globalService: GlobalServiceService) { }
 
-  readonly daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+  get months() {
+    return this.globalService.months;
+  }
 
-  constructor(private seedService: SeedService) { }
+  get vegetableFamilies() {
+    return this.globalService.vegetableFamilies;
+  }
 
   addSeed() {
     this.errorMessage = null;
     this.successMessage = null;
 
     const trimmedName = this.name.trim();
-    const trimmedFamily = this.family.trim();
 
-    if (!trimmedName || !trimmedFamily) {
+    if (!trimmedName || this.familyIndex === this.DEFAULT_FAMILY_INDEX) {
       this.errorMessage = 'Name and family are required';
       return;
     }
-
     try {
       this.seedService.addInventorySeed({
         name: trimmedName,
-        family: trimmedFamily,
+        family: this.vegetableFamilies[this.familyIndex],
         sowing: {
           enabled: true,
           day: this.sowingDay,
@@ -84,7 +74,7 @@ export class NewSeed {
 
   private resetForm() {
     this.name = '';
-    this.family = '';
+    this.familyIndex = this.DEFAULT_FAMILY_INDEX;
     this.sowingDay = 1;
     this.sowingMonth = 1;
     this.transplantingDay = 1;
