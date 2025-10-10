@@ -1,0 +1,23 @@
+---
+description: use 'throw Error()' instead of 'console.error()'
+alwaysApply: true
+---
+## Description
+* Do NOT log the error to the console and exit the function
+* When an error happens, raise an error with `throw Error()`
+
+## Example
+Code with issues:
+```
+if (this.hasAssignedSeeds) {
+    console.error('Cannot modify the number of beds while seeds are assigned to beds.');
+    return;
+}
+```
+
+Fixed code:
+```
+if (this.hasAssignedSeeds) {
+    throw new Error('Cannot modify the number of beds while seeds are assigned to beds.');
+}
+```

@@ -31,8 +31,7 @@ export class Garden implements OnInit {
       throw new Error('Number of beds must be at least 1');
     }
     if (this.hasAssignedSeeds) {
-      console.error('Cannot modify the number of beds while seeds are assigned to beds.');
-      return;
+      throw new Error('Cannot modify the number of beds while seeds are assigned to beds.');
     }
     this.bedService.createBeds(this.numberOfBeds);
     this.beds = this.bedService.getBeds();
