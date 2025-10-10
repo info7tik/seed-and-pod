@@ -36,8 +36,19 @@
             </div>
 
             <div class="form-field">
-                <label for="sowingDate">Sowing Date</label>
-                <input id="sowingDate" name="sowingDate" type="date" required [(ngModel)]="sowingDate" />
+                <label>Sowing Date</label>
+                <div class="date-inputs">
+                    <select id="sowingDay" name="sowingDay" [(ngModel)]="sowingDay">
+                        @for (day of daysInMonth; track day) {
+                        <option [value]="day">{{ day }}</option>
+                        }
+                    </select>
+                    <select id="sowingMonth" name="sowingMonth" [(ngModel)]="sowingMonth">
+                        @for (month of months; track month; let i = $index) {
+                        <option [value]="i + 1">{{ month }}</option>
+                        }
+                    </select>
+                </div>
             </div>
 
             <div class="form-field">
@@ -49,9 +60,19 @@
 
             @if (enableTransplanting) {
             <div class="form-field">
-                <label for="transplantingDate">Transplanting Date</label>
-                <input id="transplantingDate" name="transplantingDate" type="date" required
-                    [(ngModel)]="transplantingDate" />
+                <label>Transplanting Date</label>
+                <div class="date-inputs">
+                    <select id="transplantingDay" name="transplantingDay" [(ngModel)]="transplantingDay">
+                        @for (day of daysInMonth; track day) {
+                        <option [value]="day">{{ day }}</option>
+                        }
+                    </select>
+                    <select id="transplantingMonth" name="transplantingMonth" [(ngModel)]="transplantingMonth">
+                        @for (month of months; track month; let i = $index) {
+                        <option [value]="i + 1">{{ month }}</option>
+                        }
+                    </select>
+                </div>
             </div>
             }
 
@@ -61,8 +82,7 @@
                     [(ngModel)]="daysBeforeHarvest" />
             </div>
 
-            <button class="action-btn" type="submit"
-                [disabled]="!name || !family || !sowingDate || !daysBeforeHarvest || (enableTransplanting && !transplantingDate)">
+            <button class="action-btn" type="submit" [disabled]="!name || !family">
                 Add seed
             </button>
         </form>

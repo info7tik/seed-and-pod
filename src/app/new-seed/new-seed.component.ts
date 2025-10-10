@@ -14,8 +14,10 @@ export class NewSeed {
   private readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
   name: string = '';
   family: string = '';
-  sowingDate: string = '';
-  transplantingDate: string = '';
+  sowingDay: number = 1;
+  sowingMonth: number = 1;
+  transplantingDay: number = 1;
+  transplantingMonth: number = 1;
   daysBeforeHarvest: number = this.DEFAULT_DAYS_BEFORE_HARVEST;
   enableTransplanting = false;
   errorMessage: string | null = null;
@@ -35,6 +37,13 @@ export class NewSeed {
     'Other'
   ];
 
+  readonly months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  readonly daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+
   constructor(private seedService: SeedService) { }
 
   addSeed() {
@@ -43,17 +52,9 @@ export class NewSeed {
 
     const trimmedName = this.name.trim();
     const trimmedFamily = this.family.trim();
-    const trimmedSowingDate = this.sowingDate.trim();
-    const trimmedTransplantingDate = this.enableTransplanting ? this.transplantingDate.trim() : '';
-    const trimmedDaysBeforeHarvest = this.daysBeforeHarvest.toString();
 
-    if (!trimmedName || !trimmedFamily || !trimmedSowingDate || !trimmedDaysBeforeHarvest) {
-      this.errorMessage = 'Name, family, sowing date, and days before harvest are required';
-      return;
-    }
-
-    if (this.enableTransplanting && !trimmedTransplantingDate) {
-      this.errorMessage = 'Transplanting date is required when transplanting is enabled';
+    if (!trimmedName || !trimmedFamily) {
+      this.errorMessage = 'Name and family are required';
       return;
     }
 
@@ -72,8 +73,10 @@ export class NewSeed {
   private resetForm() {
     this.name = '';
     this.family = '';
-    this.sowingDate = '';
-    this.transplantingDate = '';
+    this.sowingDay = 1;
+    this.sowingMonth = 1;
+    this.transplantingDay = 1;
+    this.transplantingMonth = 1;
     this.daysBeforeHarvest = this.DEFAULT_DAYS_BEFORE_HARVEST;
     this.enableTransplanting = false;
   }
