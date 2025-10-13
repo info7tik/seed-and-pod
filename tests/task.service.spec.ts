@@ -1,4 +1,5 @@
 import test from '@playwright/test';
+import { MockClockService } from '../src/app/mock/mock-clock.service'
 import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { TaskService } from '../src/app/task.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
@@ -53,10 +54,34 @@ test('removeTask()', () => {
   test.expect(remainingTasks[0].id).not.toBe(removedTaskId);
 });
 
-test('computeTasks()', () => {
+test('computeTasks() in the same year', () => {
+  const now = new Date(2021, 2, 23);
+  const clock = new MockClockService(now);
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
-  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0]);
+  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], clock);
   test.expect(tasks.length).toBe(2);
+  test.expect(tasks[0].date.getDate()).toBe(dataBuilderService.tomatoSowingDate.day)
+  test.expect(tasks[0].date.getMonth()).toBe(dataBuilderService.tomatoSowingDate.month)
+  test.expect(tasks[0].date.getFullYear()).toBe(2021)
+  test.expect(tasks[1].date.getDate()).toBe(dataBuilderService.tomatoTransplantingDate.day)
+  test.expect(tasks[1].date.getMonth()).toBe(dataBuilderService.tomatoTransplantingDate.month)
+  test.expect(tasks[1].date.getFullYear()).toBe(2021)
+});
+
+test('computeTasks() in the next year', () => {
+  const now = new Date(2021, 11, 23);
+  const clock = new MockClockService(now);
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], clock);
+  test.expect(tasks.length).toBe(2);
+  test.expect(tasks[0].date.getDate()).toBe(dataBuilderService.tomatoSowingDate.day)
+  test.expect(tasks[0].date.getMonth()).toBe(dataBuilderService.tomatoSowingDate.month)
+  test.expect(tasks[0].date.getFullYear()).toBe(2022)
+  test.expect(tasks[1].date.getDate()).toBe(dataBuilderService.tomatoTransplantingDate.day)
+  test.expect(tasks[1].date.getMonth()).toBe(dataBuilderService.tomatoTransplantingDate.month)
+  test.expect(tasks[1].date.getFullYear()).toBe(2022)
 });

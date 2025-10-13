@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './service/storage.service';
 import { Task, TaskId, TaskProperties } from './type/task.type';
 import { SeedId } from './type/seed-id.type';
-import { InventorySeed } from './type/inventory-seed.type';
+import { InventorySeed, SeedDate } from './type/inventory-seed.type';
+import ClockService from './service/clock.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +17,33 @@ export class TaskService {
     return this.storageService.getItem(this.TASKS_KEY, []).map((t: any) => ({ ...t, date: new Date(t.date) }));
   }
 
-  computeTasks(seed: InventorySeed): Task[] {
-    let result: Task[] = [];
-    const currentYear = new Date().getFullYear();
+  computeTasks(seed: InventorySeed, clock: ClockService = new ClockService()): TaskProperties[] {
+    let result: TaskProperties[] = [];
     if (seed.sowing.enabled) {
-      this.addTask({
+      result.push({
         seedId: seed.id,
         name: seed.name,
-        date: new Date(seed.sowing.month, seed.sowing.day),
+        date: this.buildFutureDate(clock.now(), seed.sowing),
         status: 'scheduled'
       });
     }
     if (seed.transplanting.enabled) {
-      this.addTask({
+      result.push({
         seedId: seed.id,
         name: seed.name,
-        date: new Date(seed.transplanting.month, seed.transplanting.day),
+        date: this.buildFutureDate(clock.now(), seed.transplanting),
         status: 'scheduled'
       });
     }
     return result;
+  }
+
+  private buildFutureDate(now: Date, seedDate: SeedDate): Date {
+    const date = new Date(now.getFullYear(), seedDate.month, seedDate.day);
+    if (date < now) {
+      date.setFullYear(now.getFullYear() + 1);
+    }
+    return date;
   }
 
   addTask(task: TaskProperties): void {
@@ -54,3 +62,4 @@ export class TaskService {
     this.storageService.setItem(this.TASKS_KEY, tasks);
   }
 }
+

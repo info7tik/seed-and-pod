@@ -3,7 +3,7 @@ import { InventorySeed } from "../type/inventory-seed.type";
 import { StockSeed } from "../type/stock-seed.type";
 
 export class DataBuilderService {
-    readonly tomatoSowingDate = { enabled: true, day: 3, month: 3 };
+    readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };
     readonly tomatoTransplantingDate = { enabled: true, day: 12, month: 7 };
     readonly tomatoDaysBeforeHarvest = 30;
 
