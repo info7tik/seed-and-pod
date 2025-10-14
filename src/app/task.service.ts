@@ -13,10 +13,18 @@ export class TaskService {
 
   constructor(private storageService: StorageService) { }
 
+  /**
+   * Get scheduled tasks ordered by date
+   * @returns The scheduled tasks
+   */
   getScheduledTasks(): Task[] {
     return this.sortTasks(this.getTasks().filter(t => t.status === 'scheduled'));
   }
 
+  /**
+   * Get done tasks ordered by date
+   * @returns The done tasks
+   */
   getDoneTasks(): Task[] {
     return this.sortTasks(this.getTasks().filter(t => t.status === 'done'));
   }
@@ -25,6 +33,12 @@ export class TaskService {
     return tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
+  /**
+   * Compute tasks for a given seed
+   * @param seed - The seed to compute tasks for
+   * @param clock - The clock to use to compute the tasks
+   * @returns The computed tasks
+   */
   computeTasks(seed: InventorySeed, clock: ClockService = new ClockService()): TaskProperties[] {
     let result: TaskProperties[] = [];
     if (seed.sowing.enabled) {
@@ -54,6 +68,10 @@ export class TaskService {
     return date;
   }
 
+  /**
+   * Add a task
+   * @param task - The task to add
+   */
   addTask(task: TaskProperties): void {
     const tasks = this.getScheduledTasks();
     tasks.push({ ...task, id: getNextTaskId(tasks) });
@@ -65,7 +83,19 @@ export class TaskService {
     }
   }
 
-  removeTasks(seedId: SeedId): void {
+  /**
+   * Remove all tasks
+   */
+  removeTasks(taskId: TaskId): void {
+    const tasks = this.getTasks().filter(t => t.id !== taskId);
+    this.saveTasks(tasks);
+  }
+
+  /**
+   * Remove tasks for a given seed id
+   * @param seedId - The id of the seed to remove tasks for
+   */
+  removeTasksBySeed(seedId: SeedId): void {
     const tasks = this.getTasks().filter(t => t.seedId !== seedId);
     this.saveTasks(tasks);
   }

@@ -57,7 +57,7 @@ export class Garden implements OnInit {
     if (bedId) {
       this.bedService.removeSeedFromBeds(seedId);
       if (bedId === 'unassigned') {
-        this.taskService.removeTasks(seedId);
+        this.taskService.removeTasksBySeed(seedId);
       } else {
         this.bedService.assignSeedToBed(bedId, seedId);
         const seedTasks = this.taskService.computeTasks(this.getSeedById(seedId));

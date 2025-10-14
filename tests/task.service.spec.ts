@@ -65,14 +65,25 @@ test('addTask()', () => {
   test.expect(tasks[1].status).toBe("ignored");
 });
 
-test('removeTask()', () => {
+test('removeTasks()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildUnorderedTasks('scheduled'));
+  test.expect(service.getScheduledTasks().length).toBe(4);
+  service.removeTasks("2");
+  test.expect(service.getScheduledTasks().length).toBe(3);
+  test.expect(service.getScheduledTasks().some(t => t.id === "2")).toBe(false);
+});
+
+test('removeTasksBySeed()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
   mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildUnorderedTasks('scheduled'));
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(4);
-  service.removeTasks(dataBuilderService.seedIdWithMultipleTasks);
+  service.removeTasksBySeed(dataBuilderService.seedIdWithMultipleTasks);
   const remainingTasks = service.getScheduledTasks();
   test.expect(remainingTasks.length).toBe(1);
   test.expect(remainingTasks.some(t => t.id === dataBuilderService.seedIdWithMultipleTasks)).toBe(false);
