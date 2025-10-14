@@ -46,6 +46,19 @@ test('getDoneTasks()', () => {
   test.expect(tasks[0].status).toBe("done");
 });
 
+test('markAsDone()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildUnorderedTasks('scheduled'));
+  test.expect(service.getScheduledTasks().length).toBe(4);
+  const markAsDoneTaskId = "1";
+  service.markAsDone(markAsDoneTaskId);
+  test.expect(service.getScheduledTasks().length).toBe(3);
+  test.expect(service.getDoneTasks().length).toBe(1);
+  test.expect(service.getDoneTasks().some(t => t.id === markAsDoneTaskId)).toBe(true);
+});
+
 test('addTask()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
@@ -87,6 +100,18 @@ test('removeTasksBySeed()', () => {
   const remainingTasks = service.getScheduledTasks();
   test.expect(remainingTasks.length).toBe(1);
   test.expect(remainingTasks.some(t => t.id === dataBuilderService.seedIdWithMultipleTasks)).toBe(false);
+});
+
+test('removeTasksBySeed() - do not remove done tasks', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildScheduledAndDoneTasks());
+  test.expect(service.getScheduledTasks().length).toBe(1);
+  test.expect(service.getDoneTasks().length).toBe(1);
+  service.removeTasksBySeed(dataBuilderService.seedIdWithMultipleTasks);
+  test.expect(service.getScheduledTasks().length).toBe(1);
+  test.expect(service.getDoneTasks().length).toBe(1);
 });
 
 test('computeTasks() in the same year', () => {

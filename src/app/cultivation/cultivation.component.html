@@ -4,11 +4,41 @@
     <section class="tasks-section">
         <div class="section-header">
             <h2>Tasks</h2>
+            <label class="toggle-done">
+                <input type="checkbox" (change)="toggleShowDone()" />
+                <span>Show done</span>
+            </label>
         </div>
 
+        <!-- Done tasks -->
+        @if (showDone) {
+        <div class="done-separator">Done</div>
+        @if (doneTasks.length === 0) {
+        <p class="empty-message">No tasks done.</p>
+        } @else {
+        <div class="tasks-list">
+            @for (task of doneTasks; track task.id) {
+            <div class="task-item done">
+                <div class="task-info">
+                    <h3 class="task-name">{{ task.name }}</h3>
+                    <div class="task-meta">
+                        <span class="task-date">{{ task.date | date: 'mediumDate' }}</span>
+                        <span class="task-status">{{ task.status }}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        }
+
+        @if (showDone) {
+        <div class="scheduled-separator">Scheduled</div>
+        }
         @if (tasks.length === 0) {
         <p class="empty-message">No tasks scheduled.</p>
         } @else {
+        <!-- Scheduled tasks -->
         <div class="tasks-list">
             @for (task of tasks; track task.id) {
             <div class="task-item" [class.done]="task.status === 'done'" [class.ignored]="task.status === 'ignored'">
@@ -20,7 +50,7 @@
                     </div>
                 </div>
                 <div class="task-actions">
-                    <button class="action-btn done-btn" (click)="markDone(task.id)"
+                    <button class="action-btn done-btn" (click)="markAsDone(task.id)"
                         [disabled]="task.status !== 'scheduled'">Done</button>
                     <button class="action-btn cancel-btn" (click)="delete(task.id)"
                         [disabled]="task.status !== 'scheduled'">Delete</button>

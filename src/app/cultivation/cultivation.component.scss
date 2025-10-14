@@ -17,6 +17,43 @@
     }
 }
 
+.toggle-done {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.done-separator {
+    margin: 16px 0 8px 0;
+    padding: 6px 10px;
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.scheduled-separator {
+    margin: 16px 0 8px 0;
+    padding: 6px 10px;
+    background: #bbcdf3;
+    color: #002975;
+    border: 1px solid #b5d5ff;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.done-separator {
+    margin: 16px 0 8px 0;
+    padding: 6px 10px;
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
 .empty-message {
     text-align: center;
     color: #6c757d;

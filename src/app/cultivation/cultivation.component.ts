@@ -12,23 +12,29 @@ import { CommonModule } from '@angular/common';
 })
 export class Cultivation {
   tasks: Task[] = [];
+  doneTasks: Task[] = [];
+  showDone = false;
 
   constructor(private taskService: TaskService) {
-    this.tasks = this.taskService.getScheduledTasks();
+    this.refreshTasks();
   }
 
-  markDone(taskId: string) {
-    this.updateTaskStatus(taskId, 'done');
+  markAsDone(taskId: string) {
+    this.taskService.markAsDone(taskId);
+    this.refreshTasks();
   }
 
   delete(taskId: string) {
-    this.updateTaskStatus(taskId, 'ignored');
+    this.taskService.removeTasks(taskId);
+    this.refreshTasks();
   }
 
-  private updateTaskStatus(taskId: string, status: 'done' | 'ignored') {
-    this.tasks = this.tasks.map(t => t.id === taskId ? { ...t, status } : t);
-    // Persist back to storage
-    // Note: TaskService currently doesn't expose update; reuse storage key
-    (this.taskService as any).storageService.setItem(this.taskService.TASKS_KEY, this.tasks);
+  toggleShowDone() {
+    this.showDone = !this.showDone;
+  }
+
+  private refreshTasks() {
+    this.tasks = this.taskService.getScheduledTasks();
+    this.doneTasks = this.taskService.getDoneTasks();
   }
 }

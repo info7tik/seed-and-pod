@@ -34,6 +34,15 @@ export class TaskService {
   }
 
   /**
+   * Mark a task as done
+   * @param taskId - The id of the task to mark as done
+   */
+  markAsDone(taskId: TaskId): void {
+    const tasks: Task[] = this.getTasks().map(t => t.id === taskId ? { ...t, status: 'done' } : t);
+    this.saveTasks(tasks);
+  }
+
+  /**
    * Compute tasks for a given seed
    * @param seed - The seed to compute tasks for
    * @param clock - The clock to use to compute the tasks
@@ -96,7 +105,7 @@ export class TaskService {
    * @param seedId - The id of the seed to remove tasks for
    */
   removeTasksBySeed(seedId: SeedId): void {
-    const tasks = this.getTasks().filter(t => t.seedId !== seedId);
+    const tasks = this.getTasks().filter(t => t.seedId !== seedId || t.status === 'done');
     this.saveTasks(tasks);
   }
 
