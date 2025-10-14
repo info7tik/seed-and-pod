@@ -67,7 +67,7 @@ export class Garden implements OnInit {
     }
   }
 
-  private getSeedById(seedId: string): StockSeedWithDetails {
+  getSeedById(seedId: string): StockSeedWithDetails {
     const seed = this.stockSeeds.find(seed => seed.id === seedId);
     if (!seed) {
       throw new Error(`seed with id ${seedId} does not exist`);

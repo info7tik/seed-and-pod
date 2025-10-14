@@ -1,3 +1,33 @@
 <app-header-menu titleKey="menu.cultivation.title"></app-header-menu>
 
-<p>cultivation works!</p>
+<main class="main-content">
+    <section class="tasks-section">
+        <div class="section-header">
+            <h2>Tasks</h2>
+        </div>
+
+        @if (tasks.length === 0) {
+        <p class="empty-message">No tasks scheduled.</p>
+        } @else {
+        <div class="tasks-list">
+            @for (task of tasks; track task.id) {
+            <div class="task-item" [class.done]="task.status === 'done'" [class.ignored]="task.status === 'ignored'">
+                <div class="task-info">
+                    <h3 class="task-name">{{ task.name }}</h3>
+                    <div class="task-meta">
+                        <span class="task-date">{{ task.date | date: 'mediumDate' }}</span>
+                        <span class="task-status">{{ task.status }}</span>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button class="action-btn done-btn" (click)="markDone(task.id)"
+                        [disabled]="task.status !== 'scheduled'">Done</button>
+                    <button class="action-btn cancel-btn" (click)="cancel(task.id)"
+                        [disabled]="task.status !== 'scheduled'">Cancel</button>
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </section>
+</main>
