@@ -22,8 +22,8 @@
                 <div class="task-actions">
                     <button class="action-btn done-btn" (click)="markDone(task.id)"
                         [disabled]="task.status !== 'scheduled'">Done</button>
-                    <button class="action-btn cancel-btn" (click)="cancel(task.id)"
-                        [disabled]="task.status !== 'scheduled'">Cancel</button>
+                    <button class="action-btn cancel-btn" (click)="delete(task.id)"
+                        [disabled]="task.status !== 'scheduled'">Delete</button>
                 </div>
             </div>
             }

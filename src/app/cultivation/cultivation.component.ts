@@ -14,14 +14,14 @@ export class Cultivation {
   tasks: Task[] = [];
 
   constructor(private taskService: TaskService) {
-    this.tasks = this.taskService.getTasks();
+    this.tasks = this.taskService.getScheduledTasks();
   }
 
   markDone(taskId: string) {
     this.updateTaskStatus(taskId, 'done');
   }
 
-  cancel(taskId: string) {
+  delete(taskId: string) {
     this.updateTaskStatus(taskId, 'ignored');
   }
 

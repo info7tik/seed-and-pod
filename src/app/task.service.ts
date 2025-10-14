@@ -13,8 +13,16 @@ export class TaskService {
 
   constructor(private storageService: StorageService) { }
 
-  getTasks(): Task[] {
-    return this.storageService.getItem(this.TASKS_KEY, []).map((t: any) => ({ ...t, date: new Date(t.date) }));
+  getScheduledTasks(): Task[] {
+    return this.sortTasks(this.getTasks().filter(t => t.status === 'scheduled'));
+  }
+
+  getDoneTasks(): Task[] {
+    return this.sortTasks(this.getTasks().filter(t => t.status === 'done'));
+  }
+
+  private sortTasks(tasks: Task[]): Task[] {
+    return tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
   computeTasks(seed: InventorySeed, clock: ClockService = new ClockService()): TaskProperties[] {
@@ -47,9 +55,9 @@ export class TaskService {
   }
 
   addTask(task: TaskProperties): void {
-    const tasks = this.getTasks();
+    const tasks = this.getScheduledTasks();
     tasks.push({ ...task, id: getNextTaskId(tasks) });
-    this.storageService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString() })));
+    this.saveTasks(tasks);
 
 
     function getNextTaskId(tasks: Task[]): TaskId {
@@ -59,7 +67,15 @@ export class TaskService {
 
   removeTasks(seedId: SeedId): void {
     const tasks = this.getTasks().filter(t => t.seedId !== seedId);
-    this.storageService.setItem(this.TASKS_KEY, tasks);
+    this.saveTasks(tasks);
+  }
+
+  private getTasks(): Task[] {
+    return this.storageService.getItem(this.TASKS_KEY, []).map((t: any) => ({ ...t, date: new Date(t.date) }));
+  }
+
+  private saveTasks(tasks: Task[]) {
+    this.storageService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString() })));
   }
 }
 

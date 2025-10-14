@@ -6,14 +6,14 @@ import { DataBuilderService } from '../src/app/mock/data-builder.service';
 
 const dataBuilderService = new DataBuilderService();
 
-test('getTasks()', () => {
+test('getScheduledTasks()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
   mockStorageService.setItem(service.TASKS_KEY, []);
-  test.expect(service.getTasks().length).toBe(0);
-  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildOneTask());
-  const tasks = service.getTasks();
+  test.expect(service.getScheduledTasks().length).toBe(0);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildScheduledAndDoneTasks());
+  const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(1);
   test.expect(tasks[0].id).toBe('1');
   test.expect(tasks[0].name).toBe(dataBuilderService.taskName);
@@ -21,14 +21,39 @@ test('getTasks()', () => {
   test.expect(tasks[0].status).toBe(dataBuilderService.taskStatus);
 });
 
+test('getScheduledTasks() - check order', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildUnorderedTasks('scheduled'));
+  const tasks = service.getScheduledTasks();
+  test.expect(tasks.length).toBe(4);
+  test.expect(tasks[0].id).toBe('1');
+  test.expect(tasks[1].id).toBe('2');
+  test.expect(tasks[2].id).toBe('3');
+  test.expect(tasks[3].id).toBe('4');
+});
+
+test('getDoneTasks()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildScheduledAndDoneTasks());
+  const tasks = service.getDoneTasks();
+  test.expect(tasks.length).toBe(1);
+  test.expect(tasks[0].id).toBe('2');
+  test.expect(tasks[0].name).toBe("Task 2");
+  test.expect(tasks[0].status).toBe("done");
+});
+
 test('addTask()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
-  test.expect(service.getTasks().length).toBe(0);
+  test.expect(service.getScheduledTasks().length).toBe(0);
   service.addTask({ seedId: dataBuilderService.seedId, name: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
   service.addTask({ seedId: dataBuilderService.seedId, name: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "ignored" });
-  const tasks = service.getTasks();
+  const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].seedId).toBe(dataBuilderService.seedId);
   test.expect(tasks[0].name).toBe(dataBuilderService.taskName);
@@ -44,14 +69,13 @@ test('removeTask()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
-  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildTwoTasks());
-  const tasks = service.getTasks();
-  test.expect(service.getTasks().length).toBe(2);
-  const removedTaskId = tasks[0].seedId;
-  service.removeTasks(removedTaskId);
-  const remainingTasks = service.getTasks();
+  mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildUnorderedTasks('scheduled'));
+  const tasks = service.getScheduledTasks();
+  test.expect(tasks.length).toBe(4);
+  service.removeTasks(dataBuilderService.seedIdWithMultipleTasks);
+  const remainingTasks = service.getScheduledTasks();
   test.expect(remainingTasks.length).toBe(1);
-  test.expect(remainingTasks[0].id).not.toBe(removedTaskId);
+  test.expect(remainingTasks.some(t => t.id === dataBuilderService.seedIdWithMultipleTasks)).toBe(false);
 });
 
 test('computeTasks() in the same year', () => {

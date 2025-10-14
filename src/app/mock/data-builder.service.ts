@@ -1,6 +1,7 @@
 import { Bed } from "../type/bed.type";
 import { InventorySeed } from "../type/inventory-seed.type";
 import { StockSeed } from "../type/stock-seed.type";
+import { TaskStatus } from "../type/task.type";
 
 export class DataBuilderService {
     readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };
@@ -51,15 +52,21 @@ export class DataBuilderService {
     readonly taskName = 'Task 1';
     readonly taskStatus = 'scheduled';
     readonly seedId = '10';
+    readonly seedIdWithMultipleTasks = '11';
 
-    buildOneTask(): any[] {
-        return [{ id: '1', seedId: '10', name: this.taskName, date: this.taskDate, status: this.taskStatus }];
+    buildScheduledAndDoneTasks(): any[] {
+        return [
+            { id: '1', seedId: this.seedId, name: this.taskName, date: this.taskDate, status: this.taskStatus },
+            { id: '2', seedId: this.seedIdWithMultipleTasks, name: "Task 2", date: "2025-01-22", status: "done" }
+        ];
     }
 
-    buildTwoTasks(): any[] {
+    buildUnorderedTasks(status: TaskStatus): any[] {
         return [
-            { id: '1', seedId: '10', name: this.taskName, date: this.taskDate, status: this.taskStatus },
-            { id: '2', seedId: '11', name: "Task 2", date: "2025-01-22", status: "done" }
+            { id: '3', seedId: this.seedId, name: "Task 3", date: "2025-02-22", status: status },
+            { id: '2', seedId: this.seedIdWithMultipleTasks, name: "Task 2", date: "2025-01-22", status: status },
+            { id: '1', seedId: this.seedIdWithMultipleTasks, name: "Task 1", date: "2021-06-20", status: status },
+            { id: '4', seedId: this.seedIdWithMultipleTasks, name: "Task 4", date: "2025-06-20", status: status }
         ];
     }
 }
