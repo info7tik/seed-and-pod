@@ -59,13 +59,13 @@ test('markAsDone()', () => {
   test.expect(service.getDoneTasks().some(t => t.id === markAsDoneTaskId)).toBe(true);
 });
 
-test('addTask()', () => {
+test('updateTask()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
   test.expect(service.getScheduledTasks().length).toBe(0);
-  service.addTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
-  service.addTask({ seedId: dataBuilderService.seedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
+  service.updateTask({ seedId: dataBuilderService.seedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].seedId).toBe(dataBuilderService.tomatoSeedId);
@@ -79,14 +79,14 @@ test('addTask()', () => {
   test.expect(tasks[1].date).toEqual(new Date(dataBuilderService.taskDate));
 });
 
-test('addTask() with existing tasks', () => {
+test('updateTask() with existing tasks', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
   mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildSowingTomatoTask());
   test.expect(service.getScheduledTasks().length).toBe(1);
-  service.addTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
-  service.addTask({ seedId: dataBuilderService.tomatoSeedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].seedId).toBe(dataBuilderService.tomatoSeedId);
@@ -100,14 +100,14 @@ test('addTask() with existing tasks', () => {
   test.expect(tasks[1].date).toEqual(new Date(dataBuilderService.taskDate));
 });
 
-test('addTask() with existing tasks and different date', () => {
+test('updateTask() with existing tasks and different date', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
   mockStorageService.setItem(service.TASKS_KEY, dataBuilderService.buildTransplantingTomatoTask());
   test.expect(service.getScheduledTasks().length).toBe(1);
-  service.addTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
-  service.addTask({ seedId: dataBuilderService.tomatoSeedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].seedId).toBe(dataBuilderService.tomatoSeedId);

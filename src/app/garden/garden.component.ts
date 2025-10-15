@@ -61,7 +61,7 @@ export class Garden implements OnInit {
       } else {
         this.bedService.assignSeedToBed(bedId, seedId);
         const seedTasks = this.taskService.computeTasks(this.getSeedById(seedId));
-        seedTasks.forEach(task => this.taskService.addTask(task));
+        seedTasks.forEach(task => this.taskService.updateTask(task));
       }
       this.beds = this.bedService.getBeds();
     }

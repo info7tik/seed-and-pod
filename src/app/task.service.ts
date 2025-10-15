@@ -80,10 +80,10 @@ export class TaskService {
   }
 
   /**
-   * Add a task
-   * @param task - The task to add
+   * Update a task or add a task if it doesn't exist
+   * @param task - The task to add or update
    */
-  addTask(task: TaskProperties): void {
+  updateTask(task: TaskProperties): void {
     const tasks = this.getScheduledTasks();
     const sameTask = tasks.find((t) => t.seedId === task.seedId && t.action === task.action);
     if (sameTask) {
@@ -97,7 +97,7 @@ export class TaskService {
       this.saveTasks(tasks);
     }
 
-
+    //TODO FIX the task id generation is wrong when tasks are removed
     function getNextTaskId(tasks: Task[]): TaskId {
       return (tasks.length + 1).toString();
     }
