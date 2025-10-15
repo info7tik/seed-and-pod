@@ -20,7 +20,7 @@
             @for (task of doneTasks; track task.id) {
             <div class="task-item done">
                 <div class="task-info">
-                    <h3 class="task-name">{{ task.name }}</h3>
+                    <h3 class="task-name">{{ task.seedName }}</h3>
                     <div class="task-meta">
                         <span class="task-date">{{ task.date | date: 'mediumDate' }}</span>
                         <span class="task-status">{{ task.status }}</span>
@@ -41,9 +41,9 @@
         <!-- Scheduled tasks -->
         <div class="tasks-list">
             @for (task of tasks; track task.id) {
-            <div class="task-item" [class.done]="task.status === 'done'" [class.ignored]="task.status === 'ignored'">
+            <div class="task-item" [class.done]="task.status === 'done'">
                 <div class="task-info">
-                    <h3 class="task-name">{{ task.name }}</h3>
+                    <h3 class="task-name">{{ task.seedName }}</h3>
                     <div class="task-meta">
                         <span class="task-date">{{ task.date | date: 'mediumDate' }}</span>
                         <span class="task-status">{{ task.status }}</span>

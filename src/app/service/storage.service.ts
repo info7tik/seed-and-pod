@@ -34,6 +34,7 @@ export class StorageService {
      */
     setItem<T>(key: string, value: T): boolean {
         try {
+            console.log(`saving item to key '${key}'`);
             const fullKey = this.getFullKey(key);
             localStorage.setItem(fullKey, JSON.stringify(value));
             return true;
@@ -50,6 +51,7 @@ export class StorageService {
      */
     removeItem(key: string): boolean {
         try {
+            console.log(`removing item from key '${key}'`);
             const fullKey = this.getFullKey(key);
             localStorage.removeItem(fullKey);
             return true;

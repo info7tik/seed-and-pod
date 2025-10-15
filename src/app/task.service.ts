@@ -84,14 +84,13 @@ export class TaskService {
    * @param task - The task to add or update
    */
   updateTask(task: TaskProperties): void {
-    const tasks = this.getScheduledTasks();
-    const sameTask = tasks.find((t) => t.seedId === task.seedId && t.action === task.action);
-    if (sameTask) {
-      if (sameTask.date.getTime() !== task.date.getTime()) {
-        sameTask.date = task.date;
+    const tasks = this.getTasks();
+    const taskToUpdate = tasks.find((t) => t.seedId === task.seedId && t.action === task.action && t.status === 'scheduled');
+    if (taskToUpdate) {
+      if (taskToUpdate.date.getTime() !== task.date.getTime()) {
+        taskToUpdate.date = task.date;
         this.saveTasks(tasks);
       }
-      return;
     } else {
       tasks.push({ ...task, id: getNextTaskId(tasks) });
       this.saveTasks(tasks);
