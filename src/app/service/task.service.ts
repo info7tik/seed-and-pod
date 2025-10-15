@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './service/storage.service';
-import { Task, TaskId, TaskProperties } from './type/task.type';
-import { SeedId } from './type/seed-id.type';
-import { InventorySeed, SeedDate } from './type/inventory-seed.type';
-import ClockService from './service/clock.service';
+import { StorageService } from './storage.service';
+import { Task, TaskId, TaskProperties } from '../type/task.type';
+import { SeedId } from '../type/seed-id.type';
+import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
+import ClockService from './clock.service';
 
 @Injectable({
   providedIn: 'root'

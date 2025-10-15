@@ -6,7 +6,7 @@ import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { Bed } from '../type/bed.type';
 import { BedService } from '../service/bed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { TaskService } from '../task.service';
+import { TaskService } from '../service/task.service';
 
 @Component({
   selector: 'app-garden',

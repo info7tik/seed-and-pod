@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderMenu } from '../header-menu/header-menu.component';
-import { TaskService } from '../task.service';
+import { TaskService } from '../service/task.service';
 import { Task } from '../type/task.type';
 import { CommonModule } from '@angular/common';
 

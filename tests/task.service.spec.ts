@@ -1,7 +1,7 @@
 import test from '@playwright/test';
 import { MockClockService } from '../src/app/mock/mock-clock.service'
 import { MockStorageService } from '../src/app/mock/mock-storage.service';
-import { TaskService } from '../src/app/task.service';
+import { TaskService } from '../src/app/service/task.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
 
 const dataBuilderService = new DataBuilderService();
