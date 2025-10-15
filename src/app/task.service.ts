@@ -53,7 +53,8 @@ export class TaskService {
     if (seed.sowing.enabled) {
       result.push({
         seedId: seed.id,
-        name: seed.name,
+        seedName: seed.name,
+        action: 'sowing',
         date: this.buildFutureDate(clock.now(), seed.sowing),
         status: 'scheduled'
       });
@@ -61,7 +62,8 @@ export class TaskService {
     if (seed.transplanting.enabled) {
       result.push({
         seedId: seed.id,
-        name: seed.name,
+        seedName: seed.name,
+        action: 'transplanting',
         date: this.buildFutureDate(clock.now(), seed.transplanting),
         status: 'scheduled'
       });
@@ -83,8 +85,17 @@ export class TaskService {
    */
   addTask(task: TaskProperties): void {
     const tasks = this.getScheduledTasks();
-    tasks.push({ ...task, id: getNextTaskId(tasks) });
-    this.saveTasks(tasks);
+    const sameTask = tasks.find((t) => t.seedId === task.seedId && t.action === task.action);
+    if (sameTask) {
+      if (sameTask.date.getTime() !== task.date.getTime()) {
+        sameTask.date = task.date;
+        this.saveTasks(tasks);
+      }
+      return;
+    } else {
+      tasks.push({ ...task, id: getNextTaskId(tasks) });
+      this.saveTasks(tasks);
+    }
 
 
     function getNextTaskId(tasks: Task[]): TaskId {
