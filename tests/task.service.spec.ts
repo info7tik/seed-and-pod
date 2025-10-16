@@ -45,6 +45,21 @@ test('getDoneTasks()', () => {
   test.expect(tasks[0].status).toBe("done");
 });
 
+test('groupTasksByMonth()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  const tasks = dataBuilderService.buildTasks(dataBuilderService.buildUnorderedTasks('scheduled'));
+  const tasksByMonth = service.groupTasksByMonth(tasks);
+  test.expect(tasksByMonth.size).toBe(3);
+  test.expect(Array.from(tasksByMonth.keys()).sort()).toEqual([0, 1, 5]);
+  test.expect(tasksByMonth.get(0)?.length).toBe(1);
+  test.expect(tasksByMonth.get(1)?.length).toBe(1);
+  test.expect(tasksByMonth.get(5)?.length).toBe(2);
+  const juneTaskNames = tasksByMonth.get(5)?.map(t => t.seedName).sort();
+  test.expect(juneTaskNames).toEqual(['Task 1', 'Task 4']);
+});
+
 test('markAsDone()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();

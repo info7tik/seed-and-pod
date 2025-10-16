@@ -54,6 +54,17 @@
     font-weight: 600;
 }
 
+.month-separator {
+    margin: 12px 0 6px 0;
+    padding: 4px 8px;
+    background: #f8f9fa;
+    color: #6c757d;
+    border-left: 3px solid #dee2e6;
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .empty-message {
     text-align: center;
     color: #6c757d;

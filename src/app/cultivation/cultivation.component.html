@@ -35,13 +35,16 @@
         @if (showDone) {
         <div class="scheduled-separator">Scheduled</div>
         }
-        @if (tasks.length === 0) {
+        @if (scheduledTasks.size === 0) {
         <p class="empty-message">No tasks scheduled.</p>
         } @else {
         <!-- Scheduled tasks -->
         <div class="tasks-list">
-            @for (task of tasks; track task.id) {
-            <div class="task-item" [class.done]="task.status === 'done'">
+            @for (month of scheduledTasks.keys(); track month) {
+            <div class="month-separator">
+                {{ getMonthKey(month) | transloco }}</div>
+            @for (task of scheduledTasks.get(month); track task.id) {
+            <div class="task-item">
                 <div class="task-info">
                     <h3 class="task-name">{{ task.seedName }}</h3>
                     <div class="task-meta">
@@ -56,6 +59,7 @@
                         [disabled]="task.status !== 'scheduled'">Delete</button>
                 </div>
             </div>
+            }
             }
         </div>
         }

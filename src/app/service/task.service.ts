@@ -29,6 +29,23 @@ export class TaskService {
   }
 
   /**
+   * Group tasks by month
+   * @param tasks - The tasks to group
+   * @returns A map of month to tasks
+   */
+  groupTasksByMonth(tasks: Task[]): Map<number, Task[]> {
+    const tasksByMonth = new Map<number, Task[]>();
+    for (const task of tasks) {
+      const month = task.date.getMonth();
+      if (!tasksByMonth.has(month)) {
+        tasksByMonth.set(month, []);
+      }
+      tasksByMonth.get(month)!.push(task);
+    }
+    return tasksByMonth;
+  }
+
+  /**
    * Get done tasks ordered by date
    * @returns The done tasks
    */
