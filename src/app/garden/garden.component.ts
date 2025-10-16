@@ -7,6 +7,7 @@ import { Bed } from '../type/bed.type';
 import { BedService } from '../service/bed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TaskService } from '../service/task.service';
+import { YearService } from '../service/year.service';
 
 @Component({
   selector: 'app-garden',
@@ -19,7 +20,11 @@ export class Garden implements OnInit {
   stockSeeds: StockSeedWithDetails[] = [];
   beds: Bed[] = [];
 
-  constructor(private seedService: SeedService, private bedService: BedService, private taskService: TaskService) { }
+  constructor(
+    private seedService: SeedService,
+    private bedService: BedService,
+    private taskService: TaskService,
+    private yearService: YearService) { }
 
   ngOnInit(): void {
     this.beds = this.bedService.getBeds();
@@ -60,8 +65,8 @@ export class Garden implements OnInit {
         this.taskService.removeTasksBySeed(seedId);
       } else {
         this.bedService.assignSeedToBed(bedId, seedId);
-        const seedTasks = this.taskService.computeTasks(this.getSeedById(seedId));
-        seedTasks.forEach(task => this.taskService.updateTask(task));
+        const seedTasks = this.taskService.computeTasks(this.getSeedById(seedId), this.yearService.getSelectedYear());
+        this.yearService.keepFutureTasks(seedTasks).forEach(task => this.taskService.updateTask(task));
       }
       this.beds = this.bedService.getBeds();
     }

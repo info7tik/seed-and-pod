@@ -81,4 +81,12 @@ export class DataBuilderService {
             { id: '4', seedId: this.seedIdWithMultipleTasks, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status }
         ];
     }
+
+    buildDate(date: string): Date {
+        return new Date(date);
+    }
+
+    buildTaskWithDate(tasks: any[]) {
+        return tasks.map(task => ({ ...task, date: new Date(task.date) }));
+    }
 }

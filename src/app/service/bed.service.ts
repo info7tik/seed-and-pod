@@ -11,6 +11,10 @@ export class BedService {
 
   constructor(private storageService: StorageService) { }
 
+  clearStorage() {
+    this.storageService.removeItem(this.BEDS_KEY);
+  }
+
   createBeds(numberOfBeds: number): void {
     const beds: Bed[] = [];
     for (let i = 0; i < numberOfBeds; i++) {

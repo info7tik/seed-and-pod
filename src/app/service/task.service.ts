@@ -3,7 +3,6 @@ import { StorageService } from './storage.service';
 import { Task, TaskId, TaskProperties } from '../type/task.type';
 import { SeedId } from '../type/seed-id.type';
 import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
-import ClockService from './clock.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,17 +44,17 @@ export class TaskService {
   /**
    * Compute tasks for a given seed
    * @param seed - The seed to compute tasks for
-   * @param clock - The clock to use to compute the tasks
-   * @returns The computed tasks
+   * @param year - The year used to build the new tasks
+   * @returns The future tasks associated to the seed
    */
-  computeTasks(seed: InventorySeed, clock: ClockService = new ClockService()): TaskProperties[] {
+  computeTasks(seed: InventorySeed, year: number): TaskProperties[] {
     let result: TaskProperties[] = [];
     if (seed.sowing.enabled) {
       result.push({
         seedId: seed.id,
         seedName: seed.name,
         action: 'sowing',
-        date: this.buildFutureDate(clock.now(), seed.sowing),
+        date: this.buildTaskDate(year, seed.sowing),
         status: 'scheduled'
       });
     }
@@ -64,19 +63,15 @@ export class TaskService {
         seedId: seed.id,
         seedName: seed.name,
         action: 'transplanting',
-        date: this.buildFutureDate(clock.now(), seed.transplanting),
+        date: this.buildTaskDate(year, seed.transplanting),
         status: 'scheduled'
       });
     }
     return result;
   }
 
-  private buildFutureDate(now: Date, seedDate: SeedDate): Date {
-    const date = new Date(now.getFullYear(), seedDate.month, seedDate.day);
-    if (date < now) {
-      date.setFullYear(now.getFullYear() + 1);
-    }
-    return date;
+  private buildTaskDate(year: number, seedDate: SeedDate): Date {
+    return new Date(year, seedDate.month, seedDate.day);
   }
 
   /**
@@ -85,9 +80,9 @@ export class TaskService {
    */
   updateTask(task: TaskProperties): void {
     const tasks = this.getTasks();
-    const taskToUpdate = tasks.find((t) => t.seedId === task.seedId && t.action === task.action && t.status === 'scheduled');
+    const taskToUpdate = tasks.find((t) => t.seedId === task.seedId && t.action === task.action);
     if (taskToUpdate) {
-      if (taskToUpdate.date.getTime() !== task.date.getTime()) {
+      if (taskToUpdate.status === 'scheduled' && taskToUpdate.date.getTime() !== task.date.getTime()) {
         taskToUpdate.date = task.date;
         this.saveTasks(tasks);
       }

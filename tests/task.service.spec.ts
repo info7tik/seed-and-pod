@@ -3,6 +3,7 @@ import { MockClockService } from '../src/app/mock/mock-clock.service'
 import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { TaskService } from '../src/app/service/task.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
+import { TaskProperties } from '../src/app/type/task.type';
 
 const dataBuilderService = new DataBuilderService();
 
@@ -121,6 +122,25 @@ test('updateTask() with existing tasks and different date', () => {
   test.expect(tasks[1].date).toEqual(new Date(dataBuilderService.taskDate));
 });
 
+test('updateTask() with existing done tasks and different date', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new TaskService(mockStorageService);
+  const doneTomatoTask = dataBuilderService.buildTransplantingTomatoTask() as TaskProperties[]
+  doneTomatoTask[0].status = 'done';
+  mockStorageService.setItem(service.TASKS_KEY, doneTomatoTask);
+  test.expect(service.getScheduledTasks().length).toBe(0);
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "sowing", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: dataBuilderService.taskStatus });
+  service.updateTask({ seedId: dataBuilderService.tomatoSeedId, action: "transplanting", seedName: dataBuilderService.taskName, date: new Date(dataBuilderService.taskDate), status: "scheduled" });
+  const tasks = service.getScheduledTasks();
+  test.expect(tasks.length).toBe(1);
+  test.expect(tasks[0].seedId).toBe(dataBuilderService.tomatoSeedId);
+  test.expect(tasks[0].seedName).toBe(dataBuilderService.taskName);
+  test.expect(tasks[0].action).toBe("sowing");
+  const done = service.getDoneTasks();
+  test.expect(done[0].date.getTime()).not.toEqual(new Date(dataBuilderService.taskDate).getTime()), "Done task date should not be updated";
+});
+
 test('removeTasks()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
@@ -157,13 +177,11 @@ test('removeTasksBySeed() - do not remove done tasks', () => {
   test.expect(service.getDoneTasks().length).toBe(1);
 });
 
-test('computeTasks() in the same year', () => {
-  const now = new Date(2021, 2, 23);
-  const clock = new MockClockService(now);
+test('computeTasks()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new TaskService(mockStorageService);
-  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], clock);
+  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], 2021);
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].date.getDate()).toBe(dataBuilderService.tomatoSowingDate.day)
   test.expect(tasks[0].date.getMonth()).toBe(dataBuilderService.tomatoSowingDate.month)
@@ -171,20 +189,4 @@ test('computeTasks() in the same year', () => {
   test.expect(tasks[1].date.getDate()).toBe(dataBuilderService.tomatoTransplantingDate.day)
   test.expect(tasks[1].date.getMonth()).toBe(dataBuilderService.tomatoTransplantingDate.month)
   test.expect(tasks[1].date.getFullYear()).toBe(2021)
-});
-
-test('computeTasks() in the next year', () => {
-  const now = new Date(2021, 11, 23);
-  const clock = new MockClockService(now);
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new TaskService(mockStorageService);
-  const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], clock);
-  test.expect(tasks.length).toBe(2);
-  test.expect(tasks[0].date.getDate()).toBe(dataBuilderService.tomatoSowingDate.day)
-  test.expect(tasks[0].date.getMonth()).toBe(dataBuilderService.tomatoSowingDate.month)
-  test.expect(tasks[0].date.getFullYear()).toBe(2022)
-  test.expect(tasks[1].date.getDate()).toBe(dataBuilderService.tomatoTransplantingDate.day)
-  test.expect(tasks[1].date.getMonth()).toBe(dataBuilderService.tomatoTransplantingDate.month)
-  test.expect(tasks[1].date.getFullYear()).toBe(2022)
 });

@@ -1,4 +1,9 @@
-export default class ClockService {
+import { Injectable } from "@angular/core";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ClockService {
     private readonly IS_LESS_THAN = 1;
     private readonly IS_GREATER_THAN = 2;
     private readonly IS_EQUAL = 3;
