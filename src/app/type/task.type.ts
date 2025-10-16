@@ -6,7 +6,8 @@ export type TaskAction = 'sowing' | 'transplanting';
 
 export type TaskId = string;
 
-export type TaskProperties = {
+export type Task = {
+    id: TaskId;
     action: TaskAction;
     seedId: SeedId;
     seedName: string;
@@ -14,4 +15,4 @@ export type TaskProperties = {
     status: TaskStatus;
 };
 
-export type Task = TaskProperties & { id: TaskId };
+export type TaskWithStringDate = Omit<Task, 'date'> & { date: string };

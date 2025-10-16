@@ -8,6 +8,9 @@ export class DataBuilderService {
     readonly tomatoTransplantingDate = { enabled: true, day: 12, month: 7 };
     readonly tomatoDaysBeforeHarvest = 30;
     readonly tomatoSeedId = '1';
+    readonly seedId = '10';
+    readonly seedIdWithMultipleTasks = '11';
+
     buildTomatoSeeds(): InventorySeed[] {
         return [
             {
@@ -51,34 +54,32 @@ export class DataBuilderService {
     readonly taskDate = '2025-01-21';
     readonly taskName = 'Task 1';
     readonly taskStatus = 'scheduled';
-    readonly seedId = '10';
-    readonly seedIdWithMultipleTasks = '11';
 
     buildSowingTomatoTask(): any[] {
         return [
-            { id: '1', seedId: this.tomatoSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus }
+            { id: `${this.tomatoSeedId}-sowing`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus }
         ];
     }
 
     buildTransplantingTomatoTask(): any[] {
         return [
-            { id: '1', seedId: this.tomatoSeedId, seedName: this.taskName, action: "transplanting", date: "2025-06-20", status: this.taskStatus }
+            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "transplanting", date: "2025-06-20", status: this.taskStatus }
         ];
     }
 
     buildScheduledAndDoneTasks(): any[] {
         return [
-            { id: '1', seedId: this.seedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus },
-            { id: '2', seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: "done" }
+            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus },
+            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: "done" }
         ];
     }
 
     buildUnorderedTasks(status: TaskStatus): any[] {
         return [
-            { id: '3', seedId: this.seedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status },
-            { id: '2', seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: status },
-            { id: '1', seedId: this.seedIdWithMultipleTasks, seedName: "Task 1", action: "sowing", date: "2021-06-20", status: status },
-            { id: '4', seedId: this.seedIdWithMultipleTasks, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status }
+            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status },
+            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: status },
+            { id: `${this.seedIdWithMultipleTasks}-sowing`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 1", action: "sowing", date: "2021-06-20", status: status },
+            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status }
         ];
     }
 

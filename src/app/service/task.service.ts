@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Task, TaskId, TaskProperties } from '../type/task.type';
+import { Task, TaskAction, TaskId, TaskWithStringDate } from '../type/task.type';
 import { SeedId } from '../type/seed-id.type';
 import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
 
@@ -47,10 +47,11 @@ export class TaskService {
    * @param year - The year used to build the new tasks
    * @returns The future tasks associated to the seed
    */
-  computeTasks(seed: InventorySeed, year: number): TaskProperties[] {
-    let result: TaskProperties[] = [];
+  computeTasks(seed: InventorySeed, year: number): Task[] {
+    let result: Task[] = [];
     if (seed.sowing.enabled) {
       result.push({
+        id: this.buildTaskId(seed.id, 'sowing'),
         seedId: seed.id,
         seedName: seed.name,
         action: 'sowing',
@@ -60,6 +61,7 @@ export class TaskService {
     }
     if (seed.transplanting.enabled) {
       result.push({
+        id: this.buildTaskId(seed.id, 'transplanting'),
         seedId: seed.id,
         seedName: seed.name,
         action: 'transplanting',
@@ -74,26 +76,25 @@ export class TaskService {
     return new Date(year, seedDate.month, seedDate.day);
   }
 
+  private buildTaskId(seedId: SeedId, action: TaskAction): TaskId {
+    return `${seedId}-${action}`;
+  }
+
   /**
    * Update a task or add a task if it doesn't exist
    * @param task - The task to add or update
    */
-  updateTask(task: TaskProperties): void {
+  updateTask(task: Task): void {
     const tasks = this.getTasks();
-    const taskToUpdate = tasks.find((t) => t.seedId === task.seedId && t.action === task.action);
+    const taskToUpdate = tasks.find(t => t.id === task.id);
     if (taskToUpdate) {
       if (taskToUpdate.status === 'scheduled' && taskToUpdate.date.getTime() !== task.date.getTime()) {
         taskToUpdate.date = task.date;
         this.saveTasks(tasks);
       }
     } else {
-      tasks.push({ ...task, id: getNextTaskId(tasks) });
+      tasks.push(task);
       this.saveTasks(tasks);
-    }
-
-    //TODO FIX the task id generation is wrong when tasks are removed
-    function getNextTaskId(tasks: Task[]): TaskId {
-      return (tasks.length + 1).toString();
     }
   }
 
@@ -115,7 +116,7 @@ export class TaskService {
   }
 
   private getTasks(): Task[] {
-    return this.storageService.getItem(this.TASKS_KEY, []).map((t: any) => ({ ...t, date: new Date(t.date) }));
+    return this.storageService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date) }));
   }
 
   private saveTasks(tasks: Task[]) {

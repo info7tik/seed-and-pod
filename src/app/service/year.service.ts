@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Task, TaskProperties } from '../type/task.type';
+import { Task } from '../type/task.type';
 import { ClockService } from './clock.service';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class YearService {
     this.storageService.setItem(this.YEAR_KEY, year);
   }
 
-  keepFutureTasks(tasks: TaskProperties[]): TaskProperties[] {
+  keepFutureTasks(tasks: Task[]): Task[] {
     return tasks.filter(task => this.clockService.isFuture(task.date));
   }
 }
