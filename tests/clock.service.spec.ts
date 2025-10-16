@@ -1,5 +1,5 @@
 import test from '@playwright/test';
-import ClockService from '../src/app/service/clock.service';
+import { ClockService } from '../src/app/service/clock.service';
 
 const NB_SECONDS_IN_DAY = 24 * 60 * 60;
 const TO_MILLISECONDS = 1000;

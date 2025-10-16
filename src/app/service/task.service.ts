@@ -36,8 +36,8 @@ export class TaskService {
    * Mark a task as done
    * @param taskId - The id of the task to mark as done
    */
-  markAsDone(taskId: TaskId): void {
-    const tasks: Task[] = this.getTasks().map(t => t.id === taskId ? { ...t, status: 'done' } : t);
+  markAsDone(taskId: TaskId, completedDate: Date): void {
+    const tasks: Task[] = this.getTasks().map(t => t.id === taskId ? { ...t, status: 'done', completed: completedDate } : t);
     this.saveTasks(tasks);
   }
 
@@ -56,7 +56,8 @@ export class TaskService {
         seedName: seed.name,
         action: 'sowing',
         date: this.buildTaskDate(year, seed.sowing),
-        status: 'scheduled'
+        status: 'scheduled',
+        completed: new Date()
       });
     }
     if (seed.transplanting.enabled) {
@@ -66,7 +67,8 @@ export class TaskService {
         seedName: seed.name,
         action: 'transplanting',
         date: this.buildTaskDate(year, seed.transplanting),
-        status: 'scheduled'
+        status: 'scheduled',
+        completed: new Date()
       });
     }
     return result;
@@ -116,11 +118,11 @@ export class TaskService {
   }
 
   private getTasks(): Task[] {
-    return this.storageService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date) }));
+    return this.storageService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date), completed: new Date(t.completed) }));
   }
 
   private saveTasks(tasks: Task[]) {
-    this.storageService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString() })));
+    this.storageService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString(), completed: t.completed.toISOString() })));
   }
 }
 

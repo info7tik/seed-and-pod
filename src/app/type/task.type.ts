@@ -13,6 +13,7 @@ export type Task = {
     seedName: string;
     date: Date;
     status: TaskStatus;
+    completed: Date;
 };
 
-export type TaskWithStringDate = Omit<Task, 'date'> & { date: string };
+export type TaskWithStringDate = Omit<Task, 'date' | 'completed'> & { date: string; completed: string };

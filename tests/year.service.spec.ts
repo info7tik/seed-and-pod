@@ -29,7 +29,7 @@ test('getFutureTasks()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
   const service = new YearService(mockClockService, mockStorageService);
-  const tasks = dataBuilderService.buildTaskWithDate(dataBuilderService.buildUnorderedTasks('scheduled'));
+  const tasks = dataBuilderService.buildTasks(dataBuilderService.buildUnorderedTasks('scheduled'));
   const futureTasks = service.keepFutureTasks(tasks);
   test.expect(futureTasks.length).toBe(2);
   test.expect(futureTasks[0]).toEqual(tasks[0]);

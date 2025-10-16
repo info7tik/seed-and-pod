@@ -1,7 +1,7 @@
 import { Bed } from "../type/bed.type";
 import { InventorySeed } from "../type/inventory-seed.type";
 import { StockSeed } from "../type/stock-seed.type";
-import { TaskStatus } from "../type/task.type";
+import { Task, TaskStatus, TaskWithStringDate } from "../type/task.type";
 
 export class DataBuilderService {
     readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };
@@ -55,31 +55,31 @@ export class DataBuilderService {
     readonly taskName = 'Task 1';
     readonly taskStatus = 'scheduled';
 
-    buildSowingTomatoTask(): any[] {
+    buildSowingTomatoTask(): TaskWithStringDate[] {
         return [
-            { id: `${this.tomatoSeedId}-sowing`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus }
+            { id: `${this.tomatoSeedId}-sowing`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus, completed: new Date().toISOString() }
         ];
     }
 
-    buildTransplantingTomatoTask(): any[] {
+    buildTransplantingTomatoTask(): TaskWithStringDate[] {
         return [
-            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "transplanting", date: "2025-06-20", status: this.taskStatus }
+            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "transplanting", date: "2025-06-20", status: this.taskStatus, completed: new Date().toISOString() }
         ];
     }
 
-    buildScheduledAndDoneTasks(): any[] {
+    buildScheduledAndDoneTasks(): TaskWithStringDate[] {
         return [
-            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus },
-            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: "done" }
+            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus, completed: new Date().toISOString() },
+            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: "done", completed: new Date().toISOString() }
         ];
     }
 
-    buildUnorderedTasks(status: TaskStatus): any[] {
+    buildUnorderedTasks(status: TaskStatus): TaskWithStringDate[] {
         return [
-            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status },
-            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: status },
-            { id: `${this.seedIdWithMultipleTasks}-sowing`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 1", action: "sowing", date: "2021-06-20", status: status },
-            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status }
+            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status, completed: new Date().toISOString() },
+            { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: status, completed: new Date().toISOString() },
+            { id: `${this.seedIdWithMultipleTasks}-sowing`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 1", action: "sowing", date: "2021-06-20", status: status, completed: new Date().toISOString() },
+            { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status, completed: new Date().toISOString() }
         ];
     }
 
@@ -87,7 +87,7 @@ export class DataBuilderService {
         return new Date(date);
     }
 
-    buildTaskWithDate(tasks: any[]) {
-        return tasks.map(task => ({ ...task, date: new Date(task.date) }));
+    buildTasks(tasks: TaskWithStringDate[]): Task[] {
+        return tasks.map(task => ({ ...task, date: new Date(task.date), completed: new Date(task.completed) }));
     }
 }
