@@ -12,12 +12,20 @@ export class TaskService {
 
   constructor(private storageService: StorageService) { }
 
+  clearStorage() {
+    this.storageService.removeItem(this.TASKS_KEY);
+  }
+
   /**
    * Get scheduled tasks ordered by date
    * @returns The scheduled tasks
    */
   getScheduledTasks(): Task[] {
-    return this.sortTasks(this.getTasks().filter(t => t.status === 'scheduled'));
+    return this.sortScheduledTasks(this.getTasks().filter(t => t.status === 'scheduled'));
+  }
+
+  private sortScheduledTasks(tasks: Task[]): Task[] {
+    return tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
   /**
@@ -25,11 +33,11 @@ export class TaskService {
    * @returns The done tasks
    */
   getDoneTasks(): Task[] {
-    return this.sortTasks(this.getTasks().filter(t => t.status === 'done'));
+    return this.sortDoneTasks(this.getTasks().filter(t => t.status === 'done'));
   }
 
-  private sortTasks(tasks: Task[]): Task[] {
-    return tasks.sort((a, b) => a.date.getTime() - b.date.getTime());
+  private sortDoneTasks(tasks: Task[]): Task[] {
+    return tasks.sort((a, b) => a.completed.getTime() - b.completed.getTime());
   }
 
   /**

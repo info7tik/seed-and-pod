@@ -20,7 +20,7 @@ export class Cultivation {
   }
 
   markAsDone(taskId: string) {
-    this.taskService.markAsDone(taskId);
+    this.taskService.markAsDone(taskId, new Date());
     this.refreshTasks();
   }
 

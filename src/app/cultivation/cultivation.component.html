@@ -22,7 +22,7 @@
                 <div class="task-info">
                     <h3 class="task-name">{{ task.seedName }}</h3>
                     <div class="task-meta">
-                        <span class="task-date">{{ task.date | date: 'mediumDate' }}</span>
+                        <span class="task-date">Completed on {{ task.completed | date: 'mediumDate' }}</span>
                         <span class="task-status">{{ task.status }}</span>
                     </div>
                 </div>
