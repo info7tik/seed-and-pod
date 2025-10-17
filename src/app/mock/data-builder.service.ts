@@ -1,4 +1,5 @@
 import { Bed } from "../type/bed.type";
+import { Harvest, HarvestWithStringDate } from "../type/harvest.type";
 import { InventorySeed } from "../type/inventory-seed.type";
 import { StockSeed } from "../type/stock-seed.type";
 import { Task, TaskStatus, TaskWithStringDate } from "../type/task.type";
@@ -8,8 +9,17 @@ export class DataBuilderService {
     readonly tomatoTransplantingDate = { enabled: true, day: 12, month: 7 };
     readonly tomatoDaysBeforeHarvest = 30;
     readonly tomatoSeedId = '1';
-    readonly seedId = '10';
+    readonly peasSeedId = '10';
     readonly seedIdWithMultipleTasks = '11';
+
+    readonly taskDate = '2025-01-21';
+    readonly taskName = 'Task 1';
+    readonly taskStatus = 'scheduled';
+
+    readonly harvestTomatoDate = new Date('2025-06-21');
+    readonly harvestPeasDate = new Date('2025-03-22');
+    readonly harvestTomatoWeightGrams = 500;
+    readonly harvestPeasWeightGrams = 300;
 
     buildTomatoSeeds(): InventorySeed[] {
         return [
@@ -51,10 +61,6 @@ export class DataBuilderService {
         return [{ id: '0', seeds: ['10'] }, { id: this.tomatoSeedId, seeds: ['20', '30'] }];
     }
 
-    readonly taskDate = '2025-01-21';
-    readonly taskName = 'Task 1';
-    readonly taskStatus = 'scheduled';
-
     buildSowingTomatoTask(): TaskWithStringDate[] {
         return [
             { id: `${this.tomatoSeedId}-sowing`, seedId: this.tomatoSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus, completed: new Date().toISOString() }
@@ -69,14 +75,14 @@ export class DataBuilderService {
 
     buildScheduledAndDoneTasks(): TaskWithStringDate[] {
         return [
-            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus, completed: new Date().toISOString() },
+            { id: `${this.peasSeedId}-sowing`, seedId: this.peasSeedId, seedName: this.taskName, action: "sowing", date: this.taskDate, status: this.taskStatus, completed: new Date().toISOString() },
             { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: "done", completed: new Date().toISOString() }
         ];
     }
 
     buildUnorderedTasks(status: TaskStatus): TaskWithStringDate[] {
         return [
-            { id: `${this.seedId}-sowing`, seedId: this.seedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status, completed: new Date().toISOString() },
+            { id: `${this.peasSeedId}-sowing`, seedId: this.peasSeedId, seedName: "Task 3", action: "sowing", date: "2025-02-22", status: status, completed: new Date().toISOString() },
             { id: `${this.seedIdWithMultipleTasks}-transplanting`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 2", action: "transplanting", date: "2025-01-22", status: status, completed: new Date().toISOString() },
             { id: `${this.seedIdWithMultipleTasks}-sowing`, seedId: this.seedIdWithMultipleTasks, seedName: "Task 1", action: "sowing", date: "2021-06-20", status: status, completed: new Date().toISOString() },
             { id: `${this.tomatoSeedId}-transplanting`, seedId: this.tomatoSeedId, seedName: "Task 4", action: "transplanting", date: "2025-06-20", status: status, completed: new Date().toISOString() }
@@ -89,5 +95,49 @@ export class DataBuilderService {
 
     buildTasks(tasks: TaskWithStringDate[]): Task[] {
         return tasks.map(task => ({ ...task, date: new Date(task.date), completed: new Date(task.completed) }));
+    }
+
+    buildTomatoAndPeasHarvests(): HarvestWithStringDate[] {
+        return [
+            {
+                seedId: this.tomatoSeedId,
+                seedName: 'Tomato',
+                weightGrams: this.harvestTomatoWeightGrams,
+                date: this.harvestTomatoDate.toISOString()
+            },
+            {
+                seedId: this.peasSeedId,
+                seedName: 'Peas',
+                weightGrams: this.harvestPeasWeightGrams,
+                date: this.harvestPeasDate.toISOString()
+            }
+        ];
+    }
+
+    buildTomatoMultipleHarvests(): HarvestWithStringDate[] {
+        return [
+            {
+                seedId: this.tomatoSeedId,
+                seedName: 'Tomato',
+                weightGrams: this.harvestTomatoWeightGrams,
+                date: this.harvestTomatoDate.toISOString()
+            },
+            {
+                seedId: this.tomatoSeedId,
+                seedName: 'Tomato',
+                weightGrams: this.harvestTomatoWeightGrams,
+                date: "2025-07-22"
+            },
+            {
+                seedId: this.tomatoSeedId,
+                seedName: 'Tomato',
+                weightGrams: this.harvestTomatoWeightGrams,
+                date: "2025-07-25"
+            }
+        ];
+    }
+
+    buildHarvests(harvests: HarvestWithStringDate[]): Harvest[] {
+        return harvests.map(harvest => ({ ...harvest, date: new Date(harvest.date) }));
     }
 }
