@@ -7,10 +7,11 @@ import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { InventoryService } from '../service/inventory.service';
+import { YearSelectorComponent } from '../year-selector/year-selector.component';
 
 @Component({
   selector: 'app-stock',
-  imports: [HeaderMenu, FormsModule, TranslocoPipe],
+  imports: [HeaderMenu, YearSelectorComponent, FormsModule, TranslocoPipe],
   templateUrl: './stock.component.html',
   styleUrl: './stock.component.scss'
 })
@@ -20,10 +21,15 @@ export class Stock implements OnInit {
   stockSeeds: StockSeedWithDetails[] = [];
   seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
   selectedSeeds: Set<SeedId> = new Set();
+  reloadDataCallback = () => this.reloadData();
 
   constructor(private seedService: SeedService, private inventoryService: InventoryService) { }
 
   ngOnInit(): void {
+    this.reloadData();
+  }
+
+  reloadData() {
     this.inventorySeeds = this.inventoryService.getInventorySeeds();
     this.stockSeeds = this.seedService.getStockSeeds();
   }

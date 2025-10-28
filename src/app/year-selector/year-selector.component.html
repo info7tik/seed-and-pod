@@ -1,0 +1,9 @@
+<div class="year-selector">
+    <label for="year">{{'yearSelector.selectYear' | transloco}}</label><br />
+    <select id="year" name="year" required [(ngModel)]="selectedYear" (change)="changeYear()">
+        <option [value]="0">{{'yearSelector.selectYear' | transloco}}</option>
+        @for (year of years; track year) {
+        <option [value]="year">{{ year }}</option>
+        }
+    </select>
+</div>

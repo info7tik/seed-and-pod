@@ -1,6 +1,8 @@
 <app-header-menu titleKey="menu.stock.title"></app-header-menu>
 
 <main class="main-content">
+    <app-year-selector [reloadData]="reloadDataCallback"></app-year-selector>
+
     <!-- Add Seed Section -->
     <div class="section-header">
         <h2>{{'stock.selectSeedsToAdd' | transloco}}</h2>

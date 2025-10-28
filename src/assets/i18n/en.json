@@ -125,5 +125,9 @@
     "seedInventory": "Seed Inventory",
     "noSeeds": "No seeds in inventory. Add some seeds to get started!",
     "remove": "Remove"
+  },
+  "yearSelector": {
+    "selectYear": "Select Year",
+    "selectYearPlaceholder": "Select a year..."
   }
 }

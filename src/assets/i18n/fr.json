@@ -125,5 +125,9 @@
     "seedInventory": "Inventaire des Graines",
     "noSeeds": "Aucune graine dans l'inventaire. Ajoutez des graines pour commencer !",
     "remove": "Supprimer"
+  },
+  "yearSelector": {
+    "selectYear": "Sélectionner une année",
+    "selectYearPlaceholder": "Sélectionner une année..."
   }
 }

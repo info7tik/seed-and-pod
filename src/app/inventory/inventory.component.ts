@@ -6,6 +6,7 @@ import { GlobalService } from '../service/global-service.service';
 import { InventorySeed } from '../type/inventory-seed.type';
 import { InventoryService } from '../service/inventory.service';
 import { SeedId } from '../type/seed-id.type';
+import { range } from '../service/library';
 
 @Component({
   selector: 'app-inventory',
@@ -16,7 +17,7 @@ import { SeedId } from '../type/seed-id.type';
 export class InventoryComponent implements OnInit {
   readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
   readonly DEFAULT_FAMILY_INDEX = -1;
-  readonly daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+  readonly daysInMonth = range(1, 31);
 
   name: string = '';
   familyIndex: number = this.DEFAULT_FAMILY_INDEX;
