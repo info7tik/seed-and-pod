@@ -90,7 +90,9 @@
     "addHarvest": "Add Harvest",
     "harvestHistory": "Harvest History",
     "noHarvests": "No harvests recorded yet. Add your first harvest to get started!",
-    "remove": "Remove"
+    "remove": "Remove",
+    "showAggregated": "Group by vegetables",
+    "entries": "entries"
   },
   "newHarvest": {
     "addHarvest": "Add Harvest",

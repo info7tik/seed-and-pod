@@ -5,6 +5,13 @@
     <section class="harvest-list-section">
         <div class="section-header">
             <h2>{{'basket.harvestHistory' | transloco}}</h2>
+            <label class="toggle-aggregate">
+                <span class="toggle-label">{{'basket.showAggregated' | transloco}}</span>
+                <span class="switch">
+                    <input type="checkbox" [(ngModel)]="showAggregated" />
+                    <span class="slider"></span>
+                </span>
+            </label>
             <button class="harvest-btn" routerLink="/new-harvest">
                 <svg class="harvest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 5v14M5 12h14" />
@@ -14,9 +21,9 @@
         </div>
 
         <div class="harvest-list">
-            @if (harvests.length === 0) {
+            @if (!showAggregated && harvests.length === 0) {
             <p class="empty-message">{{'basket.noHarvests' | transloco}}</p>
-            } @else {
+            } @else if (!showAggregated) {
             @for (harvest of harvests; track harvest.seedId + harvest.date.getTime()) {
             <div class="harvest-item">
                 <div class="harvest-info">
@@ -33,6 +40,22 @@
                     </button>
                 </div>
             </div>
+            }
+            } @else {
+            @if (aggregatedHarvests.length === 0) {
+            <p class="empty-message">{{'basket.noHarvests' | transloco}}</p>
+            } @else {
+            @for (agg of aggregatedHarvests; track agg.seedId) {
+            <div class="harvest-item">
+                <div class="harvest-info">
+                    <h3 class="harvest-name">{{ agg.seedName }}</h3>
+                    <div class="harvest-details">
+                        <span class="harvest-weight">{{ formatWeight(agg.totalWeightGrams) }}</span>
+                        <span class="harvest-count">({{ agg.count }} {{'basket.entries' | transloco}})</span>
+                    </div>
+                </div>
+            </div>
+            }
             }
             }
         </div>

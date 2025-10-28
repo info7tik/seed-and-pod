@@ -90,7 +90,9 @@
     "addHarvest": "Ajouter une Récolte",
     "harvestHistory": "Historique des Récoltes",
     "noHarvests": "Aucune récolte enregistrée. Ajoutez votre première récolte pour commencer !",
-    "remove": "Supprimer"
+    "remove": "Supprimer",
+    "showAggregated": "Grouper par légumes",
+    "entries": "entrées"
   },
   "newHarvest": {
     "addHarvest": "Ajouter une Récolte",
