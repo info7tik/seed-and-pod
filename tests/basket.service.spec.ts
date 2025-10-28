@@ -80,6 +80,7 @@ test('removeHarvest()', () => {
   test.expect(harvests.length).toBe(1);
   test.expect(harvests[0].seedId).toBe(dataBuilderService.peasSeedId);
 });
+
 test('removeHarvest() - multiple harvests of same seed', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
@@ -93,4 +94,28 @@ test('removeHarvest() - multiple harvests of same seed', () => {
   const harvests = service.getHarvests();
   test.expect(harvests.length).toBe(2);
   test.expect(harvests.some(h => h.date.getTime() === harvestToRemove.date.getTime())).toBe(false);
+});
+
+test('aggregateHarvests()', () => {
+  const mockStorageService: MockStorageService = new MockStorageService();
+  mockStorageService.clear();
+  const service = new BasketService(mockStorageService);
+  test.expect(service.getHarvests().length).toBe(0);
+  const existingHarvests = dataBuilderService.buildTomatoMultipleHarvests();
+  const firstWeightGrams = 1234;
+  const secondWeightGrams = 456;
+  const earlyDate = new Date(existingHarvests[1].date);
+  const threeHoursLater = new Date(earlyDate.getTime() + 3 * 3600 * 1000);
+  existingHarvests[1].date = earlyDate.toISOString();
+  existingHarvests[1].weightGrams = firstWeightGrams;
+  existingHarvests[0].date = threeHoursLater.toISOString();
+  existingHarvests[0].weightGrams = secondWeightGrams;
+  const notAggregatedHarvest = existingHarvests[2];
+  notAggregatedHarvest.seedId = 'not-aggregated-seed-id';
+  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  const aggregatedHarvests = service.aggregateHarvests(service.getHarvests());
+  test.expect(aggregatedHarvests.length).toBe(2);
+  test.expect(aggregatedHarvests[0].weightGrams).toBe(firstWeightGrams + secondWeightGrams);
+  test.expect(aggregatedHarvests[0].date).toEqual(earlyDate);
+  test.expect(aggregatedHarvests[1].weightGrams).toBe(notAggregatedHarvest.weightGrams);
 });

@@ -51,4 +51,17 @@ export class BasketService {
     const serializedHarvests = harvests.map((h: Harvest) => ({ ...h, date: h.date.toISOString() }));
     this.storageService.setItem(this.HARVESTS_KEY, serializedHarvests);
   }
+
+  aggregateHarvests(harvests: Harvest[]): Harvest[] {
+    const aggregatedHarvests = harvests.reduce<Harvest[]>((aggregated, current) => {
+      const existingHarvest = aggregated.find(h => h.seedId === current.seedId);
+      if (existingHarvest) {
+        existingHarvest.weightGrams += current.weightGrams;
+      } else {
+        aggregated.push(current);
+      }
+      return aggregated;
+    }, [])
+    return this.sortHarvests(aggregatedHarvests);
+  }
 }
