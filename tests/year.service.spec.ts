@@ -13,9 +13,9 @@ test('getItem()', () => {
   const testKey = 'testKey';
   const testValue = 'testValue';
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
-  test.expect(service.getItem(testKey, defaultValue)).toBe(defaultValue);
+  test.expect(service.getItemByYear(testKey, defaultValue)).toBe(defaultValue);
   MockFactory.storageService.setData({ years: { [2022]: { testKey: testValue } }, selectedYear: 0 });
-  test.expect(service.getItem(testKey, defaultValue)).toBe(testValue);
+  test.expect(service.getItemByYear(testKey, defaultValue)).toBe(testValue);
 });
 
 test('setItem()', () => {
@@ -24,10 +24,10 @@ test('setItem()', () => {
   const testValue = 'testValue';
   const selectedYear = 2022;
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
-  service.setItem(testKey, testValue);
+  service.setItemByYear(testKey, testValue);
   test.expect(MockFactory.storageService.getData().years[selectedYear][testKey]).toBe(testValue);
   const updatedValue = 'updatedValue';
-  service.setItem(testKey, updatedValue);
+  service.setItemByYear(testKey, updatedValue);
   test.expect(MockFactory.storageService.getData().years[selectedYear][testKey]).toBe(updatedValue);
 });
 
