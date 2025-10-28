@@ -60,7 +60,10 @@
     "daysBeforeHarvest": "Jours avant la récolte",
     "enableTransplanting": "Activer le transplantage",
     "transplantingDate": "Date de transplantage",
-    "backToStock": "Retour au stock"
+    "backToInventory": "Retour à l'inventaire",
+    "redirecting": "Redirection...",
+    "redirectMessage": "Le formulaire de graines a été déplacé vers la section Inventaire.",
+    "goToInventory": "Aller à l'Inventaire"
   },
   "vegetableFamilies": {
     "Solanaceae": "Solanacées (Tomate, Poivron, Aubergine)",
@@ -107,5 +110,20 @@
     "grams": "grammes",
     "harvestDate": "Date de Récolte",
     "cancel": "Annuler"
+  },
+  "inventory": {
+    "addSeed": "Ajouter une Graine",
+    "name": "Nom",
+    "family": "Famille",
+    "selectFamily": "Sélectionner une famille...",
+    "sowingDate": "Date de Semis",
+    "sowing": "Semis",
+    "transplantingDate": "Date de Transplantage",
+    "transplanting": "Transplantage",
+    "enableTransplanting": "Activer le Transplantage",
+    "daysBeforeHarvest": "Jours avant la Récolte",
+    "seedInventory": "Inventaire des Graines",
+    "noSeeds": "Aucune graine dans l'inventaire. Ajoutez des graines pour commencer !",
+    "remove": "Supprimer"
   }
 }

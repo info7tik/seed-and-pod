@@ -5,7 +5,7 @@ import { Month } from '../type/month.type';
 @Injectable({
   providedIn: 'root'
 })
-export class GlobalServiceService {
+export class GlobalService {
   readonly vegetableFamilies: VegetableFamily[] = [
     { id: 1, key: 'vegetableFamilies.Solanaceae' },
     { id: 2, key: 'vegetableFamilies.Brassicaceae' },

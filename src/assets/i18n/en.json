@@ -60,7 +60,10 @@
     "daysBeforeHarvest": "Days Before Harvest",
     "enableTransplanting": "Enable Transplanting",
     "transplantingDate": "Transplanting Date",
-    "backToStock": "Back to Stock"
+    "backToInventory": "Back to Inventory",
+    "redirecting": "Redirecting...",
+    "redirectMessage": "The seed form has been moved to the Inventory section.",
+    "goToInventory": "Go to Inventory"
   },
   "vegetableFamilies": {
     "Solanaceae": "Solanaceae (Tomato, Pepper, Eggplant)",
@@ -107,5 +110,20 @@
     "grams": "grams",
     "harvestDate": "Harvest Date",
     "cancel": "Cancel"
+  },
+  "inventory": {
+    "addSeed": "Add Seed",
+    "name": "Name",
+    "family": "Family",
+    "selectFamily": "Select a family...",
+    "sowingDate": "Sowing Date",
+    "sowing": "Sowing",
+    "transplantingDate": "Transplanting Date",
+    "transplanting": "Transplanting",
+    "enableTransplanting": "Enable Transplanting",
+    "daysBeforeHarvest": "Days Before Harvest",
+    "seedInventory": "Seed Inventory",
+    "noSeeds": "No seeds in inventory. Add some seeds to get started!",
+    "remove": "Remove"
   }
 }

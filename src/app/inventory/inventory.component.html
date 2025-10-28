@@ -1,1 +1,127 @@
-<p>inventory works!</p>
+<app-header-menu titleKey="menu.inventory.title"></app-header-menu>
+
+<main class="main-content">
+    <!-- Add Seed Section -->
+    <div class="section-header">
+        <h2>{{'inventory.addSeed' | transloco}}</h2>
+    </div>
+    <section class="add-seed-section">
+        @if (errorMessage) {
+        <div class="error">{{ errorMessage }}</div>
+        }
+        @if (successMessage) {
+        <div class="success">{{ successMessage }}</div>
+        }
+
+        <form (ngSubmit)="addSeed()" #seedForm="ngForm" class="seed-form">
+            <div class="form-field">
+                <label for="name">{{'inventory.name' | transloco}}</label>
+                <input id="name" name="name" type="text" required [(ngModel)]="name" />
+            </div>
+
+            <div class="form-field">
+                <label for="family">{{'inventory.family' | transloco}}</label>
+                <select id="family" name="family" required [(ngModel)]="familyIndex">
+                    <option [value]="DEFAULT_FAMILY_INDEX">{{'inventory.selectFamily' | transloco}}</option>
+                    @for (family of vegetableFamilies; track family.id) {
+                    <option [value]="family.id">{{ family.key | transloco }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label>{{'inventory.sowingDate' | transloco}}</label>
+                <div class="date-inputs">
+                    <select id="sowingDay" name="sowingDay" [(ngModel)]="sowingDay">
+                        @for (day of daysInMonth; track day) {
+                        <option [value]="day">{{ day }}</option>
+                        }
+                    </select>
+                    <select id="sowingMonth" name="sowingMonth" [(ngModel)]="sowingMonth">
+                        @for (month of months; track month.id) {
+                        <option [value]="month.id">{{ month.key | transloco }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label class="checkbox-label">
+                    <input type="checkbox" [(ngModel)]="enableTransplanting" name="enableTransplanting" />
+                    {{'inventory.enableTransplanting' | transloco}}
+                </label>
+            </div>
+
+            @if (enableTransplanting) {
+            <div class="form-field">
+                <label>{{'inventory.transplantingDate' | transloco}}</label>
+                <div class="date-inputs">
+                    <select id="transplantingDay" name="transplantingDay" [(ngModel)]="transplantingDay">
+                        @for (day of daysInMonth; track day) {
+                        <option [value]="day">{{ day }}</option>
+                        }
+                    </select>
+                    <select id="transplantingMonth" name="transplantingMonth" [(ngModel)]="transplantingMonth">
+                        @for (month of months; track month.id) {
+                        <option [value]="month.id">{{ month.key | transloco }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            }
+
+            <div class="form-field">
+                <label for="daysBeforeHarvest">{{'inventory.daysBeforeHarvest' | transloco}}</label>
+                <input id="daysBeforeHarvest" name="daysBeforeHarvest" type="number" min="1" required
+                    [(ngModel)]="daysBeforeHarvest" />
+            </div>
+
+            <button class="action-btn" type="submit" [disabled]="!name || familyIndex === DEFAULT_FAMILY_INDEX">
+                {{'inventory.addSeed' | transloco}}
+            </button>
+        </form>
+    </section>
+
+    <!-- Inventory List Section -->
+    <section class="inventory-list-section">
+        <div class="section-header">
+            <h2>{{'inventory.seedInventory' | transloco}}</h2>
+        </div>
+
+        <div class="inventory-list">
+            @if (inventorySeeds.length === 0) {
+            <p class="empty-message">{{'inventory.noSeeds' | transloco}}</p>
+            } @else {
+            @for (seed of inventorySeeds; track seed.id) {
+            <div class="seed-item">
+                <div class="seed-info">
+                    <h3 class="seed-name">{{ seed.name }}</h3>
+                    <div class="seed-details">
+                        <span class="seed-family">{{ seed.family.key | transloco }}</span>
+                        <span class="seed-days">{{'inventory.daysBeforeHarvest' | transloco}}: {{ seed.daysBeforeHarvest
+                            }}</span>
+                    </div>
+                    <div class="seed-dates">
+                        <span class="sowing-date">
+                            {{'inventory.sowing' | transloco}}: {{ seed.sowing.day }}/{{ seed.sowing.month }}
+                        </span>
+                        @if (seed.transplanting.enabled) {
+                        <span class="transplanting-date">
+                            {{'inventory.transplanting' | transloco}}: {{ seed.transplanting.day }}/{{
+                            seed.transplanting.month }}
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="seed-actions">
+                    <button class="action-btn remove-btn" (click)="removeSeed(seed.id)">
+                        {{'inventory.remove' | transloco}}
+                    </button>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </section>
+</main>

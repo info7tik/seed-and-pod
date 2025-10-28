@@ -1,11 +1,10 @@
 <app-header-menu titleKey="menu.garden.title"></app-header-menu>
 
 <main class="main-content">
+    <div class="section-header">
+        <h2>{{'garden.configuration' | transloco}}</h2>
+    </div>
     <section class="garden-config-section">
-        <div class="section-header">
-            <h2>{{'garden.configuration' | transloco}}</h2>
-        </div>
-
         <div class="config-form">
             <div class="form-field">
                 <label for="numberOfBeds">{{'garden.numberOfBeds' | transloco}}</label>
@@ -20,11 +19,10 @@
     </section>
 
     <!-- Unassigned Seeds Section -->
+    <div class="section-header">
+        <h2>{{'garden.unassignedSeeds' | transloco}}</h2>
+    </div>
     <section class="unassigned-seeds-section">
-        <div class="section-header">
-            <h2>{{'garden.unassignedSeeds' | transloco}}</h2>
-        </div>
-
         <div class="seeds-list">
             @if (unassignedSeeds.length === 0) {
             <p class="empty-message">{{'garden.allSeedsAssignedToBeds' | transloco}}</p>
@@ -56,11 +54,10 @@
     </section>
 
     <!-- Garden Beds Section -->
+    <div class="section-header">
+        <h2>{{'garden.gardenBeds' | transloco}}</h2>
+    </div>
     <section class="garden-beds-section">
-        <div class="section-header">
-            <h2>{{'garden.gardenBeds' | transloco}}</h2>
-        </div>
-
         <div class="beds-grid">
             @for (bed of beds; track bed.id) {
             <div class="bed-card">

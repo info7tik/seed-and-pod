@@ -1,6 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderMenu } from '../header-menu/header-menu.component';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SeedService } from '../service/seed.service';
 import { InventorySeed } from '../type/inventory-seed.type';
@@ -10,7 +9,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-stock',
-  imports: [HeaderMenu, RouterLink, FormsModule, TranslocoPipe],
+  imports: [HeaderMenu, FormsModule, TranslocoPipe],
   templateUrl: './stock.component.html',
   styleUrl: './stock.component.scss'
 })

@@ -5,7 +5,7 @@ import { HeaderMenu } from '../header-menu/header-menu.component';
 import { SeedService } from '../service/seed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { VegetableFamily } from '../type/vegetable-family';
-import { GlobalServiceService } from '../service/global-service.service';
+import { GlobalService } from '../service/global-service.service';
 
 @Component({
   selector: 'app-new-seed',
@@ -29,7 +29,7 @@ export class NewSeed {
   successMessage: string | null = null;
 
 
-  constructor(private seedService: SeedService, private globalService: GlobalServiceService) { }
+  constructor(private seedService: SeedService, private globalService: GlobalService) { }
 
   get months() {
     return this.globalService.months;

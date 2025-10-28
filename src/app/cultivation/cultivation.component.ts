@@ -3,7 +3,7 @@ import { HeaderMenu } from '../header-menu/header-menu.component';
 import { TaskService } from '../service/task.service';
 import { Task } from '../type/task.type';
 import { CommonModule } from '@angular/common';
-import { GlobalServiceService } from '../service/global-service.service';
+import { GlobalService } from '../service/global-service.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 type Month = number;
@@ -19,7 +19,7 @@ export class Cultivation {
   doneTasks: Task[] = [];
   showDone = false;
 
-  constructor(private taskService: TaskService, private globalService: GlobalServiceService) {
+  constructor(private taskService: TaskService, private globalService: GlobalService) {
     this.refreshTasks();
   }
 
