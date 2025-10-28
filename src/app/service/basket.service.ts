@@ -40,7 +40,11 @@ export class BasketService {
   }
 
   private findHarvest(harvests: Harvest[], harvest: Harvest): Harvest | undefined {
-    return harvests.find(h => h.date.getTime() === harvest.date.getTime() && h.seedId === harvest.seedId);
+    return harvests.find(h =>
+      h.date.getFullYear() === harvest.date.getFullYear() &&
+      h.date.getMonth() === harvest.date.getMonth() &&
+      h.date.getDate() === harvest.date.getDate() &&
+      h.seedId === harvest.seedId);
   }
 
   private saveHarvests(harvests: Harvest[]): void {
