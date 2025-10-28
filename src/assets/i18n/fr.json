@@ -84,5 +84,12 @@
     "October": "Octobre",
     "November": "Novembre",
     "December": "Décembre"
+  },
+  "basket": {
+    "harvestVegetables": "Récolter des Légumes",
+    "addHarvest": "Ajouter une Récolte",
+    "harvestHistory": "Historique des Récoltes",
+    "noHarvests": "Aucune récolte enregistrée. Ajoutez votre première récolte pour commencer !",
+    "remove": "Supprimer"
   }
 }

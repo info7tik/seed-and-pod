@@ -1,0 +1,134 @@
+.main-content {
+    padding: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+.add-harvest-section {
+    margin-bottom: 32px;
+}
+
+.harvest-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background: #15803d;
+    }
+
+    .harvest-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.harvest-list {
+    display: grid;
+    gap: 12px;
+}
+
+.harvest-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.harvest-info {
+    display: grid;
+    gap: 6px;
+    flex: 1;
+}
+
+.harvest-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.harvest-details {
+    display: flex;
+    gap: 16px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.harvest-date {
+    font-weight: 500;
+}
+
+.harvest-weight {
+    font-weight: 600;
+    color: #16a34a;
+}
+
+.harvest-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.remove-btn {
+    background: #dc2626;
+    color: white;
+
+    &:hover {
+        background: #b91c1c;
+    }
+}
+
+.empty-message {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 40px 20px;
+    margin: 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    font-size: 16px;
+}

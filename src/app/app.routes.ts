@@ -5,6 +5,7 @@ import { Garden } from './garden/garden.component';
 import { Stock } from './stock/stock.component';
 import { Menu } from './menu/menu.component';
 import { NewSeed } from './new-seed/new-seed.component';
+import { NewHarvestComponent } from './new-harvest/new-harvest.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'menu', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'cultivation', component: Cultivation },
   { path: 'garden', component: Garden },
   { path: 'stock', component: Stock },
-  { path: 'new-seed', component: NewSeed }
+  { path: 'new-seed', component: NewSeed },
+  { path: 'new-harvest', component: NewHarvestComponent }
 ];

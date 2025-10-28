@@ -1,5 +1,40 @@
 <app-header-menu titleKey="menu.basket.title"></app-header-menu>
 
 <main class="main-content">
-    <p>basket works!</p>
+    <!-- Harvest List Section -->
+    <section class="harvest-list-section">
+        <div class="section-header">
+            <h2>{{'basket.harvestHistory' | transloco}}</h2>
+            <button class="harvest-btn" routerLink="/new-harvest">
+                <svg class="harvest-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+                {{'basket.addHarvest' | transloco}}
+            </button>
+        </div>
+
+        <div class="harvest-list">
+            @if (harvests.length === 0) {
+            <p class="empty-message">{{'basket.noHarvests' | transloco}}</p>
+            } @else {
+            @for (harvest of harvests; track harvest.seedId + harvest.date.getTime()) {
+            <div class="harvest-item">
+                <div class="harvest-info">
+                    <h3 class="harvest-name">{{ harvest.seedName }}</h3>
+                    <div class="harvest-details">
+                        <span class="harvest-date">{{ harvest.date | date: 'mediumDate' }}</span>
+                        <span class="harvest-weight">{{ formatWeight(harvest.weightGrams) }}</span>
+                    </div>
+                </div>
+
+                <div class="harvest-actions">
+                    <button class="action-btn remove-btn" (click)="removeHarvest(harvest)">
+                        {{'basket.remove' | transloco}}
+                    </button>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </section>
 </main>
