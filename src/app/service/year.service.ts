@@ -8,6 +8,7 @@ import { ClockService } from './clock.service';
 })
 export class YearService {
   public readonly YEAR_KEY = 'selected-year';
+  public readonly YEARS_KEY = 'years';
 
   constructor(private clockService: ClockService, private storageService: StorageService) { }
 

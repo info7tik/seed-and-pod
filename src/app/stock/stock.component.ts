@@ -6,6 +6,7 @@ import { InventorySeed } from '../type/inventory-seed.type';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { InventoryService } from '../service/inventory.service';
 
 @Component({
   selector: 'app-stock',
@@ -15,21 +16,21 @@ import { TranslocoPipe } from '@jsverse/transloco';
 })
 export class Stock implements OnInit {
   readonly DEFAULT_SEED_ID = '-1';
-  availableSeeds: InventorySeed[] = [];
+  inventorySeeds: InventorySeed[] = [];
   stockSeeds: StockSeedWithDetails[] = [];
   seedIdToAddInStock: SeedId = this.DEFAULT_SEED_ID;
   selectedSeeds: Set<SeedId> = new Set();
 
-  constructor(private seedService: SeedService) { }
+  constructor(private seedService: SeedService, private inventoryService: InventoryService) { }
 
   ngOnInit(): void {
-    this.availableSeeds = this.seedService.getInventorySeeds();
+    this.inventorySeeds = this.inventoryService.getInventorySeeds();
     this.stockSeeds = this.seedService.getStockSeeds();
   }
 
-  get availableSeedsNotInStock(): InventorySeed[] {
+  get inventorySeedsNotInStock(): InventorySeed[] {
     const stockSeedIds = this.stockSeeds.map(seed => seed.id);
-    return this.availableSeeds.filter(seed => !stockSeedIds.includes(seed.id));
+    return this.inventorySeeds.filter(seed => !stockSeedIds.includes(seed.id));
   }
 
   addSeedToStock() {

@@ -7,13 +7,13 @@
     </div>
 
     <div class="add-existing-seed">
-        @if (availableSeedsNotInStock.length === 0) {
+        @if (inventorySeedsNotInStock.length === 0) {
         <p class="no-seeds-message">{{'stock.allSeedsInStock' | transloco}}</p>
         } @else {
         <select id="family" name="family" class="seed-select" [(ngModel)]="seedIdToAddInStock"
             (change)="addSeedToStock()">
             <option [value]="DEFAULT_SEED_ID">{{'stock.selectSeed' | transloco}}</option>
-            @for (seed of availableSeedsNotInStock; track seed.id) {
+            @for (seed of inventorySeedsNotInStock; track seed.id) {
             <option [value]="seed.id">{{seed.name}} - {{seed.family.key| transloco}}</option>
             }
         </select>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HeaderMenu } from '../header-menu/header-menu.component';
-import { SeedService } from '../service/seed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { GlobalService } from '../service/global-service.service';
 import { InventorySeed } from '../type/inventory-seed.type';
+import { InventoryService } from '../service/inventory.service';
+import { SeedId } from '../type/seed-id.type';
 
 @Component({
   selector: 'app-inventory',
@@ -29,7 +30,7 @@ export class InventoryComponent implements OnInit {
   successMessage: string | null = null;
   inventorySeeds: InventorySeed[] = [];
 
-  constructor(private seedService: SeedService, private globalService: GlobalService) { }
+  constructor(private inventoryService: InventoryService, private globalService: GlobalService) { }
 
   ngOnInit(): void {
     this.loadInventorySeeds();
@@ -44,7 +45,7 @@ export class InventoryComponent implements OnInit {
   }
 
   loadInventorySeeds(): void {
-    this.inventorySeeds = this.seedService.getInventorySeeds();
+    this.inventorySeeds = this.inventoryService.getInventorySeeds();
   }
 
   addSeed() {
@@ -58,7 +59,7 @@ export class InventoryComponent implements OnInit {
       return;
     }
     try {
-      this.seedService.addInventorySeed({
+      this.inventoryService.addInventorySeed({
         name: trimmedName,
         family: this.vegetableFamilies[this.familyIndex],
         sowing: {
@@ -81,9 +82,9 @@ export class InventoryComponent implements OnInit {
     }
   }
 
-  removeSeed(seedId: string): void {
+  removeSeed(seedId: SeedId): void {
     try {
-      this.seedService.removeInventorySeed(seedId);
+      this.inventoryService.removeInventorySeed(seedId);
       this.loadInventorySeeds();
     } catch (error) {
       console.error('Error removing seed:', error);

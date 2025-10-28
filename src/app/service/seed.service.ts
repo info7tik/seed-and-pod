@@ -3,75 +3,23 @@ import { StorageService } from './storage.service';
 import { InventorySeed, InventorySeedProperties } from '../type/inventory-seed.type';
 import { StockSeed, StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
+import { InventoryService } from './inventory.service';
+import { SeedHelper } from './seed-helper';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SeedService {
-  public readonly INVENTORY_SEEDS_KEY = 'inventory-seeds';
+export class SeedService extends SeedHelper {
   public readonly STOCK_SEEDS_KEY = 'stock-seeds';
 
-  constructor(private storageService: StorageService) { }
-  /**
- * Get all inventory seeds as an array
- * @returns InventorySeed[] - All inventory seeds
- */
-  getInventorySeeds(): InventorySeed[] {
-    return this.getRawInventorySeeds() as InventorySeed[];
-  }
-
-  /**
-   * Get an inventory seed by id
-   * @param id - The id of the seed to get
-   * @returns InventorySeed - The inventory seed
-   * @throws Error if seed does not exist
-   */
-  getInventorySeedById(id: SeedId): InventorySeed {
-    return this.getSeedById(this.getRawInventorySeeds(), id);
-  }
-
-  /**
-   * Add a seed to inventory seeds
-   * @param seed - The seed to add
-   * @throws Error if seed with same name already exists
-   */
-  addInventorySeed(seed: InventorySeedProperties): void {
-    const inventorySeeds = this.getRawInventorySeeds();
-    if (seedNameExists(inventorySeeds, seed.name)) {
-      throw new Error(`seed with name ${seed.name} already exists`);
-    }
-    inventorySeeds.push({ ...seed, id: getNextSeedId(inventorySeeds) });
-    this.saveInventorySeeds(inventorySeeds);
-
-
-    function seedNameExists(seeds: InventorySeed[], name: string): boolean {
-      return seeds.some(s => s.name === name);
-    }
-
-    function getNextSeedId(seeds: InventorySeed[]): SeedId {
-      return (seeds.length + 1).toString();
-    }
-  }
-
-  /**
-   * Remove an inventory seed
-   * @param seedId - The id of the seed to remove
-   * @throws Error if seed does not exist
-   */
-  removeInventorySeed(seedId: SeedId): void {
-    const inventorySeeds = this.getRawInventorySeeds();
-    if (!this.seedIdExists(inventorySeeds, seedId)) {
-      throw new Error(`seed with id ${seedId} does not exist`);
-    }
-    this.saveInventorySeeds(inventorySeeds.filter(seed => seed.id !== seedId));
-  }
+  constructor(private storageService: StorageService, private inventoryService: InventoryService) { super(); }
 
   /**
    * Get all stock seeds as an array
    * @returns StockSeed[] - All stock seeds with available seeds properties
    */
   getStockSeeds(): StockSeedWithDetails[] {
-    const inventorySeeds: InventorySeed[] = this.getRawInventorySeeds();
+    const inventorySeeds: InventorySeed[] = this.inventoryService.getInventorySeeds();
     const stockSeeds: StockSeed[] = this.getRawStockSeeds();
     return stockSeeds.map((seed) => ({ ...seed, ...this.getSeedById(inventorySeeds, seed.id) }));
   }
@@ -97,7 +45,7 @@ export class SeedService {
     if (this.seedIdExists(stockSeeds, seedId)) {
       return;
     }
-    if (!this.seedIdExists(this.getRawInventorySeeds(), seedId)) {
+    if (!this.seedIdExists(this.inventoryService.getInventorySeeds(), seedId)) {
       throw new Error(`seed with id ${seedId} does not exist as inventory seed`);
     }
     stockSeeds.push(this.buildStockSeedWithDefaultProperties(seedId));
@@ -151,28 +99,8 @@ export class SeedService {
     stockSeed.exhausted = exhausted;
   }
 
-  private getSeedById<SeedType extends InventorySeed | StockSeed>(availableSeeds: SeedType[], id: SeedId) {
-    const seed = availableSeeds.find(s => s.id === id);
-    if (!seed) {
-      throw new Error(`seed with id ${id} does not exist`);
-    }
-    return seed;
-  }
-
-  private seedIdExists<SeedType extends InventorySeed | StockSeed>(seeds: SeedType[], id: SeedId): boolean {
-    return seeds.some(s => s.id === id);
-  }
-
-  private saveInventorySeeds(inventorySeeds: InventorySeed[]) {
-    this.storageService.setItem(this.INVENTORY_SEEDS_KEY, inventorySeeds);
-  }
-
   private saveStockSeeds(stockSeeds: StockSeed[]) {
     this.storageService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
-  }
-
-  private getRawInventorySeeds(): InventorySeed[] {
-    return this.storageService.getItem(this.INVENTORY_SEEDS_KEY, []);
   }
 
   private getRawStockSeeds(): StockSeed[] {
