@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslocoService, TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
@@ -12,6 +12,12 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
 })
 export class Menu {
   items = [
+    {
+      title: 'menu.inventory.title',
+      subtitle: 'menu.inventory.subtitle',
+      image: '/assets/menu/inventory.png',
+      route: '/inventory'
+    },
     {
       title: 'menu.stock.title',
       subtitle: 'menu.stock.subtitle',
@@ -38,5 +44,5 @@ export class Menu {
     }
   ];
 
-  constructor(private transloco: TranslocoService) { }
+  constructor() { }
 }

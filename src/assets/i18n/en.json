@@ -12,6 +12,10 @@
       "title": "Garden",
       "subtitle": "Organize your garden layout"
     },
+    "inventory": {
+      "title": "Inventory",
+      "subtitle": "Select your seeds and their properties"
+    },
     "stock": {
       "title": "Stock",
       "subtitle": "Manage your seed bank"

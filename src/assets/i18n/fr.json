@@ -12,6 +12,10 @@
       "title": "Jardin",
       "subtitle": "Organiser la disposition de votre jardin"
     },
+    "inventory": {
+      "title": "Inventaire",
+      "subtitle": "Sélectionner vos graines et leurs propriétés"
+    },
     "stock": {
       "title": "Stock",
       "subtitle": "Gérer votre stock de graines"
