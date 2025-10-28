@@ -140,11 +140,11 @@ export class TaskService {
   }
 
   private getTasks(): Task[] {
-    return this.yearService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date), completed: new Date(t.completed) }));
+    return this.yearService.getItemByYear(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date), completed: new Date(t.completed) }));
   }
 
   private saveTasks(tasks: Task[]) {
-    this.yearService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString(), completed: t.completed.toISOString() })));
+    this.yearService.setItemByYear(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString(), completed: t.completed.toISOString() })));
   }
 }
 

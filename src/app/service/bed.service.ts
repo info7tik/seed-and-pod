@@ -20,7 +20,7 @@ export class BedService {
   }
 
   getBeds(): Bed[] {
-    const beds = this.yearService.getItem(this.BEDS_KEY, []);
+    const beds = this.yearService.getItemByYear(this.BEDS_KEY, []);
     if (beds.length === 0) {
       this.createBeds(1);
       return this.getBeds();
@@ -63,6 +63,6 @@ export class BedService {
   }
 
   saveBeds(beds: Bed[]): void {
-    this.yearService.setItem(this.BEDS_KEY, beds);
+    this.yearService.setItemByYear(this.BEDS_KEY, beds);
   }
 }

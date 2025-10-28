@@ -11,7 +11,7 @@ export class HarvestService {
   constructor(private yearService: YearService) { }
 
   getHarvests(): Harvest[] {
-    return this.sortHarvests(this.yearService.getItem(this.HARVESTS_KEY, []).map((h: HarvestWithStringDate) => ({ ...h, date: new Date(h.date) })));
+    return this.sortHarvests(this.yearService.getItemByYear(this.HARVESTS_KEY, []).map((h: HarvestWithStringDate) => ({ ...h, date: new Date(h.date) })));
   }
 
   private sortHarvests<H extends Harvest | AggregatedHarvest>(harvests: H[]): H[] {
@@ -49,7 +49,7 @@ export class HarvestService {
 
   private saveHarvests(harvests: Harvest[]): void {
     const serializedHarvests = harvests.map((h: Harvest) => ({ ...h, date: h.date.toISOString() }));
-    this.yearService.setItem(this.HARVESTS_KEY, serializedHarvests);
+    this.yearService.setItemByYear(this.HARVESTS_KEY, serializedHarvests);
   }
 
   aggregateHarvests(harvests: Harvest[]): AggregatedHarvest[] {

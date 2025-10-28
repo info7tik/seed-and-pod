@@ -67,11 +67,10 @@ export class InventoryService extends SeedHelper {
   }
 
   private saveInventorySeeds(inventorySeeds: InventorySeed[]) {
-    this.yearService.setItem(this.INVENTORY_SEEDS_KEY, inventorySeeds);
+    this.yearService.setItemByYear(this.INVENTORY_SEEDS_KEY, inventorySeeds);
   }
 
   private getRawInventorySeeds(): InventorySeed[] {
-    return this.yearService.getItem(this.INVENTORY_SEEDS_KEY, []);
+    return this.yearService.getItemByYear(this.INVENTORY_SEEDS_KEY, []);
   }
-
 }

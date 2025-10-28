@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Task } from '../type/task.type';
 import { ClockService } from './clock.service';
+import { range } from './library';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,17 @@ export class YearService {
   public readonly YEARS_KEY = 'years';
 
   constructor(private clockService: ClockService, private storageService: StorageService) { }
+
+
+  getYears(): number[] {
+    const data = this.storageService.getData();
+    const possibleYears: number[] = Object.keys(data.years).map(year => parseInt(year));
+    const currentYear = this.clockService.now().getFullYear();
+    possibleYears.push(currentYear - 1);
+    possibleYears.push(currentYear);
+    possibleYears.push(currentYear + 1);
+    return range(Math.min(...possibleYears), Math.max(...possibleYears));
+  }
 
   getSelectedYear(): number {
     const savedYear = this.storageService.getData().selectedYear;
@@ -30,7 +42,7 @@ export class YearService {
     return tasks.filter(task => this.clockService.isFuture(task.date));
   }
 
-  getItem<T>(key: string, defaultValue: T): T {
+  getItemByYear<T>(key: string, defaultValue: T): T {
     const data = this.storageService.getData();
     const yearData = data.years[this.getSelectedYear()];
     if (yearData === undefined) {
@@ -39,7 +51,7 @@ export class YearService {
     return yearData[key] || defaultValue;
   }
 
-  setItem<T>(key: string, value: T): void {
+  setItemByYear<T>(key: string, value: T): void {
     const data = this.storageService.getData();
     if (!(this.getSelectedYear() in data.years)) {
       data.years[this.getSelectedYear()] = {};

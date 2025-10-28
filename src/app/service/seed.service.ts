@@ -100,11 +100,11 @@ export class SeedService extends SeedHelper {
   }
 
   private saveStockSeeds(stockSeeds: StockSeed[]) {
-    this.yearService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
+    this.yearService.setItemByYear(this.STOCK_SEEDS_KEY, stockSeeds);
   }
 
   private getRawStockSeeds(): StockSeed[] {
-    return this.yearService.getItem(this.STOCK_SEEDS_KEY, []);
+    return this.yearService.getItemByYear(this.STOCK_SEEDS_KEY, []);
   }
 }
 
