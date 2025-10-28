@@ -5,7 +5,7 @@ import { AggregatedHarvest, Harvest, HarvestWithStringDate } from '../type/harve
 @Injectable({
   providedIn: 'root'
 })
-export class BasketService {
+export class HarvestService {
   public readonly HARVESTS_KEY = 'harvests';
 
   constructor(private storageService: StorageService) { }

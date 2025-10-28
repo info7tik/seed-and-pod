@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HeaderMenu } from '../header-menu/header-menu.component';
-import { BasketService } from '../service/basket.service';
+import { HarvestService } from '../service/harvest.service';
 import { SeedService } from '../service/seed.service';
 import { StockSeedWithDetails } from '../type/stock-seed.type';
 import { Harvest } from '../type/harvest.type';
@@ -24,7 +24,7 @@ export class NewHarvestComponent implements OnInit {
   successMessage: string | null = null;
 
   constructor(
-    private basketService: BasketService,
+    private basketService: HarvestService,
     private seedService: SeedService
   ) { }
 

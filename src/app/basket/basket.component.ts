@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HeaderMenu } from "../header-menu/header-menu.component";
-import { BasketService } from '../service/basket.service';
+import { HarvestService } from '../service/harvest.service';
 import { AggregatedHarvest, Harvest } from '../type/harvest.type';
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -21,7 +21,7 @@ export class Basket implements OnInit {
     return this.basketService.aggregateHarvests(this.harvests);
   }
 
-  constructor(private basketService: BasketService) { }
+  constructor(private basketService: HarvestService) { }
 
   ngOnInit(): void {
     this.loadHarvests();

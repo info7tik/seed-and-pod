@@ -1,14 +1,14 @@
 import test from '@playwright/test';
-import { BasketService } from '../src/app/service/basket.service';
 import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
+import { HarvestService } from '../src/app/service/harvest.service';
 
 const dataBuilderService = new DataBuilderService();
 
 test('getHarvests()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   mockStorageService.setItem(service.HARVESTS_KEY, dataBuilderService.buildTomatoAndPeasHarvests());
   const harvests = service.getHarvests();
@@ -26,7 +26,7 @@ test('getHarvests()', () => {
 test('addHarvest()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const tomatoHarvest = dataBuilderService.buildHarvests(dataBuilderService.buildTomatoAndPeasHarvests());
   service.addHarvest(tomatoHarvest[0]);
@@ -41,7 +41,7 @@ test('addHarvest()', () => {
 test('addHarvest() - can not add harvest for same seed with same date', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
   mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
@@ -55,7 +55,7 @@ test('addHarvest() - can not add harvest for same seed with same date', () => {
 test('addHarvest() - can not add harvest for same seed in the same day', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
   mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
@@ -69,7 +69,7 @@ test('addHarvest() - can not add harvest for same seed in the same day', () => {
 test('removeHarvest()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
   mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
@@ -84,7 +84,7 @@ test('removeHarvest()', () => {
 test('removeHarvest() - multiple harvests of same seed', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoMultipleHarvests();
   mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
@@ -99,7 +99,7 @@ test('removeHarvest() - multiple harvests of same seed', () => {
 test('aggregateHarvests()', () => {
   const mockStorageService: MockStorageService = new MockStorageService();
   mockStorageService.clear();
-  const service = new BasketService(mockStorageService);
+  const service = new HarvestService(mockStorageService);
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoMultipleHarvests();
   const firstWeightGrams = 1234;
