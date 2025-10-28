@@ -1,23 +1,18 @@
 import { StorageService } from "../service/storage.service";
+import { StorageData } from "../type/storage-data.type";
 
 export class MockStorageService extends StorageService {
-    private items: { [key: string]: any } = {};
+    private data: string = JSON.stringify(this.DEFAULT_DATA);
 
-    override getItem(key: string, defaultValue: any) {
-        return structuredClone(this.items[key]) || defaultValue;
+    override getData(): StorageData {
+        return JSON.parse(this.data);
     }
 
-    override setItem(key: string, value: any) {
-        this.items[key] = value;
-        return true;
+    override setData(data: StorageData): void {
+        this.data = JSON.stringify(data);
     }
 
-    override removeItem(key: string) {
-        delete this.items[key];
-        return true;
-    }
-
-    clear() {
-        this.items = {};
+    override clear(): void {
+        this.data = JSON.stringify(this.DEFAULT_DATA);
     }
 }

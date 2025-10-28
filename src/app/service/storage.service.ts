@@ -1,87 +1,22 @@
 import { Injectable } from '@angular/core';
+import { StorageData } from '../type/storage-data.type';
 
 @Injectable({
     providedIn: 'root'
 })
 export class StorageService {
-    private readonly PREFIX = 'seed-and-pod-';
+    private readonly DATA_KEY = 'seed-and-pod-data';
+    protected readonly DEFAULT_DATA: StorageData = { years: {}, selectedYear: 0 };
 
-    /**
-     * Get an item from localStorage
-     * @param key - The key to retrieve
-     * @param defaultValue - Default value if key doesn't exist
-     * @returns The stored value or default value
-     */
-    getItem<T>(key: string, defaultValue: T): T {
-        try {
-            const fullKey = this.getFullKey(key);
-            const stored = localStorage.getItem(fullKey);
-            if (stored === null) {
-                return defaultValue;
-            }
-            return JSON.parse(stored);
-        } catch (error) {
-            console.error(`Error loading ${key} from localStorage:`, error);
-            return defaultValue;
-        }
+    getData(): StorageData {
+        return JSON.parse(localStorage.getItem(this.DATA_KEY) || JSON.stringify(this.DEFAULT_DATA));
     }
 
-    /**
-     * Set an item in localStorage
-     * @param key - The key to store
-     * @param value - The value to store
-     * @returns boolean - true if successful, false otherwise
-     */
-    setItem<T>(key: string, value: T): boolean {
-        try {
-            console.log(`saving item to key '${key}'`);
-            const fullKey = this.getFullKey(key);
-            localStorage.setItem(fullKey, JSON.stringify(value));
-            return true;
-        } catch (error) {
-            console.error(`Error saving ${key} to localStorage:`, error);
-            return false;
-        }
+    setData(data: StorageData): void {
+        localStorage.setItem(this.DATA_KEY, JSON.stringify(data));
     }
 
-    /**
-     * Remove an item from localStorage
-     * @param key - The key to remove
-     * @returns boolean - true if successful, false otherwise
-     */
-    removeItem(key: string): boolean {
-        try {
-            console.log(`removing item from key '${key}'`);
-            const fullKey = this.getFullKey(key);
-            localStorage.removeItem(fullKey);
-            return true;
-        } catch (error) {
-            console.error(`Error removing ${key} from localStorage:`, error);
-            return false;
-        }
-    }
-
-    /**
-     * Check if a key exists in localStorage
-     * @param key - The key to check
-     * @returns boolean - true if key exists, false otherwise
-     */
-    hasItem(key: string): boolean {
-        try {
-            const fullKey = this.getFullKey(key);
-            return localStorage.getItem(fullKey) !== null;
-        } catch (error) {
-            console.error(`Error checking ${key} in localStorage:`, error);
-            return false;
-        }
-    }
-
-    /**
-     * Get the full key with app prefix
-     * @param key - The base key
-     * @returns string - The full key with prefix
-     */
-    private getFullKey(key: string): string {
-        return `${this.PREFIX}${key}`;
+    clear(): void {
+        localStorage.clear();
     }
 }
