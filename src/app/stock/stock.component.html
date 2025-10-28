@@ -23,19 +23,16 @@
     <!-- Stock Management Section -->
     <h2>{{'stock.currentStock' | transloco}}</h2>
     <section class="stock-section">
-        <div class="section-header">
+        <div class="stock-list">
+            @if (stockSeeds.length === 0) {
+            <p class="empty-message">{{'stock.noSeedsInStock' | transloco}}</p>
+            } @else {
             <div class="action-buttons">
                 <button class="action-btn remove-btn" (click)="removeSelectedSeeds()"
                     [disabled]="selectedSeedsCount === 0">
                     {{'stock.removeSelected' | transloco}}
                 </button>
             </div>
-        </div>
-
-        <div class="stock-list">
-            @if (stockSeeds.length === 0) {
-            <p class="empty-message">{{'stock.noSeedsInStock' | transloco}}</p>
-            } @else {
             @for (seed of stockSeeds; track seed.id) {
             <div class="seed-item" [class.selected]="isSeedSelected(seed.id)" [class.exhausted]="seed.exhausted">
                 <label class="seed-checkbox">
