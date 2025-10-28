@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { InventorySeed, InventorySeedProperties } from '../type/inventory-seed.type';
-import { StorageService } from './storage.service';
 import { SeedId } from '../type/seed-id.type';
 import { SeedHelper } from './seed-helper';
+import { YearService } from './year.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { SeedHelper } from './seed-helper';
 export class InventoryService extends SeedHelper {
   public readonly INVENTORY_SEEDS_KEY = 'inventory-seeds';
 
-  constructor(private storageService: StorageService) { super(); }
+  constructor(private yearService: YearService) { super(); }
 
   /**
  * Get all inventory seeds as an array
@@ -67,11 +67,11 @@ export class InventoryService extends SeedHelper {
   }
 
   private saveInventorySeeds(inventorySeeds: InventorySeed[]) {
-    this.storageService.setItem(this.INVENTORY_SEEDS_KEY, inventorySeeds);
+    this.yearService.setItem(this.INVENTORY_SEEDS_KEY, inventorySeeds);
   }
 
   private getRawInventorySeeds(): InventorySeed[] {
-    return this.storageService.getItem(this.INVENTORY_SEEDS_KEY, []);
+    return this.yearService.getItem(this.INVENTORY_SEEDS_KEY, []);
   }
 
 }

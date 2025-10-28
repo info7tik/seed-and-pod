@@ -3,59 +3,52 @@ import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { YearService } from '../src/app/service/year.service';
 import { MockClockService } from '../src/app/mock/mock-clock.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
+import { MockFactory } from '../src/app/mock/mock-factory';
 
 const dataBuilderService = new DataBuilderService();
 
 test('getItem()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
+  MockFactory.initializeMocks(new Date(2022, 6, 21));
   const defaultValue = 'defaultValue';
   const testKey = 'testKey';
   const testValue = 'testValue';
-  const year = 2022;
-  const service = new YearService(new MockClockService(new Date(2022, 6, 21)), mockStorageService);
-  test.expect(service.getItem(year, testKey, defaultValue)).toBe(defaultValue);
-  mockStorageService.setData({ years: { [year]: { testKey: testValue } }, selectedYear: 0 });
-  test.expect(service.getItem(year, testKey, testValue)).toBe(testValue);
+  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
+  test.expect(service.getItem(testKey, defaultValue)).toBe(defaultValue);
+  MockFactory.storageService.setData({ years: { [2022]: { testKey: testValue } }, selectedYear: 0 });
+  test.expect(service.getItem(testKey, defaultValue)).toBe(testValue);
 });
 
 test('setItem()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
+  MockFactory.initializeMocks(new Date(2022, 6, 21));
   const testKey = 'testKey';
   const testValue = 'testValue';
-  const year = 2024;
-  const service = new YearService(new MockClockService(new Date(2022, 6, 21)), mockStorageService);
-  service.setItem(year, testKey, testValue);
-  test.expect(mockStorageService.getData().years[year][testKey]).toBe(testValue);
+  const selectedYear = 2022;
+  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
+  service.setItem(testKey, testValue);
+  test.expect(MockFactory.storageService.getData().years[selectedYear][testKey]).toBe(testValue);
   const updatedValue = 'updatedValue';
-  service.setItem(year, testKey, updatedValue);
-  test.expect(mockStorageService.getData().years[year][testKey]).toBe(updatedValue);
+  service.setItem(testKey, updatedValue);
+  test.expect(MockFactory.storageService.getData().years[selectedYear][testKey]).toBe(updatedValue);
 });
 
 test('getSelectedYear() without data', () => {
-  const mockClockService: MockClockService = new MockClockService(new Date(2022, 6, 21));
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new YearService(mockClockService, mockStorageService);
+  MockFactory.initializeMocks(new Date(2022, 6, 21));
+  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   test.expect(service.getSelectedYear()).toBe(2022);
-  mockStorageService.setData({ years: {}, selectedYear: 2025 });
+  MockFactory.storageService.setData({ years: {}, selectedYear: 2025 });
   test.expect(service.getSelectedYear()).toBe(2025);
 });
 
 test('saveSelectedYear()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new YearService(new MockClockService(new Date(2022, 6, 21)), mockStorageService);
+  MockFactory.initializeMocks(new Date(2022, 6, 21));
+  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   service.saveSelectedYear(2025);
   test.expect(service.getSelectedYear()).toBe(2025);
 });
 
 test('getFutureTasks()', () => {
-  const mockClockService: MockClockService = new MockClockService(new Date(2025, 1, 22));//2025-02-22
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new YearService(mockClockService, mockStorageService);
+  MockFactory.initializeMocks(new Date(2025, 1, 22));//2025-02-22
+  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   const tasks = dataBuilderService.buildTasks(dataBuilderService.buildUnorderedTasks('scheduled'));
   const futureTasks = service.keepFutureTasks(tasks);
   test.expect(futureTasks.length).toBe(2);

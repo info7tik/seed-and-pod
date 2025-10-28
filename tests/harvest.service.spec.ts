@@ -1,16 +1,15 @@
 import test from '@playwright/test';
-import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
 import { HarvestService } from '../src/app/service/harvest.service';
-
+import { MockFactory } from '../src/app/mock/mock-factory'
+import { YearService } from '../src/app/service/year.service';
 const dataBuilderService = new DataBuilderService();
 
 test('getHarvests()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
-  mockStorageService.setItem(service.HARVESTS_KEY, dataBuilderService.buildTomatoAndPeasHarvests());
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: dataBuilderService.buildTomatoAndPeasHarvests() } }, selectedYear: 2022 });
   const harvests = service.getHarvests();
   test.expect(harvests.length).toBe(2);
   test.expect(harvests[0].seedId).toBe(dataBuilderService.peasSeedId);
@@ -24,9 +23,8 @@ test('getHarvests()', () => {
 });
 
 test('addHarvest()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const tomatoHarvest = dataBuilderService.buildHarvests(dataBuilderService.buildTomatoAndPeasHarvests());
   service.addHarvest(tomatoHarvest[0]);
@@ -39,12 +37,11 @@ test('addHarvest()', () => {
 });
 
 test('addHarvest() - can not add harvest for same seed with same date', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
-  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: existingHarvests } }, selectedYear: 2022 });
   const tomatoHarvest = dataBuilderService.buildHarvests(existingHarvests)[0];
   tomatoHarvest.weightGrams = 1000;
   test.expect(service.getHarvests().length).toBe(2);
@@ -53,12 +50,11 @@ test('addHarvest() - can not add harvest for same seed with same date', () => {
 });
 
 test('addHarvest() - can not add harvest for same seed in the same day', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
-  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: existingHarvests } }, selectedYear: 2022 });
   const tomatoHarvest = dataBuilderService.buildHarvests(existingHarvests)[0];
   tomatoHarvest.date = new Date(tomatoHarvest.date.getTime() + 1000);
   test.expect(service.getHarvests().length).toBe(2);
@@ -67,12 +63,11 @@ test('addHarvest() - can not add harvest for same seed in the same day', () => {
 });
 
 test('removeHarvest()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoAndPeasHarvests();
-  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: existingHarvests } }, selectedYear: 2022 });
   const tomatoHarvest = dataBuilderService.buildHarvests(existingHarvests)[0];
   test.expect(service.getHarvests().length).toBe(2);
   service.removeHarvest(tomatoHarvest);
@@ -82,12 +77,11 @@ test('removeHarvest()', () => {
 });
 
 test('removeHarvest() - multiple harvests of same seed', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoMultipleHarvests();
-  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: existingHarvests } }, selectedYear: 2022 });
   test.expect(service.getHarvests().length).toBe(3);
   const harvestToRemove = dataBuilderService.buildHarvests(existingHarvests)[0];
   service.removeHarvest(harvestToRemove);
@@ -97,9 +91,8 @@ test('removeHarvest() - multiple harvests of same seed', () => {
 });
 
 test('aggregateHarvests()', () => {
-  const mockStorageService: MockStorageService = new MockStorageService();
-  mockStorageService.clear();
-  const service = new HarvestService(mockStorageService);
+  MockFactory.initializeMocks();
+  const service = new HarvestService(new YearService(MockFactory.clockService, MockFactory.storageService));
   test.expect(service.getHarvests().length).toBe(0);
   const existingHarvests = dataBuilderService.buildTomatoMultipleHarvests();
   const firstWeightGrams = 1234;
@@ -112,7 +105,7 @@ test('aggregateHarvests()', () => {
   existingHarvests[0].weightGrams = secondWeightGrams;
   const notAggregatedHarvest = existingHarvests[2];
   notAggregatedHarvest.seedId = 'not-aggregated-seed-id';
-  mockStorageService.setItem(service.HARVESTS_KEY, existingHarvests);
+  MockFactory.storageService.setData({ years: { [2022]: { [service.HARVESTS_KEY]: existingHarvests } }, selectedYear: 2022 });
   const aggregatedHarvests = service.aggregateHarvests(service.getHarvests());
   test.expect(aggregatedHarvests.length).toBe(2);
   test.expect(aggregatedHarvests[0].weightGrams).toBe(firstWeightGrams + secondWeightGrams);

@@ -2,22 +2,22 @@ import test from "@playwright/test";
 import { MockStorageService } from "../src/app/mock/mock-storage.service";
 import { BedService } from "../src/app/service/bed.service";
 import { DataBuilderService } from "../src/app/mock/data-builder.service";
+import { MockFactory } from "../src/app/mock/mock-factory";
+import { YearService } from "../src/app/service/year.service";
 
 const dataBuilderService = new DataBuilderService();
 
 test('getBeds()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
+    MockFactory.initializeMocks();
+    const service = new BedService(new YearService(MockFactory.clockService, MockFactory.storageService));
     test.expect(service.getBeds().length, "should create one bed if there are no beds").toBe(1);
-    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
+    MockFactory.storageService.setData({ years: { [2022]: { [service.BEDS_KEY]: dataBuilderService.buildTwoEmptyBeds() } }, selectedYear: 2022 });
     test.expect(service.getBeds().length).toBe(2);
 });
 
 test('createBeds()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
+    MockFactory.initializeMocks();
+    const service = new BedService(new YearService(MockFactory.clockService, MockFactory.storageService));
     service.createBeds(2);
     const bedIds = new Set(service.getBeds().map(bed => bed.id))
     test.expect(bedIds.size).toBe(2);
@@ -26,20 +26,18 @@ test('createBeds()', () => {
 });
 
 test('getBedFromId()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
+    MockFactory.initializeMocks();
+    const service = new BedService(new YearService(MockFactory.clockService, MockFactory.storageService));
+    MockFactory.storageService.setData({ years: { [2022]: { [service.BEDS_KEY]: dataBuilderService.buildTwoEmptyBeds() } }, selectedYear: 2022 });
     test.expect(service.getBedFromId('1').id).toBe('1');
     const notExistingBedId = '20';
     test.expect(() => service.getBedFromId(notExistingBedId)).toThrow();
 });
 
 test('assignSeedToBed()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoEmptyBeds());
+    MockFactory.initializeMocks();
+    const service = new BedService(new YearService(MockFactory.clockService, MockFactory.storageService));
+    MockFactory.storageService.setData({ years: { [2022]: { [service.BEDS_KEY]: dataBuilderService.buildTwoEmptyBeds() } }, selectedYear: 2022 });
     const seedId = '10';
     service.assignSeedToBed('1', seedId);
     test.expect(service.getBedFromId('1').seeds[0]).toBe(seedId);
@@ -47,10 +45,9 @@ test('assignSeedToBed()', () => {
 });
 
 test('removeSeedFromBeds()', () => {
-    const mockStorageService: MockStorageService = new MockStorageService();
-    mockStorageService.clear();
-    const service = new BedService(mockStorageService);
-    mockStorageService.setItem(service.BEDS_KEY, dataBuilderService.buildTwoBedsWithSeeds());
+    MockFactory.initializeMocks();
+    const service = new BedService(new YearService(MockFactory.clockService, MockFactory.storageService));
+    MockFactory.storageService.setData({ years: { [2022]: { [service.BEDS_KEY]: dataBuilderService.buildTwoBedsWithSeeds() } }, selectedYear: 2022 });
     const seedId = '30';
     test.expect(service.getBedFromId('0').seeds.length).toBe(1);
     test.expect(service.getBedFromId('1').seeds.length).toBe(2);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
 import { Bed, BedId } from '../type/bed.type';
 import { SeedId } from '../type/seed-id.type';
+import { YearService } from './year.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +9,7 @@ import { SeedId } from '../type/seed-id.type';
 export class BedService {
   public readonly BEDS_KEY = 'beds';
 
-  constructor(private storageService: StorageService) { }
-
-  clearStorage() {
-    this.storageService.removeItem(this.BEDS_KEY);
-  }
+  constructor(private yearService: YearService) { }
 
   createBeds(numberOfBeds: number): void {
     const beds: Bed[] = [];
@@ -24,7 +20,7 @@ export class BedService {
   }
 
   getBeds(): Bed[] {
-    const beds = this.storageService.getItem(this.BEDS_KEY, []);
+    const beds = this.yearService.getItem(this.BEDS_KEY, []);
     if (beds.length === 0) {
       this.createBeds(1);
       return this.getBeds();
@@ -67,6 +63,6 @@ export class BedService {
   }
 
   saveBeds(beds: Bed[]): void {
-    this.storageService.setItem(this.BEDS_KEY, beds);
+    this.yearService.setItem(this.BEDS_KEY, beds);
   }
 }

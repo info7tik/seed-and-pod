@@ -30,21 +30,21 @@ export class YearService {
     return tasks.filter(task => this.clockService.isFuture(task.date));
   }
 
-  getItem<T>(year: number, key: string, defaultValue: T): T {
+  getItem<T>(key: string, defaultValue: T): T {
     const data = this.storageService.getData();
-    const yearData = data.years[year];
+    const yearData = data.years[this.getSelectedYear()];
     if (yearData === undefined) {
       return defaultValue;
     }
     return yearData[key] || defaultValue;
   }
 
-  setItem<T>(year: number, key: string, value: T): void {
+  setItem<T>(key: string, value: T): void {
     const data = this.storageService.getData();
-    if (!(year in data.years)) {
-      data.years[year] = {};
+    if (!(this.getSelectedYear() in data.years)) {
+      data.years[this.getSelectedYear()] = {};
     }
-    data.years[year][key] = value;
+    data.years[this.getSelectedYear()][key] = value;
     this.storageService.setData(data);
   }
 }

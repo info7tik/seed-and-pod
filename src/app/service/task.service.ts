@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { Task, TaskAction, TaskId, TaskWithStringDate } from '../type/task.type';
 import { SeedId } from '../type/seed-id.type';
 import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
+import { YearService } from './year.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,7 @@ import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
 export class TaskService {
   public readonly TASKS_KEY = 'tasks';
 
-  constructor(private storageService: StorageService) { }
-
-  clearStorage() {
-    this.storageService.removeItem(this.TASKS_KEY);
-  }
+  constructor(private yearService: YearService) { }
 
   /**
    * Get scheduled tasks ordered by date
@@ -143,11 +140,11 @@ export class TaskService {
   }
 
   private getTasks(): Task[] {
-    return this.storageService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date), completed: new Date(t.completed) }));
+    return this.yearService.getItem(this.TASKS_KEY, []).map((t: TaskWithStringDate) => ({ ...t, date: new Date(t.date), completed: new Date(t.completed) }));
   }
 
   private saveTasks(tasks: Task[]) {
-    this.storageService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString(), completed: t.completed.toISOString() })));
+    this.yearService.setItem(this.TASKS_KEY, tasks.map(t => ({ ...t, date: t.date.toISOString(), completed: t.completed.toISOString() })));
   }
 }
 

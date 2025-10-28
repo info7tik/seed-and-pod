@@ -1,10 +1,10 @@
-import { Injectable, signal } from '@angular/core';
-import { StorageService } from './storage.service';
-import { InventorySeed, InventorySeedProperties } from '../type/inventory-seed.type';
+import { Injectable } from '@angular/core';
+import { InventorySeed } from '../type/inventory-seed.type';
 import { StockSeed, StockSeedWithDetails } from '../type/stock-seed.type';
 import { SeedId } from '../type/seed-id.type';
 import { InventoryService } from './inventory.service';
 import { SeedHelper } from './seed-helper';
+import { YearService } from './year.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { SeedHelper } from './seed-helper';
 export class SeedService extends SeedHelper {
   public readonly STOCK_SEEDS_KEY = 'stock-seeds';
 
-  constructor(private storageService: StorageService, private inventoryService: InventoryService) { super(); }
+  constructor(private yearService: YearService, private inventoryService: InventoryService) { super(); }
 
   /**
    * Get all stock seeds as an array
@@ -100,11 +100,11 @@ export class SeedService extends SeedHelper {
   }
 
   private saveStockSeeds(stockSeeds: StockSeed[]) {
-    this.storageService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
+    this.yearService.setItem(this.STOCK_SEEDS_KEY, stockSeeds);
   }
 
   private getRawStockSeeds(): StockSeed[] {
-    return this.storageService.getItem(this.STOCK_SEEDS_KEY, []);
+    return this.yearService.getItem(this.STOCK_SEEDS_KEY, []);
   }
 }
 
