@@ -91,5 +91,15 @@
     "harvestHistory": "Harvest History",
     "noHarvests": "No harvests recorded yet. Add your first harvest to get started!",
     "remove": "Remove"
+  },
+  "newHarvest": {
+    "addHarvest": "Add Harvest",
+    "backToBasket": "Back to Basket",
+    "selectSeed": "Select Seed",
+    "selectSeedPlaceholder": "Choose a seed from your stock...",
+    "weight": "Weight",
+    "grams": "grams",
+    "harvestDate": "Harvest Date",
+    "cancel": "Cancel"
   }
 }

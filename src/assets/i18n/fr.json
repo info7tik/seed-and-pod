@@ -91,5 +91,15 @@
     "harvestHistory": "Historique des Récoltes",
     "noHarvests": "Aucune récolte enregistrée. Ajoutez votre première récolte pour commencer !",
     "remove": "Supprimer"
+  },
+  "newHarvest": {
+    "addHarvest": "Ajouter une Récolte",
+    "backToBasket": "Retour au Panier",
+    "selectSeed": "Sélectionner une Graine",
+    "selectSeedPlaceholder": "Choisissez une graine de votre stock...",
+    "weight": "Poids",
+    "grams": "grammes",
+    "harvestDate": "Date de Récolte",
+    "cancel": "Annuler"
   }
 }

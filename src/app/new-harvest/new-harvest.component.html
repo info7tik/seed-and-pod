@@ -1,1 +1,59 @@
-<p>new-harvest works!</p>
+<app-header-menu titleKey="menu.basket.title"></app-header-menu>
+
+<main class="main-content">
+    <section class="add-harvest-section">
+        <div class="section-header">
+            <h2>{{'newHarvest.addHarvest' | transloco}}</h2>
+            <a class="back-btn" routerLink="/basket">
+                <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg>
+                {{'newHarvest.backToBasket' | transloco}}
+            </a>
+        </div>
+
+        @if (errorMessage) {
+        <div class="error">{{ errorMessage }}</div>
+        }
+        @if (successMessage) {
+        <div class="success">{{ successMessage }}</div>
+        }
+
+        <form (ngSubmit)="addHarvest()" #harvestForm="ngForm" class="harvest-form">
+            <div class="form-field">
+                <label for="selectedSeedId">{{'newHarvest.selectSeed' | transloco}}</label>
+                <select id="selectedSeedId" name="selectedSeedId" required [(ngModel)]="selectedSeedId">
+                    <option [value]="DEFAULT_SEED_ID">{{'newHarvest.selectSeedPlaceholder' | transloco}}</option>
+                    @for (seed of stockSeeds; track seed.id) {
+                    <option [value]="seed.id">{{ seed.name }} - {{ seed.family.key | transloco }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="weightGrams">{{'newHarvest.weight' | transloco}}</label>
+                <div class="weight-input-group">
+                    <input id="weightGrams" name="weightGrams" type="number" min="1" step="1" required
+                        [(ngModel)]="weightGrams" class="weight-input" placeholder="0" />
+                    <span class="weight-unit">{{'newHarvest.grams' | transloco}}</span>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="harvestDate">{{'newHarvest.harvestDate' | transloco}}</label>
+                <input id="harvestDate" name="harvestDate" type="date" required [(ngModel)]="harvestDate"
+                    class="date-input" />
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="action-btn cancel-btn" routerLink="/basket">
+                    {{'newHarvest.cancel' | transloco}}
+                </button>
+                <button type="submit" class="action-btn submit-btn"
+                    [disabled]="!selectedSeedId || selectedSeedId === DEFAULT_SEED_ID || weightGrams <= 0 || !harvestDate">
+                    {{'newHarvest.addHarvest' | transloco}}
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
