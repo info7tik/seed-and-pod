@@ -117,5 +117,7 @@ test('aggregateHarvests()', () => {
   test.expect(aggregatedHarvests.length).toBe(2);
   test.expect(aggregatedHarvests[0].weightGrams).toBe(firstWeightGrams + secondWeightGrams);
   test.expect(aggregatedHarvests[0].date).toEqual(earlyDate);
+  test.expect(aggregatedHarvests[0].count).toBe(2);
   test.expect(aggregatedHarvests[1].weightGrams).toBe(notAggregatedHarvest.weightGrams);
+  test.expect(aggregatedHarvests[1].count).toBe(1);
 });

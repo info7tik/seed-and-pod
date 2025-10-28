@@ -7,4 +7,6 @@ export type HarvestWithStringDate = {
     date: string;
 };
 
-export type Harvest = Omit<HarvestWithStringDate, 'date'> & { date: Date };
+export interface Harvest extends Omit<HarvestWithStringDate, 'date'> { date: Date };
+
+export interface AggregatedHarvest extends Harvest { count: number };

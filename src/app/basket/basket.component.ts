@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HeaderMenu } from "../header-menu/header-menu.component";
 import { BasketService } from '../service/basket.service';
-import { Harvest } from '../type/harvest.type';
+import { AggregatedHarvest, Harvest } from '../type/harvest.type';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
@@ -17,19 +17,8 @@ export class Basket implements OnInit {
   harvests: Harvest[] = [];
   showAggregated: boolean = false;
 
-  get aggregatedHarvests(): { seedId: string; seedName: string; totalWeightGrams: number; count: number }[] {
-    const map = new Map<string, { seedId: string; seedName: string; totalWeightGrams: number; count: number }>();
-    for (const h of this.harvests) {
-      const key = h.seedId;
-      const existing = map.get(key);
-      if (existing) {
-        existing.totalWeightGrams += h.weightGrams;
-        existing.count += 1;
-      } else {
-        map.set(key, { seedId: h.seedId, seedName: h.seedName, totalWeightGrams: h.weightGrams, count: 1 });
-      }
-    }
-    return Array.from(map.values()).sort((a, b) => a.seedName.localeCompare(b.seedName));
+  get aggregatedHarvests(): AggregatedHarvest[] {
+    return this.basketService.aggregateHarvests(this.harvests);
   }
 
   constructor(private basketService: BasketService) { }

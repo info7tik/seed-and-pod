@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Harvest, HarvestWithStringDate } from '../type/harvest.type';
+import { AggregatedHarvest, Harvest, HarvestWithStringDate } from '../type/harvest.type';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class BasketService {
     return this.sortHarvests(this.storageService.getItem(this.HARVESTS_KEY, []).map((h: HarvestWithStringDate) => ({ ...h, date: new Date(h.date) })));
   }
 
-  private sortHarvests(harvests: Harvest[]): Harvest[] {
+  private sortHarvests<H extends Harvest | AggregatedHarvest>(harvests: H[]): H[] {
     return harvests.sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
@@ -52,13 +52,14 @@ export class BasketService {
     this.storageService.setItem(this.HARVESTS_KEY, serializedHarvests);
   }
 
-  aggregateHarvests(harvests: Harvest[]): Harvest[] {
-    const aggregatedHarvests = harvests.reduce<Harvest[]>((aggregated, current) => {
+  aggregateHarvests(harvests: Harvest[]): AggregatedHarvest[] {
+    const aggregatedHarvests = harvests.reduce<AggregatedHarvest[]>((aggregated, current) => {
       const existingHarvest = aggregated.find(h => h.seedId === current.seedId);
       if (existingHarvest) {
         existingHarvest.weightGrams += current.weightGrams;
+        existingHarvest.count++;
       } else {
-        aggregated.push(current);
+        aggregated.push({ ...current, count: 1 });
       }
       return aggregated;
     }, [])
