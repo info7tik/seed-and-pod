@@ -22,7 +22,25 @@
     },
     "settings": {
       "title": "Settings",
-      "subtitle": "Import and export data"
+      "subtitle": "Import and export data",
+      "dataManagement": "Data Management",
+      "exportData": {
+        "title": "Export Data",
+        "description": "Download your storage data as a JSON file for backup purposes.",
+        "button": "Export Data"
+      },
+      "importData": {
+        "title": "Import Data",
+        "description": "Import previously exported data from a JSON file. This will replace your current data.",
+        "button": "Choose JSON File"
+      },
+      "messages": {
+        "importSuccess": "Data imported successfully!",
+        "importError": "Failed to import data",
+        "exportError": "Failed to export data",
+        "invalidFile": "Please select a valid JSON file",
+        "invalidJson": "Invalid JSON file format"
+      }
     }
   },
   "cultivation": {

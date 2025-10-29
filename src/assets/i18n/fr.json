@@ -22,7 +22,25 @@
     },
     "settings": {
       "title": "Paramètres",
-      "subtitle": "Importer et exporter les données"
+      "subtitle": "Importer et exporter les données",
+      "dataManagement": "Gestion des données",
+      "exportData": {
+        "title": "Exporter les données",
+        "description": "Téléchargez vos données de stockage sous forme de fichier JSON à des fins de sauvegarde.",
+        "button": "Exporter les données"
+      },
+      "importData": {
+        "title": "Importer les données",
+        "description": "Importez des données précédemment exportées depuis un fichier JSON. Cela remplacera vos données actuelles.",
+        "button": "Choisir un fichier JSON"
+      },
+      "messages": {
+        "importSuccess": "Données importées avec succès !",
+        "importError": "Échec de l'importation des données",
+        "exportError": "Échec de l'exportation des données",
+        "invalidFile": "Veuillez sélectionner un fichier JSON valide",
+        "invalidJson": "Format de fichier JSON invalide"
+      }
     }
   },
   "cultivation": {
