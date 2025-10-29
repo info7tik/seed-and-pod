@@ -1,6 +1,9 @@
 <app-header-menu titleKey="menu.garden.title"></app-header-menu>
 
+
 <main class="main-content">
+    <app-year-selector [reloadData]="reloadDataCallback"></app-year-selector>
+
     <div class="section-header">
         <h2>{{'garden.configuration' | transloco}}</h2>
     </div>

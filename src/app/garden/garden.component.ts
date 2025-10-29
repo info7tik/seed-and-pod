@@ -8,14 +8,16 @@ import { BedService } from '../service/bed.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TaskService } from '../service/task.service';
 import { YearService } from '../service/year.service';
+import { YearSelectorComponent } from '../year-selector/year-selector.component';
 
 @Component({
   selector: 'app-garden',
-  imports: [HeaderMenu, FormsModule, TranslocoPipe],
+  imports: [HeaderMenu, YearSelectorComponent, FormsModule, TranslocoPipe],
   templateUrl: './garden.component.html',
   styleUrl: './garden.component.scss'
 })
 export class Garden implements OnInit {
+  reloadDataCallback = () => this.reloadData();
   numberOfBeds: number = 1;
   stockSeeds: StockSeedWithDetails[] = [];
   beds: Bed[] = [];
@@ -27,6 +29,10 @@ export class Garden implements OnInit {
     private yearService: YearService) { }
 
   ngOnInit(): void {
+    this.reloadData();
+  }
+
+  reloadData(): void {
     this.beds = this.bedService.getBeds();
     this.numberOfBeds = this.beds.length;
     this.stockSeeds = this.seedService.getStockSeeds();
