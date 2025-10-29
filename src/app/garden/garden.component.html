@@ -31,11 +31,11 @@
             <p class="empty-message">{{'garden.allSeedsAssignedToBeds' | transloco}}</p>
             } @else {
             @for (seed of unassignedSeeds; track seed.id) {
-            <div class="seed-item" [class.exhausted]="seed.exhausted">
+            <div class="seed-item" [style.background-color]="seed.group.color">
                 <div class="seed-info">
                     <h3 class="seed-name">{{ seed.name }}</h3>
                     <div class="seed-details">
-                        <span class="seed-variety">{{ seed.family.key | transloco}}</span>
+                        <span class="seed-group">{{ 'inventory.group' | transloco }} {{seed.group.name}}</span>
                         @if (seed.exhausted) {
                         <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }
@@ -77,14 +77,11 @@
                     } @else {
                     @for (seedId of bed.seeds; track seedId) {
                     @if (getSeedById(seedId); as seed) {
-                    <div class="seed-item" [class.exhausted]="seed.exhausted">
+                    <div class="seed-item" [style.background-color]="seed.group.color">
                         <div class="seed-info">
                             <h4 class="seed-name">{{ seed.name }}</h4>
                             <div class="seed-details">
-                                <span class="seed-variety">{{ seed.family.key| transloco}}</span>
-                                @if (seed.exhausted) {
-                                <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
-                                }
+                                <span class="seed-group">{{ 'inventory.group' | transloco }} {{seed.group.name}}</span>
                             </div>
                         </div>
 

@@ -16,7 +16,7 @@
             (change)="addSeedToStock()">
             <option [value]="DEFAULT_SEED_ID">{{'stock.selectSeed' | transloco}}</option>
             @for (seed of inventorySeedsNotInStock; track seed.id) {
-            <option [value]="seed.id">{{seed.name}} - {{seed.family.key| transloco}}</option>
+            <option [value]="seed.id">{{seed.name}}</option>
             }
         </select>
         }
@@ -47,7 +47,7 @@
                 <div class="seed-info">
                     <h3 class="seed-name">{{seed.name}}</h3>
                     <div class="seed-details">
-                        <span class="seed-variety">{{seed.family.key| transloco}}</span>
+                        <span class="seed-group">{{ 'inventory.group' | transloco }} {{seed.group.name}}</span>
                         @if (seed.exhausted) {
                         <span class="exhausted-badge">{{'stock.exhausted' | transloco}}</span>
                         }

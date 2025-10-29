@@ -16,11 +16,11 @@ import { range } from '../service/library';
 })
 export class InventoryComponent implements OnInit {
   readonly DEFAULT_DAYS_BEFORE_HARVEST = 30;
-  readonly DEFAULT_FAMILY_INDEX = -1;
+  readonly DEFAULT_TEMPORARY_GROUP = { name: "not_a_group", color: "white" };
   readonly daysInMonth = range(1, 31);
 
   name: string = '';
-  familyIndex: number = this.DEFAULT_FAMILY_INDEX;
+  groupName: string = "not_a_group";
   sowingDay: number = 1;
   sowingMonth: number = 1;
   transplantingDay: number = 1;
@@ -35,14 +35,15 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInventorySeeds();
+    this.resetForm()
   }
 
   get months() {
     return this.globalService.months;
   }
 
-  get vegetableFamilies() {
-    return this.globalService.vegetableFamilies;
+  get vegetableGroups() {
+    return this.globalService.allVegetableGroups;
   }
 
   loadInventorySeeds(): void {
@@ -55,14 +56,15 @@ export class InventoryComponent implements OnInit {
 
     const trimmedName = this.name.trim();
 
-    if (!trimmedName || this.familyIndex === this.DEFAULT_FAMILY_INDEX) {
-      this.errorMessage = 'Name and family are required';
+    if (!trimmedName) {
+      this.errorMessage = 'Name is required';
       return;
     }
     try {
+      const vegetableGroup = this.globalService.findVegetableGroup(this.groupName);
       this.inventoryService.addInventorySeed({
         name: trimmedName,
-        family: this.vegetableFamilies[this.familyIndex],
+        group: vegetableGroup,
         sowing: {
           enabled: true,
           day: this.sowingDay,
@@ -94,7 +96,7 @@ export class InventoryComponent implements OnInit {
 
   private resetForm() {
     this.name = '';
-    this.familyIndex = this.DEFAULT_FAMILY_INDEX;
+    this.groupName = this.globalService.allVegetableGroups[0].name;
     this.sowingDay = 1;
     this.sowingMonth = 1;
     this.transplantingDay = 1;

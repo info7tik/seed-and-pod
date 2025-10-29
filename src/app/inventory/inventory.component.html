@@ -20,11 +20,15 @@
             </div>
 
             <div class="form-field">
-                <label for="family">{{'inventory.family' | transloco}}</label>
-                <select id="family" name="family" required [(ngModel)]="familyIndex">
-                    <option [value]="DEFAULT_FAMILY_INDEX">{{'inventory.selectFamily' | transloco}}</option>
-                    @for (family of vegetableFamilies; track family.id) {
-                    <option [value]="family.id">{{ family.key | transloco }}</option>
+                <label for="group">
+                    {{'inventory.group' | transloco}}
+                    <span class="group-info">
+                        ({{'inventory.groupInfo' | transloco}})
+                    </span>
+                </label>
+                <select id="group" name="group" required [(ngModel)]="groupName">
+                    @for (group of vegetableGroups; track group.name) {
+                    <option [value]="group.name" [style.background-color]="group.color">{{ group.name }}</option>
                     }
                 </select>
             </div>
@@ -76,7 +80,7 @@
                     [(ngModel)]="daysBeforeHarvest" />
             </div>
 
-            <button class="action-btn" type="submit" [disabled]="!name || familyIndex === DEFAULT_FAMILY_INDEX">
+            <button class="action-btn" type="submit" [disabled]="!name">
                 {{'inventory.addSeed' | transloco}}
             </button>
         </form>
@@ -97,7 +101,7 @@
                 <div class="seed-info">
                     <h3 class="seed-name">{{ seed.name }}</h3>
                     <div class="seed-details">
-                        <span class="seed-family">{{ seed.family.key | transloco }}</span>
+                        <span class="seed-group">{{ 'inventory.group' | transloco }} {{ seed.group.name }}</span>
                         <span class="seed-days">{{'inventory.daysBeforeHarvest' | transloco}}: {{ seed.daysBeforeHarvest
                             }}</span>
                     </div>

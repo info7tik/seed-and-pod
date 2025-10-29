@@ -2,7 +2,7 @@
   "menu": {
     "basket": {
       "title": "Basket",
-      "subtitle": "Add a harvest"
+      "subtitle": "Record a harvest"
     },
     "cultivation": {
       "title": "Cultivation",
@@ -147,8 +147,8 @@
   "inventory": {
     "addSeed": "Add Seed",
     "name": "Name",
-    "family": "Family",
-    "selectFamily": "Select a family...",
+    "group": "Group",
+    "groupInfo": "vegetables in the same group can be planted at the same bed",
     "sowingDate": "Sowing Date",
     "sowing": "Sowing",
     "transplantingDate": "Transplanting Date",

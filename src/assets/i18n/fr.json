@@ -2,7 +2,7 @@
   "menu": {
     "basket": {
       "title": "Panier",
-      "subtitle": "Ajouter une récolte"
+      "subtitle": "Enregistrer une récolte"
     },
     "cultivation": {
       "title": "Culture",
@@ -147,8 +147,8 @@
   "inventory": {
     "addSeed": "Ajouter une Graine",
     "name": "Nom",
-    "family": "Famille",
-    "selectFamily": "Sélectionner une famille...",
+    "group": "Groupe",
+    "groupInfo": "les légumes du même groupe peuvent être plantés sur la même planche",
     "sowingDate": "Date de Semis",
     "sowing": "Semis",
     "transplantingDate": "Date de Transplantage",
