@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { SettingsService } from '../service/settings.service';
+import { HeaderMenu } from '../header-menu/header-menu.component';
 
 @Component({
   selector: 'app-settings',
-  imports: [CommonModule, FormsModule, TranslocoModule],
+  imports: [CommonModule, FormsModule, TranslocoModule, HeaderMenu],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })

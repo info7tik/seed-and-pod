@@ -31,7 +31,8 @@
       },
       "importData": {
         "title": "Import Data",
-        "description": "Import previously exported data from a JSON file. This will replace your current data.",
+        "description": "Import previously exported data from a JSON file.",
+        "warning": "Be careful, this will overwrite your current data.",
         "button": "Choose JSON File"
       },
       "messages": {

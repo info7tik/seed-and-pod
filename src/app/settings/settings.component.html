@@ -1,39 +1,38 @@
+<app-header-menu titleKey="menu.settings.title"></app-header-menu>
+
 <div class="settings-container">
-    <h2>{{ 'menu.settings.title' | transloco }}</h2>
+    <!-- Export Section -->
+    <div class="export-section">
+        <h4>{{ 'menu.settings.exportData.title' | transloco }}</h4>
+        <p>{{ 'menu.settings.exportData.description' | transloco }}</p>
+        <button class="export-btn" (click)="exportData()" type="button">
+            {{ 'menu.settings.exportData.button' | transloco }}
+        </button>
+    </div>
 
-    <div class="data-management-section">
-        <h3>{{ 'menu.settings.dataManagement' | transloco }}</h3>
-
-        <!-- Export Section -->
-        <div class="export-section">
-            <h4>{{ 'menu.settings.exportData.title' | transloco }}</h4>
-            <p>{{ 'menu.settings.exportData.description' | transloco }}</p>
-            <button class="export-btn" (click)="exportData()" type="button">
-                {{ 'menu.settings.exportData.button' | transloco }}
-            </button>
+    <!-- Import Section -->
+    <div class="import-section">
+        <h4>{{ 'menu.settings.importData.title' | transloco }}</h4>
+        <p>
+            {{ 'menu.settings.importData.description' | transloco }}
+            <b class="warning">{{ 'menu.settings.importData.warning' | transloco }}</b>
+        </p>
+        <div class="file-input-container">
+            <input type="file" id="importFile" accept=".json,application/json" (change)="onFileSelected($event)"
+                class="file-input">
+            <label for="importFile" class="file-input-label">
+                {{ 'menu.settings.importData.button' | transloco }}
+            </label>
         </div>
+    </div>
 
-        <!-- Import Section -->
-        <div class="import-section">
-            <h4>{{ 'menu.settings.importData.title' | transloco }}</h4>
-            <p>{{ 'menu.settings.importData.description' | transloco }}</p>
-            <div class="file-input-container">
-                <input type="file" id="importFile" accept=".json,application/json" (change)="onFileSelected($event)"
-                    class="file-input">
-                <label for="importFile" class="file-input-label">
-                    {{ 'menu.settings.importData.button' | transloco }}
-                </label>
-            </div>
+    <!-- Status Messages -->
+    <div class="status-messages">
+        <div *ngIf="importError" class="error-message">
+            {{ importError }}
         </div>
-
-        <!-- Status Messages -->
-        <div class="status-messages">
-            <div *ngIf="importError" class="error-message">
-                {{ importError }}
-            </div>
-            <div *ngIf="importSuccess" class="success-message">
-                {{ 'menu.settings.messages.importSuccess' | transloco }}
-            </div>
+        <div *ngIf="importSuccess" class="success-message">
+            {{ 'menu.settings.messages.importSuccess' | transloco }}
         </div>
     </div>
 </div>
