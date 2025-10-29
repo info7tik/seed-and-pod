@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Task } from '../type/task.type';
 import { ClockService } from './clock.service';
 import { range } from './library';
 
@@ -29,17 +28,14 @@ export class YearService {
     if (savedYear === 0) {
       return this.clockService.now().getFullYear();
     }
-    return savedYear;
+    // Force the type to be a number
+    return parseInt(savedYear as any);
   }
 
   saveSelectedYear(year: number): void {
     const data = this.storageService.getData();
     data.selectedYear = year;
     this.storageService.setData(data);
-  }
-
-  keepFutureTasks(tasks: Task[]): Task[] {
-    return tasks.filter(task => this.clockService.isFuture(task.date));
   }
 
   getItemByYear<T>(key: string, defaultValue: T): T {

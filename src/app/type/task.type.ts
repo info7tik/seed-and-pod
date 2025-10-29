@@ -2,7 +2,7 @@ import { SeedId } from "./seed-id.type";
 
 export type TaskStatus = 'scheduled' | 'done';
 
-export type TaskAction = 'sowing' | 'transplanting';
+export type TaskAction = 'sowing' | 'transplanting' | 'harvesting';
 
 export type TaskId = string;
 

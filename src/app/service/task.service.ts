@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
 import { Task, TaskAction, TaskId, TaskWithStringDate } from '../type/task.type';
 import { SeedId } from '../type/seed-id.type';
 import { InventorySeed, SeedDate } from '../type/inventory-seed.type';
@@ -58,9 +57,16 @@ export class TaskService {
    * Mark a task as done
    * @param taskId - The id of the task to mark as done
    */
-  markAsDone(taskId: TaskId, completedDate: Date): void {
-    const tasks: Task[] = this.getTasks().map(t => t.id === taskId ? { ...t, status: 'done', completed: completedDate } : t);
+  markAsDone(taskId: TaskId, completedDate: Date): Task {
+    const tasks = this.getTasks();
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) {
+      throw new Error(`Task ${taskId} not found`);
+    }
+    task.status = 'done';
+    task.completed = completedDate;
     this.saveTasks(tasks);
+    return task;
   }
 
   /**
@@ -107,6 +113,37 @@ export class TaskService {
 
   private buildTaskDate(year: number, seedDate: SeedDate): Date {
     return new Date(year, seedDate.month - 1, seedDate.day);
+  }
+
+  /**
+   * Compute the harvest task for a given seed
+   * @param doneAction - The action of the completed task
+   * @param seed - The seed to compute the harvest task for
+   * @param completedDate - The date of the completed task
+   * @returns The harvest tasks
+   */
+  computeHarvestTask(doneAction: TaskAction, seed: InventorySeed, completedDate: Date): Task[] {
+    if (doneAction === 'sowing' && !seed.transplanting.enabled) {
+      return buildHarvestTask(this.buildTaskId(seed.id, 'harvesting'));
+    }
+    if (doneAction === 'transplanting') {
+      return buildHarvestTask(this.buildTaskId(seed.id, 'harvesting'));
+    }
+    return [];
+
+    function buildHarvestTask(taskId: TaskId): Task[] {
+      const harvestDate = new Date(completedDate);
+      harvestDate.setDate(harvestDate.getDate() + seed.daysBeforeHarvest);
+      return [{
+        id: taskId,
+        seedId: seed.id,
+        seedName: seed.name,
+        action: 'harvesting',
+        date: harvestDate,
+        status: 'scheduled',
+        completed: new Date()
+      }];
+    }
   }
 
   private buildTaskId(seedId: SeedId, action: TaskAction): TaskId {

@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { GlobalService } from '../service/global-service.service';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { YearSelectorComponent } from '../year-selector/year-selector.component';
+import { InventoryService } from '../service/inventory.service';
+import { ClockService } from '../service/clock.service';
 
 type Month = number;
 
@@ -21,7 +23,9 @@ export class Cultivation {
   doneTasks: Task[] = [];
   showDone = false;
 
-  constructor(private taskService: TaskService, private globalService: GlobalService) {
+  constructor(
+    private taskService: TaskService, private inventoryService: InventoryService,
+    private clockService: ClockService, private globalService: GlobalService) {
     this.reloadData();
   }
 
@@ -30,7 +34,10 @@ export class Cultivation {
   }
 
   markAsDone(taskId: string) {
-    this.taskService.markAsDone(taskId, new Date());
+    const doneTask = this.taskService.markAsDone(taskId, new Date());
+    const seed = this.inventoryService.getInventorySeedById(doneTask.seedId);
+    const harvestTasks = this.taskService.computeHarvestTask(doneTask.action, seed, this.clockService.now());
+    harvestTasks.forEach(task => this.taskService.updateTask(task));
     this.reloadData();
   }
 
@@ -50,6 +57,6 @@ export class Cultivation {
 
   reloadData(): void {
     this.scheduledTasks = this.taskService.groupTasksByMonth(this.taskService.getScheduledTasks());
-    this.doneTasks = this.taskService.getDoneTasks();
+    this.doneTasks = this.taskService.getDoneTasks()
   }
 }

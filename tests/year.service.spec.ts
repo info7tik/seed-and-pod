@@ -1,11 +1,6 @@
 import test from '@playwright/test';
-import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import { YearService } from '../src/app/service/year.service';
-import { MockClockService } from '../src/app/mock/mock-clock.service';
-import { DataBuilderService } from '../src/app/mock/data-builder.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
-
-const dataBuilderService = new DataBuilderService();
 
 test('getItem()', () => {
   MockFactory.initializeMocks(new Date(2022, 6, 21));
@@ -14,7 +9,7 @@ test('getItem()', () => {
   const testValue = 'testValue';
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   test.expect(service.getItemByYear(testKey, defaultValue)).toBe(defaultValue);
-  MockFactory.storageService.setData({ years: { [2022]: { testKey: testValue } }, selectedYear: 0 });
+  MockFactory.storageService.setData({ years: { [2022]: { testKey: testValue } }, permanent: {}, selectedYear: 0 });
   test.expect(service.getItemByYear(testKey, defaultValue)).toBe(testValue);
 });
 
@@ -35,7 +30,7 @@ test('getSelectedYear() without data', () => {
   MockFactory.initializeMocks(new Date(2022, 6, 21));
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   test.expect(service.getSelectedYear()).toBe(2022);
-  MockFactory.storageService.setData({ years: {}, selectedYear: 2025 });
+  MockFactory.storageService.setData({ years: {}, permanent: {}, selectedYear: 2025 });
   test.expect(service.getSelectedYear()).toBe(2025);
 });
 
@@ -43,11 +38,11 @@ test('getYears()', () => {
   MockFactory.initializeMocks(new Date(2022, 6, 21));
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   test.expect(service.getYears()).toEqual([2021, 2022, 2023]), "should return the current year, the previous years and the next year";
-  MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {}, [2022]: {} }, selectedYear: 2022 });
+  MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {}, [2022]: {} }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
-  MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {} }, selectedYear: 2022 });
+  MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {} }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
-  MockFactory.storageService.setData({ years: { [2020]: {}, [2022]: {} }, selectedYear: 2022 });
+  MockFactory.storageService.setData({ years: { [2020]: {}, [2022]: {} }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
 });
 
@@ -56,14 +51,4 @@ test('saveSelectedYear()', () => {
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
   service.saveSelectedYear(2025);
   test.expect(service.getSelectedYear()).toBe(2025);
-});
-
-test('getFutureTasks()', () => {
-  MockFactory.initializeMocks(new Date(2025, 1, 22));//2025-02-22
-  const service = new YearService(MockFactory.clockService, MockFactory.storageService);
-  const tasks = dataBuilderService.buildTasks(dataBuilderService.buildUnorderedTasks('scheduled'));
-  const futureTasks = service.keepFutureTasks(tasks);
-  test.expect(futureTasks.length).toBe(2);
-  test.expect(futureTasks[0]).toEqual(tasks[0]);
-  test.expect(futureTasks[1]).toEqual(tasks[3]);
 });

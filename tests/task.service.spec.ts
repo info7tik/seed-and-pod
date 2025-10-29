@@ -8,7 +8,7 @@ const dataBuilderService = new DataBuilderService();
 
 test('getScheduledTasks()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: [] } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(0);
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildScheduledAndDoneTasks() } }, permanent: {}, selectedYear: 2022 });
@@ -22,7 +22,7 @@ test('getScheduledTasks()', () => {
 
 test('getScheduledTasks() - check order', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildUnorderedTasks('scheduled') } }, permanent: {}, selectedYear: 2022 });
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(4);
@@ -34,7 +34,7 @@ test('getScheduledTasks() - check order', () => {
 
 test('getDoneTasks()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildScheduledAndDoneTasks() } }, permanent: {}, selectedYear: 2022 });
   const tasks = service.getDoneTasks();
   test.expect(tasks.length).toBe(1);
@@ -71,6 +71,12 @@ test('markAsDone()', () => {
   test.expect(doneTask.id).toBe(markAsDoneTaskId);
   test.expect(doneTask.status).toBe("done");
   test.expect(doneTask.completed).toEqual(completedDate);
+});
+
+test('markAsDone() - task not found', () => {
+  MockFactory.initializeMocks();
+  const service = MockFactory.taskService;
+  test.expect(() => service.markAsDone('not-found', new Date())).toThrow();
 });
 
 test('markAsScheduled()', () => {
@@ -243,4 +249,57 @@ test('computeTasks()', () => {
   test.expect(tasks[1].date.getDate()).toBe(dataBuilderService.tomatoTransplantingDate.day)
   test.expect(tasks[1].date.getMonth() + 1).toBe(dataBuilderService.tomatoTransplantingDate.month)
   test.expect(tasks[1].date.getFullYear()).toBe(2021)
+});
+
+test('computeHarvestTask() without transplanting date', () => {
+  MockFactory.initializeMocks();
+  const june = 5;
+  const june21st = new Date(2021, june, 21);
+  const taskAction = 'sowing';
+  const tomatoSeed = dataBuilderService.buildTomatoSeeds()[0];
+  tomatoSeed.transplanting.enabled = false;
+  const service = MockFactory.taskService;
+  const harvestTasks = service.computeHarvestTask(taskAction, tomatoSeed, june21st);
+  test.expect(harvestTasks.length).toBe(1);
+  test.expect(harvestTasks[0].date.getDate()).toBe(21);
+  test.expect(harvestTasks[0].date.getMonth()).toBe(june + 1);
+});
+
+test('computeHarvestTask() with date at the end of the year', () => {
+  MockFactory.initializeMocks();
+  const december = 11;
+  const january = 0;
+  const december21st = new Date(2021, december, 21);
+  const taskAction = 'sowing';
+  const tomatoSeed = dataBuilderService.buildTomatoSeeds()[0];
+  tomatoSeed.transplanting.enabled = false;
+  const service = MockFactory.taskService;
+  const harvestTasks = service.computeHarvestTask(taskAction, tomatoSeed, december21st);
+  test.expect(harvestTasks.length).toBe(1);
+  test.expect(harvestTasks[0].date.getDate()).toBe(20);
+  test.expect(harvestTasks[0].date.getMonth()).toBe(january);
+});
+
+test('computeHarvestTask() with transplanting date and sowing done', () => {
+  MockFactory.initializeMocks();
+  const june = 5;
+  const june21st = new Date(2021, june, 21);
+  const taskAction = 'sowing';
+  const tomatoSeed = dataBuilderService.buildTomatoSeeds()[0];
+  const service = MockFactory.taskService;
+  const harvestTasks = service.computeHarvestTask(taskAction, tomatoSeed, june21st);
+  test.expect(harvestTasks.length).toBe(0);
+});
+
+test('computeHarvestTask() with transplanting date and transplanting done', () => {
+  MockFactory.initializeMocks();
+  const june = 5;
+  const june21st = new Date(2021, june, 21);
+  const taskAction = 'transplanting';
+  const tomatoSeed = dataBuilderService.buildTomatoSeeds()[0];
+  const service = MockFactory.taskService;
+  const harvestTasks = service.computeHarvestTask(taskAction, tomatoSeed, june21st);
+  test.expect(harvestTasks.length).toBe(1);
+  test.expect(harvestTasks[0].date.getDate()).toBe(21);
+  test.expect(harvestTasks[0].date.getMonth()).toBe(june + 1);
 });
