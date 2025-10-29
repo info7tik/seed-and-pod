@@ -2,6 +2,7 @@ import { BedService } from "../service/bed.service";
 import { InventoryService } from "../service/inventory.service";
 import { PermanentStorageService } from "../service/permanent-storage.service";
 import { SeedService } from "../service/seed.service";
+import { TaskService } from "../service/task.service";
 import { YearService } from "../service/year.service";
 import { MockClockService } from "./mock-clock.service";
 import { MockStorageService } from "./mock-storage.service";
@@ -14,6 +15,7 @@ export class MockFactory {
     static inventoryService: InventoryService;
     static seedService: SeedService;
     static bedService: BedService;
+    static taskService: TaskService;
 
     static get selectedYear(): number {
         return this.yearService.getSelectedYear();
@@ -28,5 +30,6 @@ export class MockFactory {
         this.inventoryService = new InventoryService(this.permanentStorageService);
         this.seedService = new SeedService(this.yearService, this.inventoryService);
         this.bedService = new BedService(this.yearService);
+        this.taskService = new TaskService(this.yearService);
     }
 }

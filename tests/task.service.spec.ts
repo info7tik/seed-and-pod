@@ -45,7 +45,7 @@ test('getDoneTasks()', () => {
 
 test('groupTasksByMonth()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   const tasks = dataBuilderService.buildTasks(dataBuilderService.buildUnorderedTasks('scheduled'));
   const tasksByMonth = service.groupTasksByMonth(tasks);
   test.expect(tasksByMonth.size).toBe(3);
@@ -59,7 +59,7 @@ test('groupTasksByMonth()', () => {
 
 test('markAsDone()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildUnorderedTasks('scheduled') } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(4);
   const markAsDoneTaskId = `${dataBuilderService.peasSeedId}-sowing`;
@@ -75,7 +75,7 @@ test('markAsDone()', () => {
 
 test('markAsScheduled()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildScheduledAndDoneTasks() } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(1);
   test.expect(service.getDoneTasks().length).toBe(1);
@@ -87,7 +87,7 @@ test('markAsScheduled()', () => {
 
 test('updateTask()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   test.expect(service.getScheduledTasks().length).toBe(0);
   service.updateTask({
     id: `${dataBuilderService.tomatoSeedId}-sowing`, seedId: dataBuilderService.tomatoSeedId,
@@ -114,7 +114,7 @@ test('updateTask()', () => {
 
 test('updateTask() with existing tasks', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildSowingTomatoTask() } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(1);
   service.updateTask({
@@ -142,7 +142,7 @@ test('updateTask() with existing tasks', () => {
 
 test('updateTask() with existing tasks and different date', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildTransplantingTomatoTask() } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(1);
   service.updateTask({
@@ -174,7 +174,7 @@ test('updateTask() with existing tasks and different date', () => {
 
 test('updateTask() with existing done tasks and different date', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   const doneTomatoTask = dataBuilderService.buildTransplantingTomatoTask()
   doneTomatoTask[0].status = 'done';
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: doneTomatoTask } }, permanent: {}, selectedYear: 2022 });
@@ -200,7 +200,7 @@ test('updateTask() with existing done tasks and different date', () => {
 
 test('removeTasks()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildUnorderedTasks('scheduled') } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(4);
   const taskToRemoveId = `${dataBuilderService.peasSeedId}-sowing`;
@@ -211,7 +211,7 @@ test('removeTasks()', () => {
 
 test('removeTasksBySeed()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildUnorderedTasks('scheduled') } }, permanent: {}, selectedYear: 2022 });
   const tasks = service.getScheduledTasks();
   test.expect(tasks.length).toBe(4);
@@ -223,7 +223,7 @@ test('removeTasksBySeed()', () => {
 
 test('removeTasksBySeed() - do not remove done tasks', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildScheduledAndDoneTasks() } }, permanent: {}, selectedYear: 2022 });
   test.expect(service.getScheduledTasks().length).toBe(1);
   test.expect(service.getDoneTasks().length).toBe(1);
@@ -234,7 +234,7 @@ test('removeTasksBySeed() - do not remove done tasks', () => {
 
 test('computeTasks()', () => {
   MockFactory.initializeMocks();
-  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = MockFactory.taskService;
   const tasks = service.computeTasks(dataBuilderService.buildTomatoSeeds()[0], 2021);
   test.expect(tasks.length).toBe(2);
   test.expect(tasks[0].date.getDate()).toBe(dataBuilderService.tomatoSowingDate.day)
