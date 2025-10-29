@@ -5,27 +5,28 @@ import { InventoryService } from '../src/app/service/inventory.service';
 import { MockClockService } from '../src/app/mock/mock-clock.service';
 import { YearService } from '../src/app/service/year.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
+import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
 
 const dataBuilderService = new DataBuilderService();
 
 test('getInventorySeeds()', () => {
   MockFactory.initializeMocks(new Date(2022, 6, 21));
-  const service = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = new InventoryService(new PermanentStorageService(MockFactory.storageService));
   test.expect(service.getInventorySeeds().length).toBe(0);
-  MockFactory.storageService.setData({ years: { [2022]: { [service.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() } }, selectedYear: 2022 });
+  MockFactory.storageService.setData({ years: {}, selectedYear: 0, permanent: { [service.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() } });
   test.expect(service.getInventorySeeds().length).toBe(1);
 });
 
 test('getInventorySeedById()', () => {
   MockFactory.initializeMocks();
-  const service = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  MockFactory.storageService.setData({ years: { [2022]: { [service.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoAndPotatoSeeds() } }, selectedYear: 2022 });
+  const service = new InventoryService(new PermanentStorageService(MockFactory.storageService));
+  MockFactory.storageService.setData({ years: {}, selectedYear: 0, permanent: { [service.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoAndPotatoSeeds() } });
   test.expect(service.getInventorySeedById('2').name).toBe('Potato');
 });
 
 test('addInventorySeed()', () => {
   MockFactory.initializeMocks();
-  const service = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  const service = new InventoryService(new PermanentStorageService(MockFactory.storageService));
   const seedDescription = { name: 'Tomato', family: { id: 1, key: 'Cherry' }, sowing: dataBuilderService.tomatoSowingDate, transplanting: dataBuilderService.tomatoTransplantingDate, daysBeforeHarvest: dataBuilderService.tomatoDaysBeforeHarvest };
   service.addInventorySeed(seedDescription);
   test.expect(service.getInventorySeeds().length).toBe(1);

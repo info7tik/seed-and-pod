@@ -5,21 +5,18 @@ import { DataBuilderService } from '../src/app/mock/data-builder.service';
 import { InventoryService } from '../src/app/service/inventory.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
 import { YearService } from '../src/app/service/year.service';
+import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
 
 const dataBuilderService = new DataBuilderService();
 
 test('getStockSeeds()', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
+  const service = MockFactory.seedService;
   test.expect(service.getStockSeeds().length).toBe(0);
   MockFactory.storageService.setData({
-    years: {
-      2022: {
-        [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds(),
-        [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds()
-      }
-    }, selectedYear: 2022
+    years: { [MockFactory.selectedYear]: { [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds() } },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
   });
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
@@ -33,9 +30,12 @@ test('getStockSeeds()', () => {
 
 test('addStockSeed()', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
-  MockFactory.storageService.setData({ years: { [2022]: { [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() } }, selectedYear: 2022 });
+  const service = MockFactory.seedService;
+  MockFactory.storageService.setData({
+    years: { [MockFactory.selectedYear]: {} },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
+  });
   test.expect(service.getStockSeeds().length).toBe(0);
   service.addStockSeed('1');
   const seeds = service.getStockSeeds();
@@ -46,9 +46,12 @@ test('addStockSeed()', () => {
 
 test('addStockSeed() - seed does not exist', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
-  MockFactory.storageService.setData({ years: { [2022]: { [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() } }, selectedYear: 2022 });
+  const service = MockFactory.seedService;
+  MockFactory.storageService.setData({
+    years: { [MockFactory.selectedYear]: {} },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
+  });
   test.expect(service.getStockSeeds().length).toBe(0);
   test.expect(() => service.addStockSeed('2')).toThrow();
   test.expect(service.getStockSeeds().length).toBe(0);
@@ -56,15 +59,11 @@ test('addStockSeed() - seed does not exist', () => {
 
 test('addStockSeed() - seed already exists', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
+  const service = MockFactory.seedService;
   MockFactory.storageService.setData({
-    years: {
-      [2022]: {
-        [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds(),
-        [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds()
-      }
-    }, selectedYear: 2022
+    years: { [MockFactory.selectedYear]: { [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds() } },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
   });
   service.addStockSeed('1');
   const seeds = service.getStockSeeds();
@@ -74,15 +73,13 @@ test('addStockSeed() - seed already exists', () => {
 
 test('markAsExhausted()', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
+  const service = MockFactory.seedService;
   MockFactory.storageService.setData({
     years: {
-      [2022]: {
-        [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds(),
-        [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds()
-      }
-    }, selectedYear: 2022
+      [MockFactory.selectedYear]: { [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds() }
+    },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
   });
   service.markAsExhausted('1');
   const seeds = service.getStockSeeds();
@@ -92,15 +89,13 @@ test('markAsExhausted()', () => {
 
 test('markAsResupplied()', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
+  const service = MockFactory.seedService;
   MockFactory.storageService.setData({
     years: {
-      [2022]: {
-        [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds(),
-        [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds()
-      }
-    }, selectedYear: 2022
+      [MockFactory.selectedYear]: { [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds() }
+    },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
   });
   service.markAsResupplied('1');
   const seeds = service.getStockSeeds();
@@ -110,15 +105,13 @@ test('markAsResupplied()', () => {
 
 test('markAsResupplied() - seed does not exist', () => {
   MockFactory.initializeMocks();
-  const inventoryService = new InventoryService(new YearService(MockFactory.clockService, MockFactory.storageService));
-  const service = new SeedService(new YearService(MockFactory.clockService, MockFactory.storageService), inventoryService);
+  const service = MockFactory.seedService;
   MockFactory.storageService.setData({
     years: {
-      [2022]: {
-        [inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds(),
-        [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds()
-      }
-    }, selectedYear: 2022
+      [MockFactory.selectedYear]: { [service.STOCK_SEEDS_KEY]: dataBuilderService.buildStockTomatoSeeds() }
+    },
+    permanent: { [MockFactory.inventoryService.INVENTORY_SEEDS_KEY]: dataBuilderService.buildTomatoSeeds() },
+    selectedYear: MockFactory.selectedYear
   });
   test.expect(() => service.markAsExhausted('2')).toThrow();
   const seeds = service.getStockSeeds();

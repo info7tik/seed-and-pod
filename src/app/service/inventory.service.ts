@@ -11,7 +11,7 @@ import { PermanentStorageService } from './permanent-storage.service';
 export class InventoryService extends SeedHelper {
   public readonly INVENTORY_SEEDS_KEY = 'inventory-seeds';
 
-  constructor(private yearService: YearService, private permanentStorageService: PermanentStorageService) { super(); }
+  constructor(private permanentStorageService: PermanentStorageService) { super(); }
 
   /**
  * Get all inventory seeds as an array
