@@ -27,6 +27,11 @@ bash tools/build-and-install.sh
 ```
 
 ### Step by step
+- On my Ubuntu system, I need to define the ANDROID_HOME variable:
+```bash
+export ANDROID_HOME=/home/info7tik/Android/Sdk/
+```
+
 - Build web assets:
 ```bash
 npm run build
