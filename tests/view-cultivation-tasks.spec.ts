@@ -30,6 +30,8 @@ test('view cultivation tasks', () => {
     const tasks = taskService.computeTasks(tomatoSeed, firstYear);
     test.expect(tasks.length).toBe(2);
     tasks.forEach(task => taskService.updateTask(task));
-    test.expect(taskService.getScheduledTasks().length).toBe(2);
+    const scheduledTasks = taskService.getScheduledTasks();
+    test.expect(scheduledTasks.length).toBe(2);
     test.expect(taskService.getDoneTasks().length).toBe(0);
+    test.expect(scheduledTasks[0].date.getMonth() + 1).toBe(dataBuilderService.tomatoSowingDate.month);
 });

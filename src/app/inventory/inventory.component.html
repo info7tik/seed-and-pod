@@ -103,12 +103,13 @@
                     </div>
                     <div class="seed-dates">
                         <span class="sowing-date">
-                            {{'inventory.sowing' | transloco}}: {{ seed.sowing.day }}/{{ seed.sowing.month }}
+                            {{'inventory.sowing' | transloco}}:
+                            {{ this.months[seed.sowing.month-1].key | transloco }} {{ seed.sowing.day }}
                         </span>
                         @if (seed.transplanting.enabled) {
                         <span class="transplanting-date">
-                            {{'inventory.transplanting' | transloco}}: {{ seed.transplanting.day }}/{{
-                            seed.transplanting.month }}
+                            {{'inventory.transplanting' | transloco}}:
+                            {{ this.months[seed.transplanting.month-1].key | transloco }} {{ seed.transplanting.day }}
                         </span>
                         }
                     </div>

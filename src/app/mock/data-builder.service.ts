@@ -5,8 +5,8 @@ import { StockSeed } from "../type/stock-seed.type";
 import { Task, TaskStatus, TaskWithStringDate } from "../type/task.type";
 
 export class DataBuilderService {
-    readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };
-    readonly tomatoTransplantingDate = { enabled: true, day: 12, month: 7 };
+    readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };// XXXX-04-13
+    readonly tomatoTransplantingDate = { enabled: true, day: 12, month: 7 };// XXXX-08-12
     readonly tomatoDaysBeforeHarvest = 30;
     readonly tomatoSeedId = '1';
     readonly peasSeedId = '10';

@@ -97,7 +97,7 @@ export class TaskService {
   }
 
   private buildTaskDate(year: number, seedDate: SeedDate): Date {
-    return new Date(year, seedDate.month, seedDate.day);
+    return new Date(year, seedDate.month - 1, seedDate.day);
   }
 
   private buildTaskId(seedId: SeedId, action: TaskAction): TaskId {
