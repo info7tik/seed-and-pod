@@ -41,7 +41,14 @@ export class Menu {
       subtitle: 'menu.basket.subtitle',
       image: '/assets/menu/corkscrew.png',
       route: '/basket'
+    },
+    {
+      title: 'menu.settings.title',
+      subtitle: 'menu.settings.subtitle',
+      image: '/assets/menu/open-source.png',
+      route: '/settings'
     }
+
   ];
 
   constructor() { }

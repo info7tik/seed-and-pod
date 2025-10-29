@@ -19,6 +19,10 @@
     "stock": {
       "title": "Stock",
       "subtitle": "Manage your seed bank"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Import and export data"
     }
   },
   "cultivation": {

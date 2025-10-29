@@ -19,6 +19,10 @@
     "stock": {
       "title": "Stock",
       "subtitle": "Gérer votre stock de graines"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Importer et exporter les données"
     }
   },
   "cultivation": {
