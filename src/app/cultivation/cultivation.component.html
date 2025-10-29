@@ -1,6 +1,8 @@
 <app-header-menu titleKey="menu.cultivation.title"></app-header-menu>
 
 <main class="main-content">
+    <app-year-selector [reloadData]="reloadDataCallback"></app-year-selector>
+
     <section class="tasks-section">
         <div class="section-header">
             <h2>Tasks</h2>

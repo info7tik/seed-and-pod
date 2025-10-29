@@ -5,22 +5,24 @@ import { Task } from '../type/task.type';
 import { CommonModule } from '@angular/common';
 import { GlobalService } from '../service/global-service.service';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { YearSelectorComponent } from '../year-selector/year-selector.component';
 
 type Month = number;
 
 @Component({
   selector: 'app-cultivation',
-  imports: [HeaderMenu, CommonModule, TranslocoPipe],
+  imports: [HeaderMenu, YearSelectorComponent, CommonModule, TranslocoPipe],
   templateUrl: './cultivation.component.html',
   styleUrl: './cultivation.component.scss'
 })
 export class Cultivation {
+  reloadDataCallback = () => this.reloadData();
   scheduledTasks: Map<Month, Task[]> = new Map();
   doneTasks: Task[] = [];
   showDone = false;
 
   constructor(private taskService: TaskService, private globalService: GlobalService) {
-    this.refreshTasks();
+    this.reloadData();
   }
 
   getMonthKey(month: Month) {
@@ -29,19 +31,19 @@ export class Cultivation {
 
   markAsDone(taskId: string) {
     this.taskService.markAsDone(taskId, new Date());
-    this.refreshTasks();
+    this.reloadData();
   }
 
   delete(taskId: string) {
     this.taskService.removeTasks(taskId);
-    this.refreshTasks();
+    this.reloadData();
   }
 
   toggleShowDone() {
     this.showDone = !this.showDone;
   }
 
-  private refreshTasks() {
+  reloadData(): void {
     this.scheduledTasks = this.taskService.groupTasksByMonth(this.taskService.getScheduledTasks());
     this.doneTasks = this.taskService.getDoneTasks();
   }
