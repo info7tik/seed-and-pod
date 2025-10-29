@@ -25,7 +25,7 @@
                 <select id="selectedSeedId" name="selectedSeedId" required [(ngModel)]="selectedSeedId">
                     <option [value]="DEFAULT_SEED_ID">{{'newHarvest.selectSeedPlaceholder' | transloco}}</option>
                     @for (seed of stockSeeds; track seed.id) {
-                    <option [value]="seed.id">{{ seed.name }} - {{ seed.family.key | transloco }}</option>
+                    <option [value]="seed.id">{{ seed.name }}</option>
                     }
                 </select>
             </div>
