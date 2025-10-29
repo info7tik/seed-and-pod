@@ -1,6 +1,6 @@
 import { Bed } from "../type/bed.type";
 import { Harvest, HarvestWithStringDate } from "../type/harvest.type";
-import { InventorySeed } from "../type/inventory-seed.type";
+import { InventorySeed, InventorySeedProperties } from "../type/inventory-seed.type";
 import { StockSeed } from "../type/stock-seed.type";
 import { Task, TaskStatus, TaskWithStringDate } from "../type/task.type";
 
@@ -20,6 +20,24 @@ export class DataBuilderService {
     readonly harvestPeasDate = new Date('2025-03-22');
     readonly harvestTomatoWeightGrams = 500;
     readonly harvestPeasWeightGrams = 300;
+
+    buildTomatoAndPotatoSeedProperties(): InventorySeedProperties[] {
+        return [
+            {
+                name: 'Tomato',
+                family: { id: 1, key: 'Cherry' },
+                sowing: this.tomatoSowingDate, transplanting: this.tomatoTransplantingDate,
+                daysBeforeHarvest: this.tomatoDaysBeforeHarvest
+            },
+            {
+                name: 'Potato',
+                family: { id: 2, key: 'Russet' },
+                sowing: this.tomatoSowingDate,
+                transplanting: this.tomatoTransplantingDate,
+                daysBeforeHarvest: this.tomatoDaysBeforeHarvest
+            }
+        ];
+    }
 
     buildTomatoSeeds(): InventorySeed[] {
         return [

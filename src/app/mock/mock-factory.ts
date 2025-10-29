@@ -1,3 +1,4 @@
+import { BedService } from "../service/bed.service";
 import { InventoryService } from "../service/inventory.service";
 import { PermanentStorageService } from "../service/permanent-storage.service";
 import { SeedService } from "../service/seed.service";
@@ -12,6 +13,7 @@ export class MockFactory {
     static yearService: YearService;
     static inventoryService: InventoryService;
     static seedService: SeedService;
+    static bedService: BedService;
 
     static get selectedYear(): number {
         return this.yearService.getSelectedYear();
@@ -25,5 +27,6 @@ export class MockFactory {
         this.yearService = new YearService(this.clockService, this.storageService);
         this.inventoryService = new InventoryService(this.permanentStorageService);
         this.seedService = new SeedService(this.yearService, this.inventoryService);
+        this.bedService = new BedService(this.yearService);
     }
 }
