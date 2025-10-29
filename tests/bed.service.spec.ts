@@ -51,28 +51,28 @@ test('assignSeedToBed()', () => {
         selectedYear: MockFactory.selectedYear
     });
     const seedId = '10';
-    service.assignSeedToBed('1', seedId);
-    test.expect(service.getBedFromId('1').seeds[0]).toBe(seedId);
-    test.expect(service.getBedFromId('0').seeds.length).toBe(0);
+    service.assignSeedToBed(dataBuilderService.bedId1, seedId);
+    test.expect(service.getBedFromId(dataBuilderService.bedId1).seeds[0]).toBe(seedId);
+    test.expect(service.getBedFromId(dataBuilderService.bedId0).seeds.length).toBe(0);
 });
 
 test('removeSeedFromBeds()', () => {
     MockFactory.initializeMocks();
     const service = MockFactory.bedService;
     MockFactory.storageService.setData({
-        years: { [MockFactory.selectedYear]: { [service.BEDS_KEY]: dataBuilderService.buildTwoEmptyBeds() } },
+        years: { [MockFactory.selectedYear]: { [service.BEDS_KEY]: dataBuilderService.buildTwoBedsWithSeeds() } },
         permanent: {},
         selectedYear: MockFactory.selectedYear
     });
     const seedId = '30';
-    test.expect(service.getBedFromId('0').seeds.length).toBe(1);
-    test.expect(service.getBedFromId('1').seeds.length).toBe(2);
+    test.expect(service.getBedFromId(dataBuilderService.bedId0).seeds.length).toBe(1);
+    test.expect(service.getBedFromId(dataBuilderService.bedId1).seeds.length).toBe(2);
     service.removeSeedFromBeds(seedId);
-    test.expect(service.getBedFromId('0').seeds.length).toBe(1);
-    test.expect(service.getBedFromId('1').seeds.length).toBe(1);
+    test.expect(service.getBedFromId(dataBuilderService.bedId0).seeds.length).toBe(1);
+    test.expect(service.getBedFromId(dataBuilderService.bedId1).seeds.length).toBe(1);
     const notExistingSeedId = '40';
     service.removeSeedFromBeds(notExistingSeedId);
-    test.expect(service.getBedFromId('0').seeds.length).toBe(1);
-    test.expect(service.getBedFromId('1').seeds.length).toBe(1);
+    test.expect(service.getBedFromId(dataBuilderService.bedId0).seeds.length).toBe(1);
+    test.expect(service.getBedFromId(dataBuilderService.bedId1).seeds.length).toBe(1);
 });
 

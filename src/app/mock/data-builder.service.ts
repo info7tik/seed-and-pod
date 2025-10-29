@@ -12,6 +12,9 @@ export class DataBuilderService {
     readonly peasSeedId = '10';
     readonly seedIdWithMultipleTasks = '11';
 
+    readonly bedId0 = '0';
+    readonly bedId1 = '1';
+
     readonly taskDate = '2025-01-21';
     readonly taskName = 'Task 1';
     readonly taskStatus = 'scheduled';
@@ -72,11 +75,11 @@ export class DataBuilderService {
     }
 
     buildTwoEmptyBeds(): Bed[] {
-        return [{ id: '0', seeds: [] }, { id: this.tomatoSeedId, seeds: [] }];
+        return [{ id: this.bedId0, seeds: [] }, { id: this.bedId1, seeds: [] }];
     }
 
     buildTwoBedsWithSeeds(): Bed[] {
-        return [{ id: '0', seeds: ['10'] }, { id: this.tomatoSeedId, seeds: ['20', '30'] }];
+        return [{ id: this.bedId0, seeds: ['10'] }, { id: this.bedId1, seeds: ['20', '30'] }];
     }
 
     buildSowingTomatoTask(): TaskWithStringDate[] {

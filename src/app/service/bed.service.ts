@@ -39,13 +39,13 @@ export class BedService {
 
   assignSeedToBed(bedId: BedId, seedId: SeedId): void {
     let beds = this.getBeds();
-    const bed = getBedFromId(beds, bedId);
+    const bed = getBedFromIdToModification(beds, bedId);
     if (bed) {
       bed.seeds.push(seedId);
       this.saveBeds(beds);
     }
 
-    function getBedFromId(beds: Bed[], bedId: BedId): Bed {
+    function getBedFromIdToModification(beds: Bed[], bedId: BedId): Bed {
       const bed = beds.find(b => b.id === bedId);
       if (!bed) {
         throw new Error(`bed with id ${bedId} does not exist`);
