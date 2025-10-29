@@ -26,13 +26,34 @@
         </div>
     </div>
 
+    <!-- Delete Section -->
+    <div class="export-section">
+        <h4>{{ 'menu.settings.deleteData.title' | transloco }}</h4>
+        <p>
+            {{ 'menu.settings.deleteData.description' | transloco }}
+            <b class="warning">{{ 'menu.settings.deleteData.warning' | transloco }}</b>
+        </p>
+        <button class="delete-btn" (click)="deleteData()" type="button">
+            {{ 'menu.settings.deleteData.button' | transloco }}
+        </button>
+    </div>
+
     <!-- Status Messages -->
     <div class="status-messages">
-        <div *ngIf="importError" class="error-message">
+        @if (importError) {
+        <div class="error-message">
             {{ importError }}
         </div>
-        <div *ngIf="importSuccess" class="success-message">
+        }
+        @if (importSuccess) {
+        <div class="success-message">
             {{ 'menu.settings.messages.importSuccess' | transloco }}
         </div>
+        }
+        @if (deleteSuccess) {
+        <div class="success-message">
+            {{ 'menu.settings.messages.deleteSuccess' | transloco }}
+        </div>
+        }
     </div>
 </div>

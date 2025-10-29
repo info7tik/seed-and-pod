@@ -14,11 +14,9 @@ import { HeaderMenu } from '../header-menu/header-menu.component';
 export class SettingsComponent {
   importError: string | null = null;
   importSuccess: boolean = false;
+  deleteSuccess: boolean = false;
 
-  constructor(
-    private settingsService: SettingsService,
-    private transloco: TranslocoService
-  ) { }
+  constructor(private settingsService: SettingsService, private transloco: TranslocoService) { }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -56,5 +54,11 @@ export class SettingsComponent {
     } catch (error) {
       this.importError = this.transloco.translate('menu.settings.messages.exportError');
     }
+  }
+
+  deleteData(): void {
+    localStorage.clear();
+    this.deleteSuccess = true;
+    setTimeout(() => this.deleteSuccess = false, 3000);
   }
 }

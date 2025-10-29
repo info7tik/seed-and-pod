@@ -35,12 +35,19 @@
         "warning": "Attention, vos données actuelles seront remplacées.",
         "button": "Choisir un fichier JSON"
       },
+      "deleteData": {
+        "title": "Supprimer toutes les données",
+        "description": "Supprimez toutes les données de la mémoire.",
+        "warning": "Attention, vos données seront perdues définitivement.",
+        "button": "Supprimer toutes les données"
+      },
       "messages": {
         "importSuccess": "Données importées avec succès !",
         "importError": "Échec de l'importation des données",
         "exportError": "Échec de l'exportation des données",
         "invalidFile": "Veuillez sélectionner un fichier JSON valide",
-        "invalidJson": "Format de fichier JSON invalide"
+        "invalidJson": "Format de fichier JSON invalide",
+        "deleteSuccess": "Toutes les données ont été supprimées avec succès !"
       }
     }
   },

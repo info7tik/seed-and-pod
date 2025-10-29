@@ -35,12 +35,19 @@
         "warning": "Be careful, this will overwrite your current data.",
         "button": "Choose JSON File"
       },
+      "deleteData": {
+        "title": "Delete All Data",
+        "description": "Delete all data from the storage.",
+        "warning": "Be careful, your data will be lost forever.",
+        "button": "Delete All Data"
+      },
       "messages": {
         "importSuccess": "Data imported successfully!",
         "importError": "Failed to import data",
         "exportError": "Failed to export data",
         "invalidFile": "Please select a valid JSON file",
-        "invalidJson": "Invalid JSON file format"
+        "invalidJson": "Invalid JSON file format",
+        "deleteSuccess": "All data deleted successfully!"
       }
     }
   },

@@ -96,6 +96,22 @@
         }
     }
 
+    .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+
+        &:hover {
+            background: #c0392b;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+    }
+
     .status-messages {
         margin-top: 20px;
 
