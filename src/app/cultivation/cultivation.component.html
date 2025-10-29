@@ -8,15 +8,15 @@
             <h2>Tasks</h2>
             <label class="toggle-done">
                 <input type="checkbox" (change)="toggleShowDone()" />
-                <span>Show done</span>
+                <span>{{'cultivation.showDone' | transloco}}</span>
             </label>
         </div>
 
         <!-- Done tasks -->
         @if (showDone) {
-        <div class="done-separator">Done</div>
+        <div class="done-separator">{{'cultivation.done' | transloco}}</div>
         @if (doneTasks.length === 0) {
-        <p class="empty-message">No tasks done.</p>
+        <p class="empty-message">{{'cultivation.noTasksDone' | transloco}}</p>
         } @else {
         <div class="tasks-list">
             @for (task of doneTasks; track task.id) {
@@ -35,10 +35,10 @@
         }
 
         @if (showDone) {
-        <div class="scheduled-separator">Scheduled</div>
+        <div class="scheduled-separator">{{'cultivation.scheduled' | transloco}}</div>
         }
         @if (scheduledTasks.size === 0) {
-        <p class="empty-message">No tasks scheduled.</p>
+        <p class="empty-message">{{'cultivation.noTasks' | transloco}}</p>
         } @else {
         <!-- Scheduled tasks -->
         <div class="tasks-list">
@@ -56,9 +56,9 @@
                 </div>
                 <div class="task-actions">
                     <button class="action-btn done-btn" (click)="markAsDone(task.id)"
-                        [disabled]="task.status !== 'scheduled'">Done</button>
+                        [disabled]="task.status !== 'scheduled'">{{'cultivation.done' | transloco}}</button>
                     <button class="action-btn cancel-btn" (click)="delete(task.id)"
-                        [disabled]="task.status !== 'scheduled'">Delete</button>
+                        [disabled]="task.status !== 'scheduled'">{{'cultivation.delete' | transloco}}</button>
                 </div>
             </div>
             }

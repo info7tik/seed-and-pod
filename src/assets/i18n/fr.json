@@ -21,6 +21,15 @@
       "subtitle": "Gérer votre stock de graines"
     }
   },
+  "cultivation": {
+    "tasks": "Tâches",
+    "done": "Terminé",
+    "scheduled": "Programmé",
+    "noTasks": "Aucune tâche programmée.",
+    "noTasksDone": "Aucune tâche terminée.",
+    "delete": "Supprimer",
+    "showDone": "Afficher les terminés"
+  },
   "seed": "graine",
   "stock": {
     "selectSeed": "Sélectionner une graine...",

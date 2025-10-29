@@ -21,6 +21,15 @@
       "subtitle": "Manage your seed bank"
     }
   },
+  "cultivation": {
+    "tasks": "Tasks",
+    "done": "Done",
+    "scheduled": "Scheduled",
+    "noTasks": "No tasks scheduled.",
+    "noTasksDone": "No tasks done.",
+    "delete": "Delete",
+    "showDone": "Show done"
+  },
   "seed": "seed",
   "stock": {
     "selectSeed": "Select a seed...",
