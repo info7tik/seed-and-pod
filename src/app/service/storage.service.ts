@@ -6,7 +6,7 @@ import { StorageData } from '../type/storage-data.type';
 })
 export class StorageService {
     private readonly DATA_KEY = 'seed-and-pod-data';
-    protected readonly DEFAULT_DATA: StorageData = { years: {}, selectedYear: 0 };
+    protected readonly DEFAULT_DATA: StorageData = { years: {}, permanent: {}, selectedYear: 0 };
 
     getData(): StorageData {
         return JSON.parse(localStorage.getItem(this.DATA_KEY) || JSON.stringify(this.DEFAULT_DATA));

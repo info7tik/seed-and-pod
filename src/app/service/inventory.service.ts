@@ -3,6 +3,7 @@ import { InventorySeed, InventorySeedProperties } from '../type/inventory-seed.t
 import { SeedId } from '../type/seed-id.type';
 import { SeedHelper } from './seed-helper';
 import { YearService } from './year.service';
+import { PermanentStorageService } from './permanent-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { YearService } from './year.service';
 export class InventoryService extends SeedHelper {
   public readonly INVENTORY_SEEDS_KEY = 'inventory-seeds';
 
-  constructor(private yearService: YearService) { super(); }
+  constructor(private yearService: YearService, private permanentStorageService: PermanentStorageService) { super(); }
 
   /**
  * Get all inventory seeds as an array
@@ -67,10 +68,10 @@ export class InventoryService extends SeedHelper {
   }
 
   private saveInventorySeeds(inventorySeeds: InventorySeed[]) {
-    this.yearService.setItemByYear(this.INVENTORY_SEEDS_KEY, inventorySeeds);
+    this.permanentStorageService.setPermanentData(this.INVENTORY_SEEDS_KEY, inventorySeeds);
   }
 
   private getRawInventorySeeds(): InventorySeed[] {
-    return this.yearService.getItemByYear(this.INVENTORY_SEEDS_KEY, []);
+    return this.permanentStorageService.getPermanentData()[this.INVENTORY_SEEDS_KEY] || [];
   }
 }
