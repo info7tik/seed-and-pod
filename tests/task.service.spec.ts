@@ -1,8 +1,6 @@
 import test from '@playwright/test';
-import { TaskService } from '../src/app/service/task.service';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
-import { YearService } from '../src/app/service/year.service';
 
 const dataBuilderService = new DataBuilderService();
 

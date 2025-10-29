@@ -1,9 +1,6 @@
 import test from "@playwright/test";
-import { MockStorageService } from "../src/app/mock/mock-storage.service";
-import { BedService } from "../src/app/service/bed.service";
 import { DataBuilderService } from "../src/app/mock/data-builder.service";
 import { MockFactory } from "../src/app/mock/mock-factory";
-import { YearService } from "../src/app/service/year.service";
 
 const dataBuilderService = new DataBuilderService();
 

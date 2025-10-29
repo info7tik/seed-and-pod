@@ -1,9 +1,6 @@
-import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import test from '@playwright/test';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
 import { InventoryService } from '../src/app/service/inventory.service';
-import { MockClockService } from '../src/app/mock/mock-clock.service';
-import { YearService } from '../src/app/service/year.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
 import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
 
@@ -27,12 +24,12 @@ test('getInventorySeedById()', () => {
 test('addInventorySeed()', () => {
   MockFactory.initializeMocks();
   const service = new InventoryService(new PermanentStorageService(MockFactory.storageService));
-  const seedDescription = { name: 'Tomato', family: { id: 1, key: 'Cherry' }, sowing: dataBuilderService.tomatoSowingDate, transplanting: dataBuilderService.tomatoTransplantingDate, daysBeforeHarvest: dataBuilderService.tomatoDaysBeforeHarvest };
+  const seedDescription = { name: 'Tomato', group: { name: 'A', color: '#ffd700' }, sowing: dataBuilderService.tomatoSowingDate, transplanting: dataBuilderService.tomatoTransplantingDate, daysBeforeHarvest: dataBuilderService.tomatoDaysBeforeHarvest };
   service.addInventorySeed(seedDescription);
   test.expect(service.getInventorySeeds().length).toBe(1);
   const seed = service.getInventorySeedById('1');
   test.expect(seed.name).toBe('Tomato');
-  test.expect(seed.family.key).toBe('Cherry');
+  test.expect(seed.group.name).toBe('A');
   test.expect(seed.sowing).toEqual(dataBuilderService.tomatoSowingDate);
   test.expect(seed.transplanting).toEqual(dataBuilderService.tomatoTransplantingDate);
   test.expect(seed.daysBeforeHarvest).toBe(dataBuilderService.tomatoDaysBeforeHarvest);

@@ -1,11 +1,6 @@
-import { SeedService } from '../src/app/service/seed.service';
-import { MockStorageService } from '../src/app/mock/mock-storage.service';
 import test from '@playwright/test';
 import { DataBuilderService } from '../src/app/mock/data-builder.service';
-import { InventoryService } from '../src/app/service/inventory.service';
 import { MockFactory } from '../src/app/mock/mock-factory';
-import { YearService } from '../src/app/service/year.service';
-import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
 
 const dataBuilderService = new DataBuilderService();
 
