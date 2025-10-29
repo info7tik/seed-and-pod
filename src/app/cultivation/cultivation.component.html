@@ -28,6 +28,11 @@
                         <span class="task-status">{{ task.status }}</span>
                     </div>
                 </div>
+                <div class="task-actions">
+                    <button class="action-btn cancel-btn" (click)="cancelDone(task.id)">
+                        {{'cultivation.cancel' |transloco}}
+                    </button>
+                </div>
             </div>
             }
         </div>
@@ -55,10 +60,12 @@
                     </div>
                 </div>
                 <div class="task-actions">
-                    <button class="action-btn done-btn" (click)="markAsDone(task.id)"
-                        [disabled]="task.status !== 'scheduled'">{{'cultivation.done' | transloco}}</button>
-                    <button class="action-btn cancel-btn" (click)="delete(task.id)"
-                        [disabled]="task.status !== 'scheduled'">{{'cultivation.delete' | transloco}}</button>
+                    <button class="action-btn done-btn" (click)="markAsDone(task.id)">
+                        {{'cultivation.done' |transloco}}
+                    </button>
+                    <button class="action-btn cancel-btn" (click)="delete(task.id)">
+                        {{'cultivation.delete' | transloco}}
+                    </button>
                 </div>
             </div>
             }

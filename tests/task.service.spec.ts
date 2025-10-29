@@ -73,6 +73,18 @@ test('markAsDone()', () => {
   test.expect(doneTask.completed).toEqual(completedDate);
 });
 
+test('markAsScheduled()', () => {
+  MockFactory.initializeMocks();
+  const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));
+  MockFactory.storageService.setData({ years: { [2022]: { [service.TASKS_KEY]: dataBuilderService.buildScheduledAndDoneTasks() } }, permanent: {}, selectedYear: 2022 });
+  test.expect(service.getScheduledTasks().length).toBe(1);
+  test.expect(service.getDoneTasks().length).toBe(1);
+  const markAsScheduledTaskId = `${dataBuilderService.seedIdWithMultipleTasks}-transplanting`;
+  service.markAsScheduled(markAsScheduledTaskId);
+  test.expect(service.getScheduledTasks().length).toBe(2);
+  test.expect(service.getDoneTasks().length).toBe(0);
+});
+
 test('updateTask()', () => {
   MockFactory.initializeMocks();
   const service = new TaskService(new YearService(MockFactory.clockService, MockFactory.storageService));

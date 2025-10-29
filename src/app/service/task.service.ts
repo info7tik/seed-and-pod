@@ -64,6 +64,15 @@ export class TaskService {
   }
 
   /**
+   * Mark a task as scheduled
+   * @param taskId - The id of the task to mark as scheduled
+   */
+  markAsScheduled(taskId: TaskId): void {
+    const tasks: Task[] = this.getTasks().map(t => t.id === taskId ? { ...t, status: 'scheduled', completed: new Date() } : t);
+    this.saveTasks(tasks);
+  }
+
+  /**
    * Compute tasks for a given seed
    * @param seed - The seed to compute tasks for
    * @param year - The year used to build the new tasks

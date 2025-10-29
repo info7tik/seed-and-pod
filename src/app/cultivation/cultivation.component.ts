@@ -34,6 +34,11 @@ export class Cultivation {
     this.reloadData();
   }
 
+  cancelDone(taskId: string) {
+    this.taskService.markAsScheduled(taskId);
+    this.reloadData();
+  }
+
   delete(taskId: string) {
     this.taskService.removeTasks(taskId);
     this.reloadData();

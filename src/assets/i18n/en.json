@@ -24,6 +24,7 @@
   "cultivation": {
     "tasks": "Tasks",
     "done": "Done",
+    "cancel": "Cancel",
     "scheduled": "Scheduled",
     "noTasks": "No tasks scheduled.",
     "noTasksDone": "No tasks done.",

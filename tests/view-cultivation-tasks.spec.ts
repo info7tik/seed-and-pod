@@ -34,4 +34,6 @@ test('view cultivation tasks', () => {
     test.expect(scheduledTasks.length).toBe(2);
     test.expect(taskService.getDoneTasks().length).toBe(0);
     test.expect(scheduledTasks[0].date.getMonth() + 1).toBe(dataBuilderService.tomatoSowingDate.month);
+    yearService.saveSelectedYear(secondYear);
+    test.expect(taskService.getScheduledTasks().length).toBe(0);
 });

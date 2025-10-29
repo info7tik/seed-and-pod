@@ -24,6 +24,7 @@
   "cultivation": {
     "tasks": "Tâches",
     "done": "Terminé",
+    "cancel": "Annuler",
     "scheduled": "Programmé",
     "noTasks": "Aucune tâche programmée.",
     "noTasksDone": "Aucune tâche terminée.",
