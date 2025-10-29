@@ -4,22 +4,6 @@
     margin: 0 auto;
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-
-    h2 {
-        margin: 0;
-        font-size: 20px;
-        font-weight: 600;
-        color: #212529;
-    }
-}
-
 .add-seed-btn {
     display: flex;
     align-items: center;
@@ -50,6 +34,7 @@
 
 .add-existing-seed {
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .no-seeds-message {

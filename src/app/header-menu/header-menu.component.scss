@@ -39,8 +39,8 @@
 
 .page-title {
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: var(--title-font-size);
+    font-weight: var(--title-font-weight);
     color: #212529;
     flex: 1;
 }

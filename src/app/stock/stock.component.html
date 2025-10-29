@@ -23,7 +23,9 @@
     </div>
 
     <!-- Stock Management Section -->
-    <h2>{{'stock.currentStock' | transloco}}</h2>
+    <div class="section-header">
+        <h2>{{'stock.currentStock' | transloco}}</h2>
+    </div>
     <section class="stock-section">
         <div class="stock-list">
             @if (stockSeeds.length === 0) {
