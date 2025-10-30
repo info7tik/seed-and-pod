@@ -1,0 +1,12 @@
+<div class="status-messages">
+    @if (errorMessageKey !== NO_MESSAGE) {
+    <div class="error-message">
+        {{ errorMessageKey | transloco }}
+    </div>
+    }
+    @if (successMessageKey !== NO_MESSAGE) {
+    <div class="success-message">
+        {{ successMessageKey | transloco }}
+    </div>
+    }
+</div>

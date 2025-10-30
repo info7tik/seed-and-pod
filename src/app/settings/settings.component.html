@@ -2,6 +2,7 @@
 
 <div class="settings-container">
     <!-- Export Section -->
+    <app-message #exportMessage></app-message>
     <div class="export-section">
         <h4>{{ 'menu.settings.exportData.title' | transloco }}</h4>
         <p>{{ 'menu.settings.exportData.description' | transloco }}</p>
@@ -11,6 +12,7 @@
     </div>
 
     <!-- Import Section -->
+    <app-message #importMessage></app-message>
     <div class="import-section">
         <h4>{{ 'menu.settings.importData.title' | transloco }}</h4>
         <p>
@@ -27,6 +29,7 @@
     </div>
 
     <!-- Delete Section -->
+    <app-message #deleteMessage></app-message>
     <div class="export-section">
         <h4>{{ 'menu.settings.deleteData.title' | transloco }}</h4>
         <p>
@@ -36,24 +39,5 @@
         <button class="delete-btn" (click)="deleteData()" type="button">
             {{ 'menu.settings.deleteData.button' | transloco }}
         </button>
-    </div>
-
-    <!-- Status Messages -->
-    <div class="status-messages">
-        @if (importError) {
-        <div class="error-message">
-            {{ importError }}
-        </div>
-        }
-        @if (importSuccess) {
-        <div class="success-message">
-            {{ 'menu.settings.messages.importSuccess' | transloco }}
-        </div>
-        }
-        @if (deleteSuccess) {
-        <div class="success-message">
-            {{ 'menu.settings.messages.deleteSuccess' | transloco }}
-        </div>
-        }
     </div>
 </div>

@@ -44,6 +44,7 @@
       "messages": {
         "importSuccess": "Data imported successfully!",
         "importError": "Failed to import data",
+        "exportSuccess": "Data exported successfully!",
         "exportError": "Failed to export data",
         "invalidFile": "Please select a valid JSON file",
         "invalidJson": "Invalid JSON file format",

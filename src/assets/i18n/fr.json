@@ -44,6 +44,7 @@
       "messages": {
         "importSuccess": "Données importées avec succès !",
         "importError": "Échec de l'importation des données",
+        "exportSuccess": "Données exportées avec succès !",
         "exportError": "Échec de l'exportation des données",
         "invalidFile": "Veuillez sélectionner un fichier JSON valide",
         "invalidJson": "Format de fichier JSON invalide",
