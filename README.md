@@ -42,6 +42,11 @@ npm run build
 npx cap sync android
 ```
 
+- Generate the Android icon (only on first build)
+```bash
+npx capacitor-assets generate --assetPath src/assets/icon --android
+```
+
 - Build debug APK via CLI:
 ```bash
 cd android && ./gradlew assembleDebug
@@ -58,6 +63,11 @@ Run on a device:
 - Enable USB debugging, connect device, then:
 ```bash
 adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Update the application icon
+```bash
+npx capacitor-assets generate --assetPath src/assets/icon --android
 ```
 
 ## Icons used in the application are from [flaticon.com](https://www.flaticon.com/free-icons/open-source)
