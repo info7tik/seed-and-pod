@@ -20,15 +20,12 @@
             </div>
 
             <div class="form-field">
-                <label for="group">
-                    {{'inventory.group' | transloco}}
-                    <span class="group-info">
-                        ({{'inventory.groupInfo' | transloco}})
-                    </span>
+                <label for="family">
+                    {{'inventory.family' | transloco}}
                 </label>
-                <select id="group" name="group" required [(ngModel)]="groupName">
-                    @for (group of vegetableGroups; track group.name) {
-                    <option [value]="group.name" [style.background-color]="group.color">{{ group.name }}</option>
+                <select id="family" name="family" required [(ngModel)]="familyName">
+                    @for (family of vegetableFamilies; track family.name) {
+                    <option [value]="family.name" [style.background-color]="family.color">{{ family.name }}</option>
                     }
                 </select>
             </div>
@@ -101,7 +98,7 @@
                 <div class="seed-info">
                     <h3 class="seed-name">{{ seed.name }}</h3>
                     <div class="seed-details">
-                        <span class="seed-group">{{ 'inventory.group' | transloco }} {{ seed.group.name }}</span>
+                        <span class="seed-family">{{ 'inventory.family' | transloco }} {{ seed.family.name }}</span>
                         <span class="seed-days">{{'inventory.daysBeforeHarvest' | transloco}}: {{ seed.daysBeforeHarvest
                             }}</span>
                     </div>

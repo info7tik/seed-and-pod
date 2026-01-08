@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Month } from '../type/month.type';
-import { VegetableGroup } from '../type/vegetable-group.type';
+import { Family } from '../type/vegetable-group.type';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +21,26 @@ export class GlobalService {
     { id: 12, key: 'months.December' }
   ];
 
-  readonly allVegetableGroups: VegetableGroup[] = [
-    { name: "A", color: "#b0d0d3" },
-    { name: "B", color: "#c08497" },
-    { name: "C", color: "#f7af9d" },
-    { name: "D", color: "#f7e3af" }
+  readonly allVegetableFamilies: Family[] = [
+    { name: "alliaceae", color: "#2f4f4f" },//examples: onion, garlic, leek, shallot
+    { name: "apiaceae", color: "#7f0000" },//examples: carrot, celery, chervil, fennel, parsnip, parsley (also called Umbelliferae)
+    { name: "asteraceae", color: "#008000" },//examples: artichoke, endives, lettuce
+    { name: "brassicaceae", color: "#00008b" },//examples: cabbages, watercress, turnips, radishes
+    { name: "chenopodiaceae", color: "#ff8c00" },//examples: spinach, beetroot, chard 
+    { name: "cucurbitaceae", color: "#ffff00" },//examples: cucumber, squash, pumpkin, melon, zucchini 
+    { name: "fabaceae", color: "#00ff00" }, //examples: beans, lentils, peas (also called Papilionaceae)
+    { name: "liliaceae", color: "#00ffff" },//examples: garlic, chives, shallot, onions, leeks
+    { name: "lamiaceae", color: "#ff00ff" },//examples: basil, mint, rosemary, thyme, oregano
+    { name: "poaceae", color: "#1e90ff" },//examples: corn, rice, wheat, barley, oats, rye
+    { name: "rosaceae", color: "#ffdead" },//examples: strawberries, cherries, raspberries, blackberries, pears, apples
+    { name: "solanaceae", color: "#ff69b4" },//examples: eggplant, tomato, potato, pepper
   ];
 
-  findVegetableGroup(name: string): VegetableGroup {
-    const group = this.allVegetableGroups.find(group => group.name === name);
-    if (!group) {
-      throw new Error(`Vegetable group with name ${name} not found`);
+  findVegetableFamily(name: string): Family {
+    const family = this.allVegetableFamilies.find(family => family.name === name);
+    if (!family) {
+      throw new Error(`Vegetable family with name ${name} not found`);
     }
-    return group;
+    return family;
   }
 }

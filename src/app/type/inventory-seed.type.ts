@@ -1,5 +1,5 @@
 import { SeedId } from "./seed-id.type";
-import { VegetableGroup } from "./vegetable-group.type";
+import { Family } from "./vegetable-group.type";
 
 export type SeedDate = {
     enabled: boolean;
@@ -9,7 +9,7 @@ export type SeedDate = {
 
 export type InventorySeedProperties = {
     name: string;
-    group: VegetableGroup;
+    family: Family;
     sowing: SeedDate;
     transplanting: SeedDate;
     daysBeforeHarvest: number;

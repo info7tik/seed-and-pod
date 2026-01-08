@@ -1,1 +1,1 @@
-export type VegetableGroup = { name: string, color: string };
+export type Family = { name: string, color: string };

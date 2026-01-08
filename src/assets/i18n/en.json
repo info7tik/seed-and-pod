@@ -155,8 +155,7 @@
   "inventory": {
     "addSeed": "Add Seed",
     "name": "Name",
-    "group": "Group",
-    "groupInfo": "vegetables in the same group can be planted at the same bed",
+    "family": "Family",
     "sowingDate": "Sowing Date",
     "sowing": "Sowing",
     "transplantingDate": "Transplanting Date",

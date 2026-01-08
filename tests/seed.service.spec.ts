@@ -16,7 +16,7 @@ test('getStockSeeds()', () => {
   const seeds = service.getStockSeeds();
   test.expect(seeds.length).toBe(1);
   test.expect(seeds[0].name).toBe('Tomato');
-  test.expect(seeds[0].group.name).toBe('A');
+  test.expect(seeds[0].family.name).toBe('A');
   test.expect(seeds[0].sowing).toEqual(dataBuilderService.tomatoSowingDate);
   test.expect(seeds[0].transplanting).toEqual(dataBuilderService.tomatoTransplantingDate);
   test.expect(seeds[0].daysBeforeHarvest).toBe(dataBuilderService.tomatoDaysBeforeHarvest);

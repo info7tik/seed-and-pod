@@ -28,13 +28,13 @@ export class DataBuilderService {
         return [
             {
                 name: 'Tomato',
-                group: { name: 'A', color: '#ffd700' },
+                family: { name: 'A', color: '#ffd700' },
                 sowing: this.tomatoSowingDate, transplanting: this.tomatoTransplantingDate,
                 daysBeforeHarvest: this.tomatoDaysBeforeHarvest
             },
             {
                 name: 'Potato',
-                group: { name: 'D', color: '#0000ff' },
+                family: { name: 'D', color: '#0000ff' },
                 sowing: this.tomatoSowingDate,
                 transplanting: this.tomatoTransplantingDate,
                 daysBeforeHarvest: this.tomatoDaysBeforeHarvest
@@ -46,7 +46,7 @@ export class DataBuilderService {
         return [
             {
                 id: this.tomatoSeedId, name: 'Tomato',
-                group: { name: 'A', color: '#ffd700' },
+                family: { name: 'A', color: '#ffd700' },
                 sowing: this.tomatoSowingDate, transplanting: this.tomatoTransplantingDate,
                 daysBeforeHarvest: this.tomatoDaysBeforeHarvest
             }];
@@ -56,13 +56,13 @@ export class DataBuilderService {
         return [
             {
                 id: this.tomatoSeedId, name: 'Tomato',
-                group: { name: 'A', color: '#ffd700' },
+                family: { name: 'A', color: '#ffd700' },
                 sowing: this.tomatoSowingDate, transplanting: this.tomatoTransplantingDate,
                 daysBeforeHarvest: this.tomatoDaysBeforeHarvest
             },
             {
                 id: '2', name: 'Potato',
-                group: { name: 'D', color: '#0000ff' },
+                family: { name: 'D', color: '#0000ff' },
                 sowing: this.tomatoSowingDate,
                 transplanting: this.tomatoTransplantingDate,
                 daysBeforeHarvest: this.tomatoDaysBeforeHarvest
