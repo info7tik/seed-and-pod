@@ -23,15 +23,17 @@ export class GlobalService {
 
   readonly allVegetableFamilies: Family[] = [
     { name: "alliaceae", color: "#2f4f4f" },//examples: onion, garlic, leek, shallot
+    { name: "amaranthaceae", color: "#ff8c00" },//examples: spinach, beetroot, chard 
     { name: "apiaceae", color: "#7f0000" },//examples: carrot, celery, chervil, fennel, parsnip, parsley (also called Umbelliferae)
     { name: "asteraceae", color: "#008000" },//examples: artichoke, endives, lettuce
     { name: "brassicaceae", color: "#00008b" },//examples: cabbages, watercress, turnips, radishes
-    { name: "chenopodiaceae", color: "#ff8c00" },//examples: spinach, beetroot, chard 
+    { name: "caprifoliaceae", color: "#800000" },//examples: corn salad, valerian
     { name: "cucurbitaceae", color: "#ffff00" },//examples: cucumber, squash, pumpkin, melon, zucchini 
     { name: "fabaceae", color: "#00ff00" }, //examples: beans, lentils, peas (also called Papilionaceae)
     { name: "liliaceae", color: "#00ffff" },//examples: garlic, chives, shallot, onions, leeks
     { name: "lamiaceae", color: "#ff00ff" },//examples: basil, mint, rosemary, thyme, oregano
     { name: "poaceae", color: "#1e90ff" },//examples: corn, rice, wheat, barley, oats, rye
+    { name: "polygonaceae", color: "#800080" },//examples: rhubarb, sorrel, nettle
     { name: "rosaceae", color: "#ffdead" },//examples: strawberries, cherries, raspberries, blackberries, pears, apples
     { name: "solanaceae", color: "#ff69b4" },//examples: eggplant, tomato, potato, pepper
   ];

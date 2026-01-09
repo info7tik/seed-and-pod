@@ -155,8 +155,7 @@
   "inventory": {
     "addSeed": "Ajouter une Graine",
     "name": "Nom",
-    "group": "Groupe",
-    "groupInfo": "les légumes du même groupe peuvent être plantés sur la même planche",
+    "family": "Famille",
     "sowingDate": "Date de Semis",
     "sowing": "Semis",
     "transplantingDate": "Date de Transplantage",

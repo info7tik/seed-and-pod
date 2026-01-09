@@ -43,7 +43,7 @@ export class InventoryComponent implements OnInit {
   }
 
   get vegetableFamilies() {
-    return this.globalService.allVegetableFamilies.sort();
+    return this.globalService.allVegetableFamilies.sort((f1, f2) => f1.name.localeCompare(f2.name));
   }
 
   loadInventorySeeds(): void {

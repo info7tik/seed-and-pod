@@ -18,7 +18,8 @@ export class InventoryService extends SeedHelper {
  * @returns InventorySeed[] - All inventory seeds
  */
   getInventorySeeds(): InventorySeed[] {
-    return this.getRawInventorySeeds() as InventorySeed[];
+    const seeds = this.getRawInventorySeeds() as InventorySeed[]
+    return seeds.sort((s1, s2) => s1.name.localeCompare(s2.name));
   }
 
   /**

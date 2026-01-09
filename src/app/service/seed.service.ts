@@ -21,7 +21,8 @@ export class SeedService extends SeedHelper {
   getStockSeeds(): StockSeedWithDetails[] {
     const inventorySeeds: InventorySeed[] = this.inventoryService.getInventorySeeds();
     const stockSeeds: StockSeed[] = this.getRawStockSeeds();
-    return stockSeeds.map((seed) => ({ ...seed, ...this.getSeedById(inventorySeeds, seed.id) }));
+    const seedsWithDetails = stockSeeds.map((seed) => ({ ...seed, ...this.getSeedById(inventorySeeds, seed.id) }));
+    return seedsWithDetails.sort((s1, s2) => s1.name.localeCompare(s2.name));
   }
 
   /**
