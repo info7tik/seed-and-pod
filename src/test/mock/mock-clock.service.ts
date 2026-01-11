@@ -1,4 +1,4 @@
-import { ClockService } from "../service/clock.service";
+import { ClockService } from "../../app/service/clock.service";
 
 export class MockClockService extends ClockService {
     private _now: Date;

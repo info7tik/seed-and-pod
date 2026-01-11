@@ -1,11 +1,11 @@
 import test from '@playwright/test';
-import { MockFactory } from '../src/app/mock/mock-factory';
-import { YearService } from '../src/app/service/year.service';
-import { InventoryService } from '../src/app/service/inventory.service';
-import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
-import { DataBuilderService } from '../src/app/mock/data-builder.service';
-import { TaskService } from '../src/app/service/task.service';
-import { BedService } from '../src/app/service/bed.service';
+import { MockFactory } from './mock/mock-factory';
+import { YearService } from '../app/service/year.service';
+import { InventoryService } from '../app/service/inventory.service';
+import { PermanentStorageService } from '../app/service/permanent-storage.service';
+import { DataBuilderService } from './mock/data-builder.service';
+import { TaskService } from '../app/service/task.service';
+import { BedService } from '../app/service/bed.service';
 
 const dataBuilderService = new DataBuilderService();
 

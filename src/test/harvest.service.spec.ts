@@ -1,8 +1,8 @@
 import test from '@playwright/test';
-import { DataBuilderService } from '../src/app/mock/data-builder.service';
-import { HarvestService } from '../src/app/service/harvest.service';
-import { MockFactory } from '../src/app/mock/mock-factory'
-import { YearService } from '../src/app/service/year.service';
+import { DataBuilderService } from './mock/data-builder.service';
+import { HarvestService } from '../app/service/harvest.service';
+import { MockFactory } from './mock/mock-factory'
+import { YearService } from '../app/service/year.service';
 const dataBuilderService = new DataBuilderService();
 
 test('getHarvests()', () => {

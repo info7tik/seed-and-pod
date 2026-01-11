@@ -1,8 +1,8 @@
 import test from '@playwright/test';
-import { DataBuilderService } from '../src/app/mock/data-builder.service';
-import { InventoryService } from '../src/app/service/inventory.service';
-import { MockFactory } from '../src/app/mock/mock-factory';
-import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
+import { DataBuilderService } from './mock/data-builder.service';
+import { InventoryService } from '../app/service/inventory.service';
+import { MockFactory } from './mock/mock-factory';
+import { PermanentStorageService } from '../app/service/permanent-storage.service';
 
 const dataBuilderService = new DataBuilderService();
 

@@ -1,9 +1,9 @@
-import { BedService } from "../service/bed.service";
-import { InventoryService } from "../service/inventory.service";
-import { PermanentStorageService } from "../service/permanent-storage.service";
-import { SeedService } from "../service/seed.service";
-import { TaskService } from "../service/task.service";
-import { YearService } from "../service/year.service";
+import { BedService } from "../../app/service/bed.service";
+import { InventoryService } from "../../app/service/inventory.service";
+import { PermanentStorageService } from "../../app/service/permanent-storage.service";
+import { SeedService } from "../../app/service/seed.service";
+import { TaskService } from "../../app/service/task.service";
+import { YearService } from "../../app/service/year.service";
 import { MockClockService } from "./mock-clock.service";
 import { MockStorageService } from "./mock-storage.service";
 

@@ -1,6 +1,6 @@
 import test from "@playwright/test";
-import { DataBuilderService } from "../src/app/mock/data-builder.service";
-import { MockFactory } from "../src/app/mock/mock-factory";
+import { DataBuilderService } from "../mock/data-builder.service";
+import { MockFactory } from "../mock/mock-factory";
 
 const dataBuilderService = new DataBuilderService();
 

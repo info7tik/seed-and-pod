@@ -1,6 +1,6 @@
 import test from '@playwright/test';
-import { PermanentStorageService } from '../src/app/service/permanent-storage.service';
-import { MockFactory } from '../src/app/mock/mock-factory';
+import { PermanentStorageService } from '../app/service/permanent-storage.service';
+import { MockFactory } from './mock/mock-factory';
 
 test('getPermanentData()', () => {
     MockFactory.initializeMocks();

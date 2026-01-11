@@ -1,8 +1,8 @@
-import { Bed } from "../type/bed.type";
-import { Harvest, HarvestWithStringDate } from "../type/harvest.type";
-import { InventorySeed, InventorySeedProperties } from "../type/inventory-seed.type";
-import { StockSeed } from "../type/stock-seed.type";
-import { Task, TaskStatus, TaskWithStringDate } from "../type/task.type";
+import { Bed } from "../../app/type/bed.type";
+import { Harvest, HarvestWithStringDate } from "../../app/type/harvest.type";
+import { InventorySeed, InventorySeedProperties } from "../../app/type/inventory-seed.type";
+import { StockSeed } from "../../app/type/stock-seed.type";
+import { Task, TaskStatus, TaskWithStringDate } from "../../app/type/task.type";
 
 export class DataBuilderService {
     readonly tomatoSowingDate = { enabled: true, day: 13, month: 3 };// XXXX-04-13

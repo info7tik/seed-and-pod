@@ -1,5 +1,5 @@
-import { StorageService } from "../service/storage.service";
-import { StorageData } from "../type/storage-data.type";
+import { StorageService } from "../../app/service/storage.service";
+import { StorageData } from "../../app/type/storage-data.type";
 
 export class MockStorageService extends StorageService {
     private data: string = JSON.stringify(this.DEFAULT_DATA);

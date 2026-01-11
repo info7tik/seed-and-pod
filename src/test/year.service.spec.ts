@@ -1,6 +1,6 @@
 import test from '@playwright/test';
-import { YearService } from '../src/app/service/year.service';
-import { MockFactory } from '../src/app/mock/mock-factory';
+import { YearService } from '../app/service/year.service';
+import { MockFactory } from './mock/mock-factory';
 
 test('getItem()', () => {
   MockFactory.initializeMocks(new Date(2022, 6, 21));
