@@ -14,6 +14,7 @@ export class SettingsService {
   }
 
   exportData(): string {
+    console.log(this.storageService.getData());
     return JSON.stringify(this.storageService.getData());
   }
 }

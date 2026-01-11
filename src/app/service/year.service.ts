@@ -12,15 +12,18 @@ export class YearService {
 
   constructor(private clockService: ClockService, private storageService: StorageService) { }
 
-
   getYears(): number[] {
     const data = this.storageService.getData();
-    const possibleYears: number[] = Object.keys(data.years).map(year => parseInt(year));
+    const existingYears: number[] = Object.keys(data.years).map(year => parseInt(year));
     const currentYear = this.clockService.now().getFullYear();
-    possibleYears.push(currentYear - 1);
-    possibleYears.push(currentYear);
-    possibleYears.push(currentYear + 1);
-    return range(Math.min(...possibleYears), Math.max(...possibleYears));
+    const minYear = Math.min(...existingYears, currentYear) - 1;
+    const maxYear = Math.max(...existingYears, currentYear);
+    if (maxYear === currentYear + 1) {
+      return range(minYear, maxYear).reverse();
+    } else {
+      return range(minYear, maxYear + 1).reverse();
+
+    }
   }
 
   getSelectedYear(): number {

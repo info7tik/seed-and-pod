@@ -35,15 +35,18 @@ test('getSelectedYear() without data', () => {
 });
 
 test('getYears()', () => {
-  MockFactory.initializeMocks(new Date(2022, 6, 21));
+  const today = new Date(2022, 6, 21);
+  MockFactory.initializeMocks(today);
   const service = new YearService(MockFactory.clockService, MockFactory.storageService);
-  test.expect(service.getYears()).toEqual([2021, 2022, 2023]), "should return the current year, the previous years and the next year";
+  test.expect(service.getYears()).toEqual([2023, 2022, 2021]), "should return the current year, the previous years and the next year";
   MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {}, [2022]: {} }, permanent: {}, selectedYear: 2022 });
-  test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
+  test.expect(service.getYears()).toEqual([2023, 2022, 2021, 2020, 2019]);
   MockFactory.storageService.setData({ years: { [2020]: {}, [2021]: {} }, permanent: {}, selectedYear: 2022 });
-  test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
+  test.expect(service.getYears()).toEqual([2023, 2022, 2021, 2020, 2019]);
   MockFactory.storageService.setData({ years: { [2020]: {}, [2022]: {} }, permanent: {}, selectedYear: 2022 });
-  test.expect(service.getYears()).toEqual([2020, 2021, 2022, 2023]);
+  test.expect(service.getYears()).toEqual([2023, 2022, 2021, 2020, 2019]);
+  MockFactory.storageService.setData({ years: { [2022]: {}, [2023]: {} }, permanent: {}, selectedYear: 2022 });
+  test.expect(service.getYears()).toEqual([2023, 2022, 2021]);
 });
 
 test('saveSelectedYear()', () => {
