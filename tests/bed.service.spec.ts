@@ -7,7 +7,9 @@ const dataBuilderService = new DataBuilderService();
 test('getBeds()', () => {
     MockFactory.initializeMocks();
     const service = MockFactory.bedService;
-    test.expect(service.getBeds().length, "should create one bed if there are no beds").toBe(1);
+    test.expect(service.getBeds().length, "should return one bed if there are no beds").toBe(1);
+    const saveYears = Object.keys(MockFactory.storageService.getData().years);
+    test.expect(saveYears.length, "should not save the beds").toBe(0);
     MockFactory.storageService.setData({
         years: { [MockFactory.selectedYear]: { [service.BEDS_KEY]: dataBuilderService.buildTwoEmptyBeds() } },
         permanent: {},

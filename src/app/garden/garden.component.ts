@@ -45,8 +45,7 @@ export class Garden implements OnInit {
     if (this.hasAssignedSeeds) {
       throw new Error('Cannot modify the number of beds while seeds are assigned to beds.');
     }
-    this.bedService.createBeds(this.numberOfBeds);
-    this.beds = this.bedService.getBeds();
+    this.beds = this.bedService.createBeds(this.numberOfBeds);
   }
 
   get unassignedSeeds(): StockSeedWithDetails[] {

@@ -11,19 +11,24 @@ export class BedService {
 
   constructor(private yearService: YearService) { }
 
-  createBeds(numberOfBeds: number): void {
-    const beds: Bed[] = [];
-    for (let i = 0; i < numberOfBeds; i++) {
-      beds.push({ id: i.toString(), seeds: [] });
-    }
+  createBeds(numberOfBeds: number): Bed[] {
+    const beds = this.buildBeds(numberOfBeds);
     this.saveBeds(beds);
+    return beds;
   }
 
   getBeds(): Bed[] {
     const beds = this.yearService.getItemByYear(this.BEDS_KEY, []);
     if (beds.length === 0) {
-      this.createBeds(1);
-      return this.getBeds();
+      return this.buildBeds(1);
+    }
+    return beds;
+  }
+
+  private buildBeds(numberOfBeds: number): Bed[] {
+    let beds: Bed[] = [];
+    for (let i = 0; i < numberOfBeds; i++) {
+      beds.push({ id: i.toString(), seeds: [] });
     }
     return beds;
   }
